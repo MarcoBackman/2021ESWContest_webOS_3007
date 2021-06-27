@@ -9,3 +9,5 @@ Embedded Software Contest 2021_webOS_TEAM_ACOLYTE
 ## To Do list
 
 ## Milestone
+
+## Logic flow of webOS application
