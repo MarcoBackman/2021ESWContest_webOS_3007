@@ -14,10 +14,10 @@
 
 **About our project**<br>
 
-&nbsp&nbspThis project is conprised of two major sections: Hardware and Software.
+&nbsp;&nbsp; This project is conprised of two major sections: Hardware and Software.
   
-&nbsp&nbspIn the software section, we build an application program that suits well under webOS system architecture, regardless of its low level knowledge (e.g. kernal level, shell development).<br>
-&nbsp&nbspOur development will only pursuit on logic architecture of the webpage, which is a webOS app, and visualization of the database that stores data from hardware system.<br>
+&nbsp;&nbsp; In the software section, we build an application program that suits well under webOS system architecture, regardless of its low level knowledge (e.g. kernal level, shell development).<br>
+&nbsp;&nbsp; Our development will only pursuit on logic architecture of the webpage, which is a webOS app, and visualization of the database that stores data from hardware system.<br>
 
 ### Encodings.
 > We strickly regulate our code encoding to be in UTF-8 format. Use of any encoding format other then UTF-8 will be prohibited.
