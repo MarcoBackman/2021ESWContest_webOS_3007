@@ -7,7 +7,7 @@ Embedded Software Contest 2021_webOS_TEAM_ACOLYTE
   Our development will only pursuit on logic architecture of the webpage, which is a webOS app, and visualization of the database that stores data from hardware system.
 
 ### Encodings.
-> We strickly regulate our code encoding to be in UTF-8 format. Use of any encoding other then UTF-8 will be prohibited.
+> We strickly regulate our code encoding to be in UTF-8 format. Use of any encoding format other then UTF-8 will be prohibited.
 
 ## To Do list
   *'MarcoBackman'* is currently working on webOS applications. Estimated overall job end-date is July 20th, but html,css part will be presumably finished before July 3rd.
