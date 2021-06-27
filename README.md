@@ -3,7 +3,7 @@
 ## Who are we, and what are we aiming for?
 
 **Who are we?**
-> MarcoBackman will be handling a webOS application that requires html, css, js and database management system language skills.
+> *'MarcoBackman'* will be handling a webOS application that requires html, css, js and database management system language skills.
 >
 >
 >
