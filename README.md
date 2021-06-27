@@ -12,3 +12,6 @@ Embedded Software Contest 2021_webOS_TEAM_ACOLYTE
 ![Milestone Image](img/Milestone.PNG)
 ## Logic flow of webOS application
 ![Milestone Image](img/logicflowDraft.PNG)
+
+### Encodings.
+We strickly regulate our code encoding to be in UTF-8 format. Use of any encoding other then UTF-8 will be prohibited.
