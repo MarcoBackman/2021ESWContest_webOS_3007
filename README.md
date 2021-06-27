@@ -12,7 +12,7 @@
 > &nbsp;&nbsp; The purpose of our development is to create a diverse and integrated system which involves overarching trends in Internet of Things(IoT). This project distinguishes from other features in associative automotive function with flexible finance distribution in shared living environment.
 
 
-**About our project**<br>
+##About our project<br>
 
 &nbsp;&nbsp; This project is conprised of two major sections: Hardware and Software.
   
