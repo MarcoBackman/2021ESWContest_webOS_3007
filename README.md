@@ -1,4 +1,4 @@
-# 2021 Embedded Software Contest webOS 3007 **ACOLYTE**
+# 2021 Embedded Software Contest webOS 3007 ACOLYTE
 
 ## Who are we, and what are we aiming for?
   This project is conprised of two major sections: Hardware and Software.
