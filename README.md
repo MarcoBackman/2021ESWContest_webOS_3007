@@ -11,3 +11,4 @@ Embedded Software Contest 2021_webOS_TEAM_ACOLYTE
 ## Milestone
 ![Milestone Image](img/Milestone.PNG)
 ## Logic flow of webOS application
+![Milestone Image](logicflowDraft.PNG)
