@@ -23,7 +23,7 @@
 > We strickly regulate our code encoding to be in UTF-8 format. Use of any encoding format other then UTF-8 will be prohibited.
 
 ## To Do list
-&nbsp;&nbsp; *'MarcoBackman'* is currently working on webOS applications. Estimated overall job end-date is July 20th, but html,css part will be presumably finished before July 3rd.
+&nbsp;&nbsp; *'MarcoBackman'* is currently working on webOS applications. Estimated overall job end-date is July 20th, but html,css part will be presumably finished before July 3rd. - See: [webOS webpage progress](https://github.com/MarcoBackman/2021ESWContest_webOS_3007/projects/1)
 
 ## Milestone
 ![Milestone Image](img/Milestone.PNG)
