@@ -29,8 +29,16 @@
 &nbsp;&nbsp; **'@bammPark'** is currently preparing on thinQ AI processing. - See: [HW 부문 계획](https://github.com/MarcoBackman/2021ESWContest_webOS_3007/projects/2)
 
 ## Milestone
-![Milestone Image](img/Milestone.PNG)
+
+<p align="center">
+  <img width="560" src="img/Milestone.PNG">
+  <p align="center">[Milestone Image]</p>
+</p>
 
 ## Logic flow of webOS application
-![Milestone Image](img/logicflowDraft.PNG)
+
+<p align="center">
+  <img width="960" src="img/logicflowDraft.PNG">
+  <p align="center">[Logic flow for home webOS app.]</p>
+</p>
 
