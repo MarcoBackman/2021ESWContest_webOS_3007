@@ -1,4 +1,4 @@
-# 2021 Embedded Software Contest webOS 3007 ACOLYTE
+# <p align="center">2021 Embedded Software Contest webOS <br> 3007-ACOLYTE</p>
 
 <p align="center">
   <img width="360" src="img/Icons/main_image.png">
