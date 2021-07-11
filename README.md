@@ -1,7 +1,7 @@
 # 2021 Embedded Software Contest webOS 3007 ACOLYTE
 
 <p align="center">
-  <img width="560" src="img/icons/main_image.png">
+  <img width="560" src="img/Icons/main_image.png">
 </p>
 
 ## Who are we, and what are we aiming for?
