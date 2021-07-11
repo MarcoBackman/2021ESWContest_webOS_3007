@@ -7,10 +7,10 @@
 ## Who are we, and what are we aiming for?
 
 **Who are we?**
-> &nbsp;&nbsp;**'@bammPark - Team Leader'** will be working on Yolo medel plan design, applying LG ThinQ AI service(Audio filtering and Facial detection) to the project. <br><br>
-> &nbsp;&nbsp;**'@MarcoBackman - SWdev • Collaborator'** will be handling a webOS application that requires html, css, js and database management system language skills.  <br><br>
-> &nbsp;&nbsp;**'@JuneKoo Kang - engineerjkk • Collaborator'** will be handling ESP8266 hardware devices to recieve and send raw data over the network, and will handle PCB design and overall product ordering.   <br><br>
-> &nbsp;&nbsp;**'@submarine214 - supporter • Collaborator'** will support us on overall workloads; especially focusing on documentation and testing. <br><br>
+> &nbsp;&nbsp;**'@bammPark - Team Leader'** is a leader. He will be working on Yolo medel plan design, applying LG ThinQ AI service(Audio filtering and Facial detection) to the project. <br><br>
+> &nbsp;&nbsp;**'@MarcoBackman - SWdev • Collaborator'** is a SW developer. He will be handling a webOS application that requires html, css, js and database management system language skills.  <br><br>
+> &nbsp;&nbsp;**'@JuneKoo Kang - engineerjkk • Collaborator'** is a Embedded developer. He will be handling ESP8266 hardware devices to recieve and send raw data over the network, and will handle PCB design and overall product ordering.   <br><br>
+> &nbsp;&nbsp;**'@submarine214 - supporter • Collaborator'** is a documenter/editor/tester. He will support us on overall workloads; especially focusing on documentation and testing. <br><br>
 
 
 **What is the ultimate goal of this project?**
