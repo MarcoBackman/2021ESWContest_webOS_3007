@@ -30,7 +30,7 @@
 ## To Do list
 &nbsp;&nbsp; **'@MarcoBackman'** is currently working on webOS applications. Estimated overall job end-date is July 30th, but html,css part will be presumably finished before July 15th. - See: [webOS webpage progress](https://github.com/MarcoBackman/2021ESWContest_webOS_3007/projects/1)
 <br><br>
-&nbsp;&nbsp; **'@bammPark'** and **'@JuneKoo Kang'** is currently preparing on thinQ AI processing. - See: [HW 부문 계획](https://github.com/MarcoBackman/2021ESWContest_webOS_3007/projects/2)
+&nbsp;&nbsp; **'@bammPark'** and **'@JuneKoo Kang'** are currently preparing on thinQ AI processing. - See: [HW 부문 계획](https://github.com/MarcoBackman/2021ESWContest_webOS_3007/projects/2)
 
 ## Milestone
 
