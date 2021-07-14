@@ -16,7 +16,7 @@
 > &nbsp;&nbsp;Additional coding style will be posted in coming days.
 
 # webOS contest interviewers' preferred style
-> &nbsp;&nbsp;Try not to misuse the term **"webOS"** 'w' must start with lowercase letter and following 'O' must be in uppercase letter.
+> &nbsp;&nbsp;Try not to misuse the term **"webOS"** 'w' must start with lowercase letter and following 'O' must be in uppercase letter.<br>
 > Bad example: webos, Webos, WebOS, WEBOS, etc.<br><br>
 > &nbsp;&nbsp;Exception: on the code, particulary on assigning a variable or a class names, the code style takes a superior priority more than any other literal rules. Therefore, such exception like WebOSConnect.java can be possible (Java class nane starts with the uppercase letter, and every syllable is seperated by starting with a uppercase letter as well).<br><br>
 > &nbsp;&nbsp;However, consider replacing the location of the term "webOS" to different location to pair nicely with other words which satisfies both the code style and the perferred style.<br>
