@@ -24,7 +24,9 @@
 &nbsp;&nbsp; In the software section, we build an application program that suits well under webOS system architecture, regardless of its low level knowledge (e.g. kernal level, shell development).<br>
 &nbsp;&nbsp; Our development will only pursuit on logic architecture of the webpage, which is a webOS app, and visualization of the database that stores data from hardware system.<br>
 
-### Encodings.
+### Project regulations and Encodings.
+> We have our own project regulation for developers. Please check the link: [Code Styles](https://github.com/MarcoBackman/2021ESWContest_webOS_3007/blob/main/document/webOS/Code_Style.md)
+<br><br>
 > We strickly regulate our code encoding to be in UTF-8 format. Use of any encoding format other then UTF-8 will be prohibited.
 
 ## To Do list
