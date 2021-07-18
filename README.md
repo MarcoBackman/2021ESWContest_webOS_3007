@@ -44,6 +44,12 @@
   <p align="center">[Milestone Image]</p>
 </p>
 
+## Overall technical diagram
+<p align="center">
+  <img width="960" src="img/OverallTechnicalDiagram.PNG">
+  <p align="center">[Technical diagram for the entire project.]</p>
+</p>
+
 ## Logic flow of webOS application
 
 <p align="center">
