@@ -40,7 +40,7 @@
 ## Milestone
 
 <p align="center">
-  <img width="560" src="img/Milestone.PNG">
+  <img width="560" src="img/MilestoneNew.PNG">
   <p align="center">[Milestone Image]</p>
 </p>
 
