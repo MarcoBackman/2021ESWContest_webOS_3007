@@ -1,0 +1,94 @@
+<style type="text/css">
+  body {
+    width: 100%;
+    height: 100%;
+  }
+
+  footer {
+      width: 100%;
+      height: 150px;
+      background-image: url("forest.jpg");
+  }
+
+  .header_div {
+    width: 100%;
+    height: 250px;
+    background-color:#daf1ff;
+  }
+
+  .txt_msg {
+    display: flex;
+    flex-direction: row;
+    font-size: 30px;
+    display: table-cell;
+    vertical-align: top;
+    text-align: left;
+    color: #7A7A7A;
+    animation: appear_main 5s 1;
+  }
+
+  .title_msg {
+    display: flex;
+    flex-direction: row;
+    display: table-cell;
+    vertical-align: top;
+    text-align:right;
+    color: #7A7A7A;
+    -webkit-animation-delay: 5.5s;
+    animation-delay: 5.5s;
+    -webkit-animation: appear_team 5s;
+  }
+
+  @keyframes appear_main {
+    from {color: #daf1ff;}
+    to {color: #7A7A7A;}
+  }
+
+  @keyframes appear_team {
+    from {color: #daf1ff;}
+    to {color: #7A7A7A;}
+  }
+
+  #demo {
+    padding: 0 40px 0 0;
+    display: table-cell;
+    vertical-align: top;
+    text-align:right;
+    color:#D1D5C8;
+  }
+
+  /* Buttons settings */
+  #login_button {
+    width: 20%;
+    height: 50%;
+    margin: 35px 30px;
+    text-align: center;
+    background-color: #daf1ff;
+  }
+
+  .login_section {
+      width: 100%;
+      height: 150px;
+      text-align: right;
+      background-image: url("forest.jpg");
+  }
+
+  .content_list {
+    width: 100%;
+    text-align: center;
+  }
+
+  .list {
+    width: 50%;
+    height: 200px;
+    display: inline-block;
+    color: black;
+    padding: 16px 32px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 5s;
+    cursor: pointer;
+  }
+</style>

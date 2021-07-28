@@ -1,0 +1,103 @@
+<!--  -->
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <title>Login/Register</title>
+  <link rel="page_icon" href="/img/testIcon.ico">
+  <link rel="stylesheet" href="/style/loginPageStyle.css">
+  <script type="text/javascript" src="">
+</script>
+</head>
+<body>
+  <header>
+    <div>
+      <div> <!-- every attributes are subdivision below this div -->
+        <div clss="header_div" style="height: 75px;">&nbsp;
+          <div class="header_margin">
+            <div class="header_bar">
+              <a href="main_page.html">
+                <svg width="35" height="35" viewBox="0 0 35 35" fill="none">
+                  <!-- Using g to inherit presentation attributes -->
+                  <g fill="white" stroke="green" stroke-width="5">
+                    <circle cx="12" cy="12" r="6" />
+                    <circle cx="19" cy="15" r="6" />
+                  </g>
+                </svg>
+              </a>
+              <nav id="bar_navigation">
+                <div class="right_bar_section">
+                  <button title="Go Back">
+                    <svg width="35" height="35" viewBox="0 0 35 35" fill="none">
+                      <path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30" />
+                    <svg>
+                  </button>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+        <div class="outer_login_menu_div">
+          <div class="login_menu_div">
+            <div class="login_label">
+              <h1>Log in</h1>
+            </div>
+            <div class="id_pw_text_field">
+              <form>
+                <div class="id_field">
+                  <div class="id_label_field">
+                    <label for="id">User ID</label>
+                    <span>
+                      New resident?
+                      <button id="register_button">
+                        <a href="register_page.html"> Register </a>
+                      </button>
+                    </span>
+                  </div>
+                  <div class="id_text_field">
+                    <input id="user_id" type="text" name="user_id" value="">
+                  </div>
+                </div>
+                <div class="pw_field">
+                  <div class="pw_label_field">
+                    <label for="current_pw">Password</label>
+                    <span>
+                      Visible
+                    </span>
+                  </div>
+                  <div class="pw_text_field">
+                    <input id="user_pw" type="password" name="user_pw" value="" aria-autocomplete="list">
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="row_space"></div>
+            <div class="function_field">
+              <div>
+                <form action="../php/login.php" method="post">
+                  <button id="login_button" type="submit" formaction="../php/login.js">
+                    <span>Enter</span>
+                  </button>
+                </form>
+              </div>
+              <div class="row_space"></div>
+              <div>
+                <button id="find_id_pw_button">
+                  <a href="id_pw_find_page.html">Find ID/Password</a>
+                </button>
+              </div>
+              <div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <section>
+
+  </section>
+</body>
+</html>

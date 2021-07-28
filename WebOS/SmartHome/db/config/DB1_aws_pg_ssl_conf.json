@@ -1,0 +1,25 @@
+{
+   "user":"postgres",
+   "host":"",
+   "database":"",
+   "password":"",
+   "port":5432,
+   "pool":{
+      "max":3,
+      "min":1,
+      "idle":10000
+   },
+   "dialectOptions":{
+      "keepAlive":true
+   },
+   "ssl":{
+      "require":true,
+      "rejectUnauthorized":false,
+      "ca":"",
+      "key":"",
+      "cert":""
+   },
+   "define":{
+      "timestamps":false
+   }
+}

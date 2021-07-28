@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang = "en">
+  <head>
+    <meta http-equiv="content-type" content="text/html", charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "stylesheet" href="">
+    <title> Register </title>
+  </head>
+  <body>
+    <header>
+      <h1>Register</h1>
+    </header>
+      <fieldset>
+        <h3>Add new account</h3>
+        <form action="/add_account" method="POST">
+        <label>User ID</label>
+        <input type ="text" id = 'user_id' name="id" required>
+        <br><br>
+        <label>Password</label>
+        <input type="password" id = "user_name" name="pw" required>
+        <br><br>
+          <button type="reset" id="reset_btn">Reset</button>
+          <button type="submit" id="submit_btn">Submit</button>
+        </form>
+      </fieldset>
+  </body>
+</html>
