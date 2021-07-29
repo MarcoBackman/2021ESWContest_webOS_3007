@@ -1,94 +1,152 @@
 <style type="text/css">
-  body {
+  html {
     width: 100%;
     height: 100%;
   }
 
-  footer {
-      width: 100%;
-      height: 150px;
-      background-image: url("forest.jpg");
+  body {
+    width: 100%;
+    height: 100%;
+    background-color:#F3C1FF;
+  }
+
+  header {
+    width: 100%;
+    height: 200px;
+    background-color:#F3C1FF;
   }
 
   .header_div {
-    width: 100%;
-    height: 250px;
-    background-color:#daf1ff;
+
   }
 
-  .txt_msg {
-    display: flex;
-    flex-direction: row;
+  /* Car Homes Wizard */
+  .txt_msg , .txt_msg a{
     font-size: 30px;
-    display: table-cell;
+    font-family: 'Monda', sans-serif;
     vertical-align: top;
-    text-align: left;
-    color: #7A7A7A;
-    animation: appear_main 5s 1;
+    text-align: center;
+    color: #9999FF;
+    animation: appear_maintitle 5s 1;
+    text-decoration: inherit;
   }
 
+  .txt_msg h1 {
+    margin: 40px 10px 10px 40px;
+    text-decoration: inherit;
+  }
+
+  /* TEAM ACOLYTE */
   .title_msg {
-    display: flex;
-    flex-direction: row;
-    display: table-cell;
-    vertical-align: top;
-    text-align:right;
-    color: #7A7A7A;
+    vertical-align: center;
+    text-align: center;
+    font-family: 'B612', sans-serif;
+    margin: 0% 80%;
+    color: #9999FF;
     -webkit-animation-delay: 5.5s;
     animation-delay: 5.5s;
-    -webkit-animation: appear_team 5s;
+    -webkit-animation: appear_subtitle 5s;
   }
 
-  @keyframes appear_main {
-    from {color: #daf1ff;}
-    to {color: #7A7A7A;}
+  @keyframes appear_maintitle {
+    from {color: #FFFFFF;}
+    to {color: #9999FF;}
   }
 
-  @keyframes appear_team {
-    from {color: #daf1ff;}
-    to {color: #7A7A7A;}
-  }
-
-  #demo {
-    padding: 0 40px 0 0;
-    display: table-cell;
-    vertical-align: top;
-    text-align:right;
-    color:#D1D5C8;
+  @keyframes appear_subtitle {
+    from {color: #FFFFFF;}
+    to {color: #9999FF;}
   }
 
   /* Buttons settings */
+
   #login_button {
-    width: 20%;
-    height: 50%;
-    margin: 35px 30px;
+    width: 200px;
+    height: 50px;
+    padding: 0px;
+    margin: 10px 30px;
     text-align: center;
-    background-color: #daf1ff;
+    background-color: #FF7C80 ;
+    border: 3px solid #FF9396;
+    transition-duration: 0.5s;
+  }
+
+  #login_button a {
+    color: #9999FF;
+    font-family: 'B612', sans-serif;
+    font-size: 25px;
+    text-decoration: inherit;
+    transition-duration: 0.5s;
+  }
+
+  #login_button :hover, #login_button a :hover {
+    transition-duration: 0.5s;
+    background-color: #FF5257;
+    color: #E8E8FE;
   }
 
   .login_section {
       width: 100%;
       height: 150px;
       text-align: right;
-      background-image: url("forest.jpg");
   }
 
-  .content_list {
+  nav {
+      width: 100%;
+      height: 100%;
+      background-image: url("../src/backgrounds/purple_pastel_sky.jpg");
+      background-size: cover;
+      border: 0px solid #F3C1FF;
+  }
+
+  nav .content_list {
     width: 100%;
     text-align: center;
   }
 
-  .list {
-    width: 50%;
-    height: 200px;
+  nav .content_list .list {
+    width: 30%;
+    height: 150px;
     display: inline-block;
-    color: black;
-    padding: 16px 32px;
+    background-color: #F3C1FF ;
     text-align: center;
     display: inline-block;
     font-size: 16px;
-    margin: 4px 2px;
-    transition-duration: 5s;
+    margin: 50px 15%;
+    transition-duration: 1.5s;
     cursor: pointer;
+    border: none;
+  }
+
+  nav .content_list .list:hover {
+    transition-duration: 0.5s;
+    width: 40%;
+    height: 250px;
+    background-color: #FF7C80;
+  }
+
+  nav .content_list .list a {
+    color: #FFFFFF;
+    font-family: 'Alfa Slab One', cursive;
+    font-size: 45px;
+    text-decoration: inherit;
+  }
+
+  footer {
+    width: 100%;
+    height: 250px;
+    background-color:#F3C1FF ;
+  }
+
+  #copyright {
+    padding: 0 40px 0 0;
+    display: table-cell;
+    vertical-align: top;
+    text-align:right;
+    color:#830072;
+  }
+
+  #loadOverlay {
+    display: none;
   }
 </style>
