@@ -35,7 +35,7 @@ async function conncection_check() {
  * This does not use await/async.
  * Therefore, it will not wait for the respond from the server.
  */
-function db_insert(query_command, values) {
+async function db_insert(query_command, values) {
   const client = new Client(auth_list);
   client.connect();
   // callback
@@ -47,16 +47,18 @@ function db_insert(query_command, values) {
 }
 
 async function db_select(query_text, query_values) {
+  //this must be a pool not a client -> need explaination
   const pool = new Pool(auth_list);
-  const client = await pool.connect(auth_list);
-  const result = await client.query({
+
+  const result = await pool.query({
     rowMode: 'array',
-    text: select_query,
-    query_values
-  })
-  console.log(result.fields[0]); // must return true
-  console.log(result.rows) // [true]
-  await client.end();
+    text: query_text,
+  });
+  console.log(result.fields[0]);
+  console.log(result.rows) // [[boolean]]
+  await pool.end();
+
+  return result.rows[0][0]; //returns boolean value
 }
 
 module.exports = {
