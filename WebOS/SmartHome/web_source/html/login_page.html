@@ -7,14 +7,16 @@
   <title>Login/Register</title>
     <link rel="icon" href="../src/icons/main_logo/main_logo.ico">
   <link rel="stylesheet" href="../style/loginPageStyle.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+  <script type="text/javascript" src="../script/loginPage.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap');
   </style>
-  <script type="text/javascript" src="">
 </script>
 </head>
 <body>
   <header>
+  <form method="POST" action="/user_login">
     <div>
       <div> <!-- every attributes are subdivision below this div -->
         <div clss="header_div" style="height: 75px;">&nbsp;
@@ -53,18 +55,16 @@
                     </span>
                   </div>
                   <div class="id_text_field">
-                    <input id="user_id" type="text" name="user_id" value="">
+                    <input id="user_id" type="text" name="user_id" value="" required>
                   </div>
                 </div>
                 <div class="pw_field">
                   <div class="pw_label_field">
                     <label for="current_pw">Password</label>
-                    <span>
-                      Visible
-                    </span>
                   </div>
                   <div class="pw_text_field">
-                    <input id="user_pw" type="password" name="user_pw" value="" aria-autocomplete="list">
+                    <input id="user_pw" type="password" name="user_pw" value="" aria-autocomplete="list" required>
+                    <i class="bi bi-eye-slash" id="togglePassword"></i>
                   </div>
                 </div>
               </form>
@@ -72,17 +72,19 @@
             <div class="row_space"></div>
             <div class="function_field">
               <div>
-                <form action="../php/login.php" method="post">
-                  <button id="login_button" type="submit" formaction="../php/login.js">
+                <form onsubmit="setAction(this)">
+                  <button id="login_button" type="submit">
                     <span>Enter</span>
                   </button>
                 </form>
               </div>
               <div class="row_space"></div>
               <div>
+                <form name="find_id_pw">
                 <button id="find_id_pw_button">
                   <a href="id_pw_find_page.html">Find ID/Password</a>
                 </button>
+                </form>
               </div>
               <div>
 
@@ -92,6 +94,7 @@
         </div>
       </div>
     </div>
+  </form>
   </header>
   <section>
 

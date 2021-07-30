@@ -61,6 +61,18 @@ app.post('/add_account', function(req, res) {
   }
 });
 
+app.post('/user_login', function(req, res)) {
+  var query_values = [req.body.user_id, req.body.user_pw];
+  var result;
+  if (query_values[0] === undefined
+     || query_values[1] === undefined ) {
+    
+    console.log("Undefined");
+  } else {
+    register_account(query_values, res); //pending result
+  }
+}
+
 async function check_web_session() {
 
 }
@@ -95,6 +107,7 @@ async function insert_account(account_exists, query_values) {
     return false;
   }
 }
+
 async function user_login() {
 
 }

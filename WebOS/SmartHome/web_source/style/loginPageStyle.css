@@ -162,10 +162,10 @@ span {
 
 .id_text_field,
 .pw_text_field {
-  padding: 14px;
+  padding: 7px;
   margin: 6px 0;
   border-radius: 4px;
-  border: 1px solid #ced4da;
+  border: 1px solid #FF9396;
   background-color: #fff;
   box-sizing: border-box;
 }
@@ -177,14 +177,14 @@ input {
   letter-spacing: normal;
   word-spacing: normal;
   text-transform: none;
-  text-align: right;
+  text-align: left;
   text-shadow: none;
   display: inline-block;
   appearance: auto;
   -webkit-rtl-ordering: logical;
   cursor: text;
   font: 400 13.3333px Arial;
-  padding: 1px 7px;
+  padding: none;
   border: none;
 }
 
@@ -222,7 +222,6 @@ input {
   border: 0;
   box-sizing: border-box;
   display: inline-block;
-  text-decoration: none;
   color: #7C7A7A;
   background-color: #FF9966;
 }
@@ -233,8 +232,15 @@ input {
   transition-duration: 0.3s;
 }
 
+#login_button a,
 #find_id_pw_button a {
   font-size: 14px;
   color: #7C7A7A;
   font-family: Source Sans Pro,sans-serif;
+  text-decoration: none;
+}
+
+form i {
+    margin-left: -30px;
+    cursor: pointer;
 }

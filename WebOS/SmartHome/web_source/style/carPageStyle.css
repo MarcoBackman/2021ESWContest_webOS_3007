@@ -1,6 +1,6 @@
 body {
   display: block;
-  background-color: #c1ddd0;
+  background-color: #FC9093;
 }
 
 .header_title {
@@ -21,4 +21,6 @@ body {
   height: 35px;
   font-size: 40px;
   margin: 25px 100px 0 0;
+  font-family: 'Monda', sans-serif;
+  color: #9999FF;
 }
