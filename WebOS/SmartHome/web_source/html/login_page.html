@@ -16,6 +16,7 @@
 </head>
 <body>
   <header>
+  <div id='status' class='invisible'><%= errormessage %></div>
   <form method="POST" action="/user_login">
     <div>
       <div> <!-- every attributes are subdivision below this div -->
@@ -43,7 +44,6 @@
               <h1>Log in</h1>
             </div>
             <div class="id_pw_text_field">
-              <form>
                 <div class="id_field">
                   <div class="id_label_field">
                     <label for="id">User ID</label>
@@ -55,7 +55,7 @@
                     </span>
                   </div>
                   <div class="id_text_field">
-                    <input id="user_id" type="text" name="user_id" value="" required>
+                    <input id="user_id" type="text" name="user_id" required>
                   </div>
                 </div>
                 <div class="pw_field">
@@ -63,31 +63,23 @@
                     <label for="current_pw">Password</label>
                   </div>
                   <div class="pw_text_field">
-                    <input id="user_pw" type="password" name="user_pw" value="" aria-autocomplete="list" required>
+                    <input id="user_pw" type="password" name="user_pw" aria-autocomplete="list" required>
                     <i class="bi bi-eye-slash" id="togglePassword"></i>
                   </div>
                 </div>
-              </form>
             </div>
             <div class="row_space"></div>
             <div class="function_field">
               <div>
-                <form onsubmit="setAction(this)">
-                  <button id="login_button" type="submit">
-                    <span>Enter</span>
-                  </button>
-                </form>
+                <button id="login_button" type="submit">
+                  <span>Enter</span>
+                </button>
               </div>
               <div class="row_space"></div>
               <div>
-                <form name="find_id_pw">
                 <button id="find_id_pw_button">
                   <a href="id_pw_find_page.html">Find ID/Password</a>
                 </button>
-                </form>
-              </div>
-              <div>
-
               </div>
             </div>
           </div>

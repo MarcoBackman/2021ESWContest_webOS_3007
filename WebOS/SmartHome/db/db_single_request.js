@@ -46,7 +46,9 @@ async function db_insert(query_command, values) {
 
 }
 
-async function db_select(query_text, query_values) {
+
+//query text must be in select form
+async function db_request(query_text, query_values) {
   //this must be a pool not a client -> need explaination
   const pool = new Pool(auth_list);
 
@@ -62,7 +64,7 @@ async function db_select(query_text, query_values) {
 }
 
 module.exports = {
-  db_select,
+  db_request,
   db_insert,
   conncection_check
 };

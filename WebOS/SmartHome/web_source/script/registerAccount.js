@@ -25,8 +25,6 @@ register_app.use(bodyParser.urlencoded({extended: false}));
 register_app.use(helmet());
 //specify why limiter is needed
 register_app.use(limiter);
-console.log('server on' + port);
-
 
 register_app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname,'./html/register_page.html'));

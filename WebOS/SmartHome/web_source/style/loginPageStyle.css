@@ -6,6 +6,11 @@ div {
   display: block;
 }
 
+.invisible {
+display: none;
+visibility: hidden;
+   }
+
 .header_div {
   position: relative;
   width: 100%;
@@ -226,11 +231,6 @@ input {
   background-color: #FF9966;
 }
 
-#login_button :hover,
-#find_id_pw_button :hover{
-  color: #303030;
-  transition-duration: 0.3s;
-}
 
 #login_button a,
 #find_id_pw_button a {
@@ -238,6 +238,12 @@ input {
   color: #7C7A7A;
   font-family: Source Sans Pro,sans-serif;
   text-decoration: none;
+}
+
+#login_button :hover,
+#find_id_pw_button :hover{
+  color: #303030;
+  transition-duration: 0.3s;
 }
 
 form i {

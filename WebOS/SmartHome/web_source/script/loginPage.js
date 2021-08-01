@@ -17,7 +17,9 @@ function showSuccess(input) {
 }
 
 function hasValue(input, message) {
-	if (input.value.trim() === "") {
+  if (!input) {
+    return false;
+  } else if (input.value.trim() === "") {
 		return showError(input, message);
 	}
 	return showSuccess(input);
@@ -39,11 +41,13 @@ function validateEmail(input, requiredMsg, invalidMsg) {
 	return true;
 }
 
+/*
 function setAction(form) {
+  const form_action =  document.getElementsByName("myForm").action;
   event.preventDefault();
   var validity = checkInputForm();
   if (validity) {
-    form.action = "/login_user";
+    form.action = "/user_login";
     form.method = "post"
     form.submit();
   } else {
@@ -60,6 +64,7 @@ function checkInputForm() {
     return true;
   }
 }
+*/
 
 window.onload = function() {
   const togglePassword = document.querySelector('#togglePassword');

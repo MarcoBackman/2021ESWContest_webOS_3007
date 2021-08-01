@@ -2,7 +2,7 @@
   "user": "postgres",
   "host": "localhost",
   "database": "test",
-  "password": "",
+  "password": "1234",
   "port": 5432,
   "max": 10,
   "idleTimeoutMills": 30000,

@@ -4,6 +4,7 @@
     <meta http-equiv="content-type" content="text/html", charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../src/icons/main_logo/main_logo.ico">
+    <link rel="stylesheet" href="../style/registerPageStyle.css">
     <link rel = "stylesheet" href="">
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap');
@@ -12,16 +13,16 @@
   </head>
   <body>
     <header>
-      <div class="header_div" style="height: 75px;">&nbsp;
-        <div class="header_margin">
+      <div class="title_div">&nbsp;
+        <div class="logo_div">
           <div class="header_bar">
-            <a href="main_page.html">
-              <img title="To home" src="../src/icons/main_logo/main_logo_72x72.png">
-            </a>
             <nav id="bar_navigation">
+              <a href="main_page.html">
+                <img title="To home" src="../src/icons/main_logo/main_logo_72x72.png">
+              </a>
               <div class="right_bar_section">
-                <button title="Go Back">
-                  <svg width="35" height="35" viewBox="0 0 35 35" fill="none">
+                <button class="go_back_btn" title="Go Back">
+                  <svg width="30" height="30" viewBox="2 0 35 35" fill="none">
                     <path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30" />
                   <svg>
                 </button>
@@ -32,6 +33,8 @@
         <div>
           <h1>Register</h1>
         </div>
+      </div>
+      <div class="register_field_div">
         <fieldset>
           <h3>Add new account</h3>
           <form action="/add_account" method="POST">
@@ -41,8 +44,10 @@
           <label>Password</label>
           <input type="password" id = "user_name" name="pw" required>
           <br><br>
-            <button type="reset" id="reset_btn">Reset</button>
-            <button type="submit" id="submit_btn">Submit</button>
+          <label class="result"></label>
+          <br><br>
+          <button type="reset" id="reset_btn">Reset</button>
+          <button type="submit" id="submit_btn">Submit</button>
           </form>
         </fieldset>
       </div>

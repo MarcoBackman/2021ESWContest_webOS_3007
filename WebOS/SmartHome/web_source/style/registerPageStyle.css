@@ -1,0 +1,92 @@
+<style type="text/css">
+
+.header_bar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+
+#bar_navigation {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.right_bar_section {
+  display: inline-block;
+  justify-self: flex-end;
+  margin-left: auto;
+  align: right;
+}
+
+.right_bar_section button {
+  background-color: #FFFFFF;
+  border: none;
+}
+
+.close-x {
+  stroke: #FF7C80;
+  align-items: center;
+  fill: transparent;
+  stroke-linecap: round;
+  stroke-width: 5;
+}
+
+
+
+.right_bar_section {
+  align: right;
+}
+
+.title_div {
+  text-align: center;
+}
+
+.title_div h1 {
+    font-family: 'Alfa Slab One', cursive;
+    color: #FF7C80;
+}
+
+.logo_div {
+  height: 75px;
+  width: 100%;
+}
+
+#bar_navigation {
+  width: 100%;
+}
+
+.register_field_div h3 {
+  font-family: 'Alfa Slab One', cursive;
+  color: #FF9966;
+}
+
+fieldset h3 {
+  width: 100%;
+  text-align: center;
+}
+
+fieldset button {
+  cursor: pointer;
+  width: 10%;
+  text-rendering: auto;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-align: center;
+  text-shadow: none;
+  display: inline-block;
+  appearance: auto;
+  -webkit-rtl-ordering: logical;
+  font: 400 13.3333px Arial;
+  padding: none;
+  border: none;
+  transition-duration: 0.1s;
+  background-color: #FFEBE0;
+}
+
+button #login_button :hover {
+  background-color: #FF9966;
+  transition-duration: 0.1s;
+}
+</style>
