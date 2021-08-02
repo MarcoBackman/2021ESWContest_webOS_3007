@@ -1,8 +1,8 @@
 {
   "user": "postgres",
   "host": "localhost",
-  "database": "test",
-  "password": "1234",
+  "database": "",
+  "password": "",
   "port": 5432,
   "max": 10,
   "idleTimeoutMills": 30000,
