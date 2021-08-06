@@ -17,7 +17,6 @@
 <body>
   <header>
   <div id='status' class='invisible'><%= errormessage %></div>
-  <form method="POST" action="/user_login">
     <div>
       <div> <!-- every attributes are subdivision below this div -->
         <div clss="header_div" style="height: 75px;">&nbsp;
@@ -39,6 +38,7 @@
           </div>
         </div>
         <div class="outer_login_menu_div">
+          <form method="POST" action="/user_login">
           <div class="login_menu_div">
             <div class="login_label">
               <h1>Log in</h1>
@@ -83,10 +83,10 @@
               </div>
             </div>
           </div>
+          </form>
         </div>
       </div>
     </div>
-  </form>
   </header>
   <section>
 

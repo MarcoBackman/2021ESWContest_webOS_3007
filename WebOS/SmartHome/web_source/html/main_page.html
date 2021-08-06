@@ -1,9 +1,3 @@
-<!--
-Copyright (c) 2020 LG Electronics Inc.
-
-SPDX-License-Identifier: Apache-2.0
--->
-
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
@@ -11,7 +5,6 @@ SPDX-License-Identifier: Apache-2.0
   <title>Car Homes Wizard</title>
   <link rel="icon" href="../src/icons/main_logo/main_logo.ico">
   <link rel="stylesheet" rel="preload" href="../style/mainPageStyle.css">
-  <script type="text/javascript" src="../script/mainPageScripts.js"></script>
   <!-- fonts -->
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Monda:wght@700&display=swap');
@@ -26,18 +19,26 @@ SPDX-License-Identifier: Apache-2.0
       <div class="txt_msg">
         <a href="main_page.html">
           <h1>Car Homes Wizard</h1>
+          <h1 class="title_msg">TEAM ACOLYTE</h1>
         </a>
       </div>
-      <div class="title_msg">
-        <h1>TEAM ACOLYTE</h1>
-      </div>
       <div class="login_section">
-        <form action="/current_status" method="GET">
-        <button link="login_page.html" id="login_button" type="button">
-          <a href="login_page.html">
+        <button link="login_page.html" id="login_button" type="button" style="display: none;">
+          <a href="login_page.html" id="login_link">
              Login/Register
           </a>
         </button>
+        <form action="/my_page" method="POST">
+          <button link="none" id="my_page_button" type="button">
+            <a href="./" id="my_page_link">
+              My page
+            </a>
+          </button>
+        </form>
+        <form method="POST" action="/logout">
+          <button id="logout_button" type="submit">
+              Logout
+          </button>
         </form>
       </div>
     </div>

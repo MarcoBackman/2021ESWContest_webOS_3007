@@ -1,8 +1,8 @@
 {
    "user":"postgres",
-   "host":"ec2-3-34-193-11.ap-northeast-2.compute.amazonaws.com",
-   "database":"webos_ec2_db",
-   "password":"1234",
+   "host":"",
+   "database":"",
+   "password":"",
    "port":5432,
    "pool":{
       "max":3,

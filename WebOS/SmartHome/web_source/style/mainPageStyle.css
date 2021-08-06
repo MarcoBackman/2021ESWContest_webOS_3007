@@ -22,29 +22,29 @@
 
   /* Car Homes Wizard */
   .txt_msg , .txt_msg a{
-    font-size: 30px;
+    width: 100%;
+    font-size: 45px;
     font-family: 'Monda', sans-serif;
-    vertical-align: top;
-    text-align: center;
+    vertical-align: inherit;
     color: #9999FF;
-    animation: appear_maintitle 5s 1;
+    animation: appear_maintitle 2.5s 1;
     text-decoration: inherit;
   }
 
   .txt_msg h1 {
-    margin: 40px 10px 10px 40px;
+    margin: 10px;
     text-decoration: inherit;
   }
 
   /* TEAM ACOLYTE */
   .title_msg {
+    font-size: 25px;
     vertical-align: center;
-    text-align: center;
+    padding: 0px 29px 0px 0px;
+    text-align: right;
     font-family: 'B612', sans-serif;
-    margin: 0% 80%;
     color: #9999FF;
     -webkit-animation-delay: 5.5s;
-    animation-delay: 5.5s;
     -webkit-animation: appear_subtitle 5s;
   }
 
@@ -60,7 +60,7 @@
 
   /* Buttons settings */
 
-  #login_button {
+  #my_page_button, #logout_button {
     width: 200px;
     height: 50px;
     padding: 0px;
@@ -71,15 +71,24 @@
     transition-duration: 0.5s;
   }
 
-  #login_button a {
-    color: #9999FF;
+  #my_page_button a {
+    color: #FFFFFF;
     font-family: 'B612', sans-serif;
     font-size: 25px;
     text-decoration: inherit;
     transition-duration: 0.5s;
   }
 
-  #login_button :hover, #login_button a :hover {
+  #logout_button {
+    color: #FFFFFF;
+    font-family: 'B612', sans-serif;
+    font-size: 25px;
+    text-decoration: inherit;
+    transition-duration: 0.5s;
+  }
+
+  #my_page_button :hover,
+  #logout_button :hover {
     transition-duration: 0.5s;
     background-color: #FF5257;
     color: #E8E8FE;
