@@ -1,6 +1,10 @@
 {
   "user": "postgres",
+<<<<<<< HEAD
   "host": "",
+=======
+  "host": "localhost",
+>>>>>>> 4ecbb591a61d8c0511e42ac218761376fd1a8e47
   "database": "",
   "password": "",
   "port": 5432,
