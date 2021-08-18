@@ -25,7 +25,7 @@
 
 # HardWare
 ### BOM
- [![image]]( https://user-images.githubusercontent.com/76835313/124378459-5c11e000-dcec-11eb-9657-5b64cefc6ab8.png)
+ [![image]](https://user-images.githubusercontent.com/76835313/124378459-5c11e000-dcec-11eb-9657-5b64cefc6ab8.png)
 ### Circuit Design
 ![image] (https://user-images.githubusercontent.com/76835313/124378469-67650b80-dcec-11eb-9178-f6a75f4ad2a7.png)
 ### PCB Layout Example
