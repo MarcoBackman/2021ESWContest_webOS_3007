@@ -25,11 +25,11 @@
 
 # HardWare
 ### BOM
-![image](https://user-images.githubusercontent.com/76835313/124378459-5c11e000-dcec-11eb-9657-5b64cefc6ab8.png)
+![image] (https://user-images.githubusercontent.com/76835313/124378459-5c11e000-dcec-11eb-9657-5b64cefc6ab8.png)
 ### Circuit Design
-![image](https://user-images.githubusercontent.com/76835313/124378469-67650b80-dcec-11eb-9178-f6a75f4ad2a7.png)
+![image] (https://user-images.githubusercontent.com/76835313/124378469-67650b80-dcec-11eb-9178-f6a75f4ad2a7.png)
 ### PCB Layout Example
-![image](https://user-images.githubusercontent.com/76835313/124378507-9b403100-dcec-11eb-87a6-1cf5fb4c2169.png)
+![image] (https://user-images.githubusercontent.com/76835313/124378507-9b403100-dcec-11eb-87a6-1cf5fb4c2169.png)
 ### 참고 링크
 https://www.youtube.com/watch?v=HK3qpyeSOcY
 
@@ -37,9 +37,9 @@ https://www.youtube.com/watch?v=HK3qpyeSOcY
 # Rasberry Pi
 라즈베리 파이 상에서 음성인식 서비스 구현 전에 프로토 타입으로 버튼을 누르면 해당 서버로 접속한다.
 각 접속한 서버를 통해 원하는 제어를 할 수 있다. 현재는 LED ON/OFF만 가능하다.
-![image](https://user-images.githubusercontent.com/76835313/124382429-57f0bd00-dd02-11eb-91f2-8b53da33a773.png)
+![image] (https://user-images.githubusercontent.com/76835313/124382429-57f0bd00-dd02-11eb-91f2-8b53da33a773.png)
 
-![image](https://user-images.githubusercontent.com/76835313/124382416-47d8dd80-dd02-11eb-9fd1-4cc050e3fad2.png)
+![image] (https://user-images.githubusercontent.com/76835313/124382416-47d8dd80-dd02-11eb-9fd1-4cc050e3fad2.png)
 
 * [WebOS란 무엇인가](https://webos-supporters.tistory.com/8)
 * [Index of WebOSose](http://build.webos-ports.org/webosose/)
@@ -48,9 +48,9 @@ webOS
 [이미지파일 다운로드](http://build.webos-ports.org/webosose/qemux86/build-361-v2.11.0/)
 virtual box를 통해 구현한 화면. 이미지를 기존의 C 주소에 넣어야하는듯 하다.  
 C:\Users\rkdwn\VirtualBox VMs\webos-image\webos-image -> 나는 여기에다가 넣었다.  
-![image](https://user-images.githubusercontent.com/76835313/125741276-294c355d-8dcb-40a2-86f9-6411c00b1010.png)
+![image] (https://user-images.githubusercontent.com/76835313/125741276-294c355d-8dcb-40a2-86f9-6411c00b1010.png)
 
-![image](https://user-images.githubusercontent.com/76835313/125780324-e93a0cc1-68a3-4ed2-81fb-8207a2efbc4e.png)  
+![image] (https://user-images.githubusercontent.com/76835313/125780324-e93a0cc1-68a3-4ed2-81fb-8207a2efbc4e.png)  
 아마 여기서 heted_webapp을 통해 유투브로 넘어갔으니 위에서 실습했던 esp82를 통하여 버튼을 누르면 웹페이지로 이동하면서 LED가 켜지는 것을 구현하면 좋을 것같다.
 
 ![image](https://user-images.githubusercontent.com/76835313/125782219-fa3cf680-b6ea-4a18-8c67-60f6b664a732.png)  
@@ -58,13 +58,13 @@ C:\Users\rkdwn\VirtualBox VMs\webos-image\webos-image -> 나는 여기에다가 
 
 에뮬레이터에서 생성한 앱이다. Hello, WebApplication!! 문구가 담겨있다.
 
-![image](https://user-images.githubusercontent.com/76835313/125782694-a1c9c5e0-36a5-459a-a089-fc5e45e7cef6.png)
-![image](https://user-images.githubusercontent.com/76835313/125782766-f9cf5dec-0b6e-4d87-a68f-f2c78e9708ca.png)
-![image](https://user-images.githubusercontent.com/76835313/125784917-08a46b15-beda-4d4f-af13-f2c1e6b1f4ba.png)
+![image] (https://user-images.githubusercontent.com/76835313/125782694-a1c9c5e0-36a5-459a-a089-fc5e45e7cef6.png)
+![image] (https://user-images.githubusercontent.com/76835313/125782766-f9cf5dec-0b6e-4d87-a68f-f2c78e9708ca.png)
+![image] (https://user-images.githubusercontent.com/76835313/125784917-08a46b15-beda-4d4f-af13-f2c1e6b1f4ba.png)
 
 명령 프롬프트에서 다음과 같은 명령을 입력하자 수정할수있도록 open 돼 있다.
 
-![image](https://user-images.githubusercontent.com/76835313/125788156-7acd5014-2bd6-435f-b85a-9099b9e454c7.png)
+![image] (https://user-images.githubusercontent.com/76835313/125788156-7acd5014-2bd6-435f-b85a-9099b9e454c7.png)
 
 에뮬레이터 상에서 코드를 수정했는데 실제 virtualBox상의 webOS또한 바뀌었다. 이전에 ip를 연결해줘서 그렇다
 실제 코드는 window상에서 해도 되고 라즈베리파이상 webOS에서 해도될듯 하다.
