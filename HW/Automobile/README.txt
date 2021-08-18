@@ -37,9 +37,9 @@ https://www.youtube.com/watch?v=HK3qpyeSOcY
 # Rasberry Pi
 라즈베리 파이 상에서 음성인식 서비스 구현 전에 프로토 타입으로 버튼을 누르면 해당 서버로 접속한다.
 각 접속한 서버를 통해 원하는 제어를 할 수 있다. 현재는 LED ON/OFF만 가능하다.
-![image] ("https://user-images.githubusercontent.com/76835313/124382429-57f0bd00-dd02-11eb-91f2-8b53da33a773.png")
+ ![image](https://user-images.githubusercontent.com/76835313/124382429-57f0bd00-dd02-11eb-91f2-8b53da33a773.png)
 
-![image] (https://user-images.githubusercontent.com/76835313/124382416-47d8dd80-dd02-11eb-9fd1-4cc050e3fad2.png)
+ ![image](https://user-images.githubusercontent.com/76835313/124382416-47d8dd80-dd02-11eb-9fd1-4cc050e3fad2.png)
 
 * [WebOS란 무엇인가](https://webos-supporters.tistory.com/8)
 * [Index of WebOSose](http://build.webos-ports.org/webosose/)
