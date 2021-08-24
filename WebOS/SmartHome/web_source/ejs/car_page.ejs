@@ -1,0 +1,196 @@
+<!--  -->
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src *;
+   img-src * data: https:; script-src * 'unsafe-inline' 'unsafe-eval' *;
+   style-src  'self' 'unsafe-inline' *">
+  <title>Car Setting</title>
+  <link rel="icon" href="../src/icons/main_logo/main_logo.ico">
+  <link rel="stylesheet" href="../style/carPageStyle.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Monda:wght@700&display=swap');
+  </style>
+  <script type="text/javascript" src="../script/carPage.js"></script>
+</head>
+<body>
+  <header>
+    <div class="header_title">
+      <a href="main_page.html">
+        <img title="To home" src="../src/icons/main_logo/main_logo_72x72.png">
+      </a>
+      <h1> CAR SETTING </h1>
+    </div>
+  </header>
+  <nav>
+    <div id="register_car">
+      <h2>Register Car</h2>
+      <form name="car_info_form" id="car_info_form" action="/get_car_info" method="POST">
+        <div>
+          <p>Car year</p>
+          <input id="car_year" name="car_year" type="number">
+          <p>Car model</p>
+          <input id="car_model" name="car_model" type="text">
+          <p>Car company</p>
+          <input id="car_company" name="car_company" type="text">
+        </div>
+        <div class="fields">
+          <p>Car owner</p>
+          <input id="car_owner" name="car_owner" type="text">
+          <p>Car name</p>
+          <input id="car_name" name="car_name" type="text">
+          <p>Car number</p>
+          <input id="car_num" name="car_num" type="text">
+        </div>
+        <div class="register_btn">
+          <button>Register</button>
+        </div>
+      </form>
+    </div>
+    <div>
+      <h2>Your registered car</h2>
+      <% car_names.forEach(function(car) { %>
+        <label><%= car %></label>
+      <% }); %>
+    </div>
+    <div>
+      <h2>Car schedule</h2>
+      <p> Weekly calendar </p>
+      <h2>Reserve car</h2>
+      <form name="car_schedule" id="car_schedule" action="/schedule_car" method="POST">
+        <div>
+          <select name="reserve_car" id="reserve_car">
+            <% var car_opt_val = "-";%>
+            <% var iteration = 0;%>
+            <% car_names.forEach(function(car) { %>
+              <option value="<%= car %>"><%= car %></option>
+              <% car_opt_val = car; %>
+            <% }); %>
+          </selcet>
+          <select>
+          </select>
+          <!-- image link -->
+          <% if (car_opt_val != "-" || car_opt_val != "N/A") { %>
+            <img alt=" " src="<%= car_image %>" border="0" />
+          <% } %>
+          </a>
+          <div>
+            <!--************* From *************-->
+            <h3>From</h3>
+            <!--************* Date *************-->
+            Year
+            <select name="year_from" id="year_from">
+              <option value="-">-</option>
+              <% for (let year = 2020; year < 2050; year++) { %>
+                <option value="<%= year %>"><%= year %></option>
+              <% } %>
+            </selcet>
+            <select>
+            </select>
+            Month
+            <select name="month_from" id="month_from">
+              <option value="-">-</option>
+              <% months.forEach(function(month) { %>
+                <option value="<%= month %>"><%= month %></option>
+              <% }); %>
+            </selcet>
+            <select>
+            </select>
+            Date
+            <select name="date_from" id="date_from">
+              <option value="-">-</option>
+            </selcet>
+            <select>
+            </select>
+            <!--************* Time *************-->
+            Hour
+            <select name="hour_from" id="hour_from">
+              <option value="-">-</option>
+              <% for (let hour = 0; hour < 24; hour++) { %>
+                <option value="<%= hour %>"><%= hour %></option>
+              <% } %>
+            </selcet>
+            <select>
+            </select>
+            Min
+            <select name="min_from" id="min_from">
+              <option value="-">-</option>
+              <% for (let min = 0; min < 60; min+=5) { %>
+                <option value="<%= min %>"><%= min %></option>
+              <% } %>
+            </selcet>
+            <select>
+            </select>
+          </div>
+          <!--************* To *************-->
+          <h3>To</h3>
+          <!--************* Date *************-->
+          Year
+          <select name="year_to" id="year_to">
+            <option value="-">-</option>
+            <% for (let year = 2020; year < 2050; year++) { %>
+              <option value="<%= year %>"><%= year %></option>
+            <% } %>
+          </selcet>
+          <select>
+          </select>
+          Month
+          <select name="month_to" id="month_to">
+            <option value="-">-</option>
+            <% months.forEach(function(month) { %>
+              <option value="<%= month %>"><%= month %></option>
+            <% }); %>
+          </selcet>
+          <select>
+          </select>
+          Date
+          <select name="date_to" id="date_to">
+            <option value="-">-</option>
+          </selcet>
+          <select>
+          </select>
+          <!--************* Time *************-->
+          <!--************* Time *************-->
+          Hour
+          <select name="hour_to" id="hour_to">
+            <option value="-">-</option>
+            <% for (let hour = 0; hour < 24; hour++) { %>
+              <option value="<%= hour %>"><%= hour %></option>
+            <% } %>
+          </selcet>
+          <select>
+          </select>
+          Min
+          <select name="min_to" id="min_to">
+            <option value="-">-</option>
+            <% for (let min = 0; min < 60; min+=5) { %>
+              <option value="<%= min %>"><%= min %></option>
+            <% } %>
+          </selcet>
+          <select>
+          </select>
+        </div>
+        <div clss="submit">
+          <button id="reserve_btn">Reserve</button>
+        </div>
+      </form>
+</select>
+    </div>
+    <div>
+      <h2>Fuel Info</h2>
+      <p>
+        Gauge
+      </p>
+      <p>
+        Refilled.
+      </p>
+    </div>
+  </nav>
+  <section>
+    <div class="application">
+
+    </div>
+  </section>
+</body>
+</html>

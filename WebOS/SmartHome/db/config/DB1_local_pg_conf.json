@@ -1,14 +1,17 @@
 {
-  "user": "postgres",
-<<<<<<< HEAD
+  "dialect" : "postgres",
+  "user": "",
   "host": "",
-=======
-  "host": "localhost",
->>>>>>> 4ecbb591a61d8c0511e42ac218761376fd1a8e47
   "database": "",
   "password": "",
   "port": 5432,
   "max": 10,
   "idleTimeoutMills": 30000,
-  "connectionTimeoutMillis": 2000
+  "connectionTimeoutMillis": 2000,
+  "pool": {
+    "max": 10,
+    "min": 0,
+    "acquire": 30000,
+    "idle": 10000
+  }
 }

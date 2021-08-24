@@ -1,0 +1,13 @@
+{
+  "_api_reference": "https://api.carsxe.com/docs",
+  "url": "http://api.carsxe.com/images?",
+  "key": "",
+  "year": "-",
+  "model": "-",
+  "make": "-",
+  "angle": "side",
+  "size": "Medium",
+  "photoType": "exterior",
+  "licence" : "Public",
+  "format" : "json"
+}

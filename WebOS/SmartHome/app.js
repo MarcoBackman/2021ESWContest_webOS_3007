@@ -1,23 +1,25 @@
-const alert = require('alert');
-const pg = require('pg');
 const fs = require('fs');
 const express = require('express');
 const http = require('http');
+const https = require('https');
 const path = require('path');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const ejs = require('ejs');
 const cors = require("cors");
-const bcrypt = require("bcryptjs");
-const jwt = require('jsonwebtoken');
-let db_query = require('./db/db_single_request.js');
-const token_config = require("./db/auth_config.js");
+//const react = require('react');
+
+//local model temp file
 const local_auth = require("./models/local_auth.js");
 
-/*
-  Run this on the server-side
-*/
+//local nodejs functions
+const local_node_main = require("./server_nodejs/main_page.js");
+const local_node_login = require("./server_nodejs/login.js");
+const local_node_reg = require("./server_nodejs/register.js");
+const local_node_db_comm = require("./server_nodejs/db_comm.js");
+const local_node_car = require("./server_nodejs/car_page.js");
+const local_node_jwt = require("./middleware/jwtAuth.js");
 
 //limits the
 const limiter = rateLimit({
@@ -25,225 +27,184 @@ const limiter = rateLimit({
  max: 100
 });
 
-
-var port = 8081;//port for local host connection
 var cors_setting = {
  origin: "http://localhost:8081"
 }
 
 var app = express();
 
+//Apply express on different source paths
+app.use(express.static('web_source'));
+app.use(express.static('server_nodejs'));
+app.use(express.static('middleware'));
+
 app.use("/scripts", express.static('./scripts/'));
-app.use(express.static(path.join(__dirname, './web_source')));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(helmet());
 app.use(cors(cors_setting));
 app.use(limiter);
 
+app.set('view engine', 'ejs');
+
+var port = 8081; //port for local host connection
 app.listen(port, () => {
   console.log(`Server is running on port ${port}.`);
 });
 
-app.engine('html', ejs.renderFile);
+/*
+ ***********************************************
+ *                  GET  REQUEST               *
+ ***********************************************
+ */
 
 //root page
 app.get('/', function(req, res) {
   //check if user is logged in
-  var logged_in = authenticate_token(res);
+  var logged_in = local_node_jwt.authenticate_token(res);
   //if not send default page
-  console.log(logged_in);
   if (logged_in === true) {
+    console.log(logged_in);
     res.sendFile(path.join(__dirname,'./web_source/html/main_page.html'));
   } else {
+    console.log("Expired AWT Token");
     res.sendFile(path.join(__dirname,'./web_source/html/login_page.html'));
   }
 });
 
-app.get('/main_page.html', function(req, res) {
-  var logged_in = authenticate_token(res);
+//main page
+app.get('/main_page.html', local_node_jwt.block_access, function(req, res) {
+  var logged_in = local_node_jwt.authenticate_token(res);
   console.log(logged_in);
   //if not send default page
   if (logged_in === true) {
     res.sendFile(path.join(__dirname,'./web_source/html/main_page.html'));
   } else {
+    console.log("Expired AWT Token");
     res.sendFile(path.join(__dirname,'./web_source/html/login_page.html'));
   }
 });
 
+//login page
 app.get('/login_page.html', function(req, res) {
   res.sendFile(path.join(__dirname,'./web_source/html/login_page.html'));
 });
 
+//register page
 app.get('/register_page.html', function(req, res) {
   res.sendFile(path.join(__dirname,'./web_source/html/register_page.html'));
 });
 
-app.get('/room_page.html', block_access, function(req, res) {
+//room page
+app.get('/room_page', local_node_jwt.block_access, function(req, res) {
   res.sendFile(path.join(__dirname,'./web_source/html/room_page.html'));
 });
 
-app.get('/car_page.html', block_access, function(req, res) {
-  res.sendFile(path.join(__dirname,'./web_source/html/car_page.html'));
+//car page
+app.get('/car_page', local_node_jwt.block_access, function(req, res) {
+  //this does not work
+  res.render('../web_source/ejs/car_page', local_node_car.renderJSONFile());
 });
 
-app.get('/finance_page.html', block_access, function(req, res) {
+//finance page
+app.get('/finance_page', local_node_jwt.block_access, function(req, res) {
   res.sendFile(path.join(__dirname,'./web_source/html/finance_page.html'));
 });
 
-app.get('/power_page.html', block_access, function(req, res) {
+//power page
+app.get('/power_page', local_node_jwt.block_access, function(req, res) {
   res.sendFile(path.join(__dirname,'./web_source/html/power_page.html'));
 });
 
-app.get('/my_page', block_access, function(req, res) {
+//my page
+app.get('/my_page', local_node_jwt.block_access, function(req, res) {
   res.sendFile(path.join(__dirname,'./'));
 });
 
+
+
+/*
+ ***********************************************
+ *                  POST REQUEST               *
+ ***********************************************
+ */
+
+//---------------------- AUTH-RELATED POST REQUEST----------------------
+
+//post new account info to database
+app.post('/add_account', function(req, res) {
+ var input_values = [req.body.id, req.body.pw, req.body.name];
+ if (input_values[0] === undefined
+    || input_values[1] === undefined
+    || input_values[2] === undefined) {
+   //prompt user to enter id or pw
+ } else {
+   local_node_reg.register_wait(input_values, res);
+ }
+});
+
+//request id/pw comparison with a database
+app.post('/user_login', function(req, res) {
+ console.log("Post request called");
+ var input_values = [req.body.user_id, req.body.user_pw];
+ console.log(input_values);
+ var result;
+ if (input_values[0] === undefined
+    || input_values[1] === undefined ) {
+ } else {
+   //find user
+   local_node_login.login_wait(input_values, req, res);
+ }
+});
+
+//logout request - empty locl_auth field.
 app.post('/logout', function(req, res) {
-  console.log("in");
+  local_auth.id = "-";
+  local_auth.name = "-";
+  local_auth.role = "-";
   local_auth.token = "-";
   res.sendFile(path.join(__dirname,'./web_source/html/login_page.html'));
 });
 
-app.post('/add_account', function(req, res) {
-  var input_values = [req.body.id, req.body.pw];
-  if (input_values[0] === undefined
-     || input_values[1] === undefined ) {
-    //prompt user to enter id or pw
-  } else {
-    register_wait(input_values, res);
-  }
+//--------------------END OF AUTH-RELATED POST REQUEST--------------------
+
+//------------------------CAR-RELATED POST REQUEST------------------------
+
+//post car_information to db with the image file name
+app.post('/get_car_info', async function(req, res) {
+  var input_values = [req.body.car_year,
+                      req.body.car_model,
+                      req.body.car_company,
+                      req.body.car_owner,
+                      req.body.car_name,
+                      req.body.car_num];
+  //var full_request_url = local_node_car.make_api_request_form(input_values);
+  //local_node_car.register_car_info(input_values, full_request_url, res);
 });
 
-app.post('/user_login', function(req, res) {
-  console.log("Post request called");
-  var input_values = [req.body.user_id, req.body.user_pw];
-  console.log(input_values);
-  var result;
-  if (input_values[0] === undefined
-     || input_values[1] === undefined ) {
-  } else {
-    //find user
-    login_wait(input_values, req, res);
-  }
+//post reservation for car schedule - check the criteria before submission.
+app.post('/schedule_car', async function(req, res) {
+  var selected_car = req.body.reserve_car;
+
+  var time_from_list =  [req.body.year_from,
+                        req.body.month_from,
+                        req.body.date_from,
+                        req.body.hour_from,
+                        req.body.min_from];
+
+  var time_to_list =  [req.body.year_to,
+                      req.body.month_to,
+                      req.body.date_to,
+                      req.body.hour_to,
+                      req.body.min_to];
+
+  var time_from = local_node_car.make_time_format(time_from_list);
+  var time_to = local_node_car.make_time_format(time_to_list);
+
+  console.log("Selected Car: " + selected_car);
+  console.log("Time from: " + time_from);
+  console.log("Time to:" + time_to);
+  console.log("User: " + local_auth.name);
 });
 
-// returns true if id exists
-async function check_account(input_values) {
-  //!injection attack prone code! must paramatize the value!
-  var select_query = "SELECT EXISTS (SELECT * FROM accounts WHERE id='" +
-  input_values[0] +"');";
-
-  var account_exists = await db_query.db_request(select_query, input_values);
-  return account_exists;
-}
-
-async function insert_account(input_values) {
-  //if data does not exist, insert
-    var insert_query = 'INSERT INTO accounts(id,pw) VALUES($1,$2) RETURNING *;';
-    var result = await db_query.db_insert(insert_query, input_values);
-    return result;
-}
-
-async function login_account(input_values) {
-  //check if data exists
-  //!injection attack prone code! must paramatize the value!
-  var id_select_query = "SELECT EXISTS (SELECT * FROM accounts WHERE id='" +
-  input_values[0] +"');";
-
-  var pw_select_query = "SELECT EXISTS (SELECT * FROM accounts WHERE pw='" +
-  input_values[1] +"');";
-
-  var id_exists = await db_query.db_request(id_select_query, input_values);
-  var pw_exists = await db_query.db_request(pw_select_query, input_values);
-
-  if (!id_exists || !pw_exists) {
-    return false;
-  } else {
-    return true;
-  }
-}
-
-async function login_wait(input_values, req, res) {
-  var result = await login_account(input_values);
-  if (result === true) {
-    //login success
-    alert("Hello!" + input_values[0]);
-    local_auth.id = input_values[0];
-    local_auth.role = "user";
-    local_auth.token = generate_token(input_values[0]);
-    //redirect to the main page
-    res.sendFile(path.join(__dirname,'./web_source/html/main_page.html'));
-  } else {
-    //login failed - alert user
-    alert("User not found");
-    //give empty the input field
-
-    res.status(200).send({
-      accessToken: null
-    });
-  }
-}
-
-async function register_wait(input_values, res) {
-  var result = await check_account(input_values); //pending result
-
-  if (result === true) { //account exists
-    //prompt user that id has already taken
-    alert("Already registered");
-    res.sendFile(path.join(__dirname,'./web_source/html/register_page.html'));
-  } else {  //account does not exists
-    insert_account(input_values);
-    alert("Newly added");
-    res.sendFile(path.join(__dirname,'./web_source/html/main_page.html'));
-  }
-}
-
-/*
- ***********************************************
- *                 JWT methods                 *
- ***********************************************
- */
-
-function generate_token(user_id) {
-  var token = jwt.sign({name:user_id.toString()}, token_config.secret, {
-    expiresIn: 1800
-  }); // 30 minutes
-  return token;
-}
-
-function authenticate_token(res) {
-  var token = local_auth.token;
-
-  if (token == null || token == '-') {
-    console.log("Null Token");
-    return false;
-  }
-
-  jwt.verify(token, token_config.secret, (err, user) => {
-    if (err) {
-      console.log("Error?:" + err);
-      res.sendStatus(403);
-    }
-  });
-  return true;
-}
-
-function block_access(req, res, next) {
-  var token = local_auth.token;
-
-  if (token == null || token == '-') {
-    console.log("No Token");
-    //login required
-    res.sendStatus(403);
-  }
-
-  jwt.verify(token, token_config.secret, (err, user) => {
-    if (err) { //invalid token
-      res.sendStatus(403);
-    }
-    req.user = user;
-
-    next();
-  });
-}
+//--------------------END OF CAR-RELATED POST REQUEST---------------------

@@ -16,10 +16,6 @@
     background-color:#F3C1FF;
   }
 
-  .header_div {
-
-  }
-
   /* Car Homes Wizard */
   .txt_msg , .txt_msg a{
     width: 100%;
@@ -109,11 +105,13 @@
   }
 
   nav .content_list {
+    color: #FFFFFF;
     width: 100%;
     text-align: center;
   }
 
   nav .content_list .list {
+    color: #FFFFFF;
     width: 30%;
     height: 150px;
     display: inline-block;
@@ -128,13 +126,14 @@
   }
 
   nav .content_list .list:hover {
+    color: #FFFFFF;
     transition-duration: 0.5s;
     width: 40%;
     height: 250px;
     background-color: #FF7C80;
   }
 
-  nav .content_list .list a {
+  nav .content_list .list {
     color: #FFFFFF;
     font-family: 'Alfa Slab One', cursive;
     font-size: 40px;

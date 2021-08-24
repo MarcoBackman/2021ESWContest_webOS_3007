@@ -1,11 +1,11 @@
-//platform - node.js
-
 const { Pool, Client } = require('pg');
 
-//for localhost
-const connection_conf = require('./config/DB1_local_pg_conf.json');
-//for ec2 db - SSL
-//var connection_conf = require('./config/DB1_aws_pg_ssl_conf.json');
+////for localhost
+//const connection_conf = require('./config/DB1_local_pg_conf.json');
+
+//for ec2 db - PW auth
+var connection_conf = require('./config/DB1_aws_pg_pw_conf.json');
+
 //for ec2 db - SSH
 //var connection_conf = require('./config/DB1_aws__pg_ssh_conf.json');
 

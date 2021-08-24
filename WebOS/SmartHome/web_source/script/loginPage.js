@@ -41,30 +41,9 @@ function validateEmail(input, requiredMsg, invalidMsg) {
 	return true;
 }
 
-/*
-function setAction(form) {
-  const form_action =  document.getElementsByName("myForm").action;
-  event.preventDefault();
-  var validity = checkInputForm();
-  if (validity) {
-    form.action = "/user_login";
-    form.method = "post"
-    form.submit();
-  } else {
-    alert("ID/PW not entered");
-  }
+function browser_alert(message) {
+  alert(message);
 }
-
-function checkInputForm() {
-  const user_id  = document.querySelector('#user_id');
-  const user_pw = document.querySelector('#user_pw');
-  if (user_id.value == "" || user_pw.value == "") {
-    return false;
-  } else {
-    return true;
-  }
-}
-*/
 
 window.onload = function() {
   const togglePassword = document.querySelector('#togglePassword');
@@ -72,12 +51,12 @@ window.onload = function() {
   const user_pw = document.querySelector('#user_pw');
 
   togglePassword.addEventListener('click', function (e) {
-      // toggle the type attribute
-      const type = user_pw.getAttribute('type') === 'password' ? 'text' : 'password';
-      user_pw.setAttribute('type', type);
-      // toggle the eye / eye slash icon
-      this.classList.toggle('bi-eye');
-  });
+  // toggle the type attribute
+  const type = user_pw.getAttribute('type') === 'password' ? 'text' : 'password';
+  user_pw.setAttribute('type', type);
+  // toggle the eye / eye slash icon
+  this.classList.toggle('bi-eye');
+});
 
   /* //--for registeration or pw find
   const form = document.querySelector("#signup");
