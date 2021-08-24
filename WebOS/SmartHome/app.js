@@ -34,9 +34,15 @@ var cors_setting = {
 var app = express();
 
 //Apply express on different source paths
+/*
+app.use(express.static(path.join(__dirname, 'web_source')));
+app.use(express.static(path.join(__dirname, 'server_nodejs')));
+app.use(express.static(path.join(__dirname, 'middleware')));
+*/
 app.use(express.static('web_source'));
 app.use(express.static('server_nodejs'));
 app.use(express.static('middleware'));
+
 
 app.use("/scripts", express.static('./scripts/'));
 app.use(bodyParser.urlencoded({extended: false}));
@@ -100,7 +106,8 @@ app.get('/room_page', local_node_jwt.block_access, async function(req, res) {
   //retrive data from the database
   var renderedData = await local_node_car.renderJSONFile();
   //EJS file must work on render instead of sendFile.
-  res.render(path.join(__dirname,'./web_source/ejs/room_page.ejs'), renderedData);
+  res.render(path.join(__dirname,'./web_source/ejs/room_page.ejs'), renderedData)
+  .catch(err => console.log(err));
 });
 
 //car page
@@ -126,7 +133,16 @@ app.get('/my_page', local_node_jwt.block_access, function(req, res) {
   res.sendFile(path.join(__dirname,'./'));
 });
 
-
+//all other paths
+ app.get('*', (req, res) =>{
+   var logged_in = local_node_jwt.authenticate_token(res);
+   //if not send default page
+   if (logged_in === true) {
+     res.sendFile(path.join(__dirname,'./web_source/html/main_page.html'));
+   } else {
+     res.sendFile(path.join(__dirname,'./web_source/html/login_page.html'));
+   }
+ });
 
 /*
  ***********************************************
@@ -177,16 +193,16 @@ app.post('/logout', function(req, res) {
 
 //post car_information to db with the image file name
 app.post('/get_car_info', async function(req, res) {
-  /*
+
   var input_values = [req.body.car_year,
                       req.body.car_model,
                       req.body.car_company,
                       req.body.car_owner,
                       req.body.car_name,
                       req.body.car_num];
-  */
-  //var full_request_url = local_node_car.make_api_request_form(input_values);
-  //local_node_car.register_car_info(input_values, full_request_url, res);
+
+  var full_request_url = await local_node_car.make_api_request_form(input_values);
+  local_node_car.register_car_info(input_values, full_request_url, res);
 });
 
 //post reservation for car schedule - check the criteria before submission.
