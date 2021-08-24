@@ -39,7 +39,7 @@ app.use(express.static('server_nodejs'));
 app.use(express.static('middleware'));
 
 app.use("/scripts", express.static('./scripts/'));
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(helmet());
 app.use(cors(cors_setting));
@@ -96,14 +96,19 @@ app.get('/register_page.html', function(req, res) {
 });
 
 //room page
-app.get('/room_page', local_node_jwt.block_access, function(req, res) {
-  res.sendFile(path.join(__dirname,'./web_source/html/room_page.html'));
+app.get('/room_page', local_node_jwt.block_access, async function(req, res) {
+  //retrive data from the database
+  var renderedData = await local_node_car.renderJSONFile();
+  //EJS file must work on render instead of sendFile.
+  res.render(path.join(__dirname,'./web_source/ejs/room_page.ejs'), renderedData);
 });
 
 //car page
-app.get('/car_page', local_node_jwt.block_access, function(req, res) {
-  //this does not work
-  res.render('../web_source/ejs/car_page', local_node_car.renderJSONFile());
+app.get('/car_page', local_node_jwt.block_access, async function(req, res) {
+  //retrive data from the database
+  var renderedData = await local_node_car.renderJSONFile();
+  //EJS file must work on render instead of sendFile.
+  res.render(path.join(__dirname, './web_source/ejs/car_page.ejs'), renderedData);
 });
 
 //finance page
@@ -172,12 +177,14 @@ app.post('/logout', function(req, res) {
 
 //post car_information to db with the image file name
 app.post('/get_car_info', async function(req, res) {
+  /*
   var input_values = [req.body.car_year,
                       req.body.car_model,
                       req.body.car_company,
                       req.body.car_owner,
                       req.body.car_name,
                       req.body.car_num];
+  */
   //var full_request_url = local_node_car.make_api_request_form(input_values);
   //local_node_car.register_car_info(input_values, full_request_url, res);
 });
@@ -205,6 +212,11 @@ app.post('/schedule_car', async function(req, res) {
   console.log("Time from: " + time_from);
   console.log("Time to:" + time_to);
   console.log("User: " + local_auth.name);
+});
+
+app.post('/my_room', async function(req, res) {
+  var time_from_list =  req.body.room
+  console.log("POSTing test" + time_from_list);
 });
 
 //--------------------END OF CAR-RELATED POST REQUEST---------------------
