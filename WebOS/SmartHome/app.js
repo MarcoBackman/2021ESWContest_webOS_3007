@@ -106,16 +106,16 @@ app.get('/room_page', local_node_jwt.block_access, async function(req, res) {
   //retrive data from the database
   var renderedData = await local_node_car.renderJSONFile();
   //EJS file must work on render instead of sendFile.
-  res.render(path.join(__dirname,'./web_source/ejs/room_page.ejs'), renderedData)
-  .catch(err => console.log(err));
+  res.render(path.join(__dirname,'./web_source/ejs/room_page.ejs'), renderedData);
 });
 
 //car page
 app.get('/car_page', local_node_jwt.block_access, async function(req, res) {
+
   //retrive data from the database
   var renderedData = await local_node_car.renderJSONFile();
   //EJS file must work on render instead of sendFile.
-  res.render(path.join(__dirname, './web_source/ejs/car_page.ejs'), renderedData);
+  res.render(path.join(__dirname, './web_source/ejs/car_page'), renderedData);
 });
 
 //finance page
@@ -133,7 +133,7 @@ app.get('/my_page', local_node_jwt.block_access, function(req, res) {
   res.sendFile(path.join(__dirname,'./'));
 });
 
-//all other paths
+//all other paths for get request
  app.get('*', (req, res) =>{
    var logged_in = local_node_jwt.authenticate_token(res);
    //if not send default page
@@ -233,6 +233,11 @@ app.post('/schedule_car', async function(req, res) {
 app.post('/my_room', async function(req, res) {
   var time_from_list =  req.body.room
   console.log("POSTing test" + time_from_list);
+});
+
+//all other paths for post request
+app.post('*', async function(req, res) {
+  console.log("Unexpected post request");
 });
 
 //--------------------END OF CAR-RELATED POST REQUEST---------------------
