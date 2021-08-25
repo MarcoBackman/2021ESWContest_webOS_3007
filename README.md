@@ -19,10 +19,14 @@
 
 ## About our project<br>
 
-&nbsp;&nbsp; This project is conprised of two major sections: Hardware and Software.
-  
-&nbsp;&nbsp; In the software section, we build an application program that suits well under webOS system architecture, regardless of its low level knowledge (e.g. kernal level, shell development).<br>
-&nbsp;&nbsp; Our development will only pursuit on logic architecture of the webpage, which is a webOS app, and visualization of the database that stores data from hardware system.<br>
+&nbsp;&nbsp;The operating system is based on webOS system from LG, and we build the app that runs on it. Eventually, the the operating system that contains our developed app will run on Raspberry pi 4 machine with additional external devices connected to it(Touch monitor, sensers, voice receivers, wireless connection device, etc).
+<br>
+&nbsp;&nbsp; In general, this project is conprised of two major sections: Hardware and Software.
+<br>
+&nbsp;&nbsp; In the software section, we build an application program that suits well under webOS system architecture, regardless of its low level knowledge (e.g. kernal level, shell development).
+<br>
+&nbsp;&nbsp; Our development will only pursuit on logic architecture of the webpage, which is a webOS app, and visualization of the database that stores data from hardware system.
+<br>
 
 ### Project regulations and Encodings.
 > We have our own project regulation for developers. Please check the link: [Code Styles](https://github.com/MarcoBackman/2021ESWContest_webOS_3007/blob/main/document/webOS/Code_Style.md)
