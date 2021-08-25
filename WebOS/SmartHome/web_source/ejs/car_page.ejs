@@ -91,7 +91,7 @@
             Month
             <select name="month_from" id="month_from">
               <option value="-">-</option>
-              <% months.forEach(function(month) { %>
+              <% for (let month = 1; month < 13; month++) { %>
                 <option value="<%= month %>"><%= month %></option>
               <% }); %>
             </selcet>
@@ -138,7 +138,7 @@
           Month
           <select name="month_to" id="month_to">
             <option value="-">-</option>
-            <% months.forEach(function(month) { %>
+            <% for (let month = 1; month < 13; month++) { %>
               <option value="<%= month %>"><%= month %></option>
             <% }); %>
           </selcet>
