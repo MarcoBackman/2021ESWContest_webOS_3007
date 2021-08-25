@@ -42,14 +42,8 @@ async function insert_car_info(input_values, img_file_name, current_user) {
 //this function cannot be async function - used for rendering ejs
 async function renderJSONFile() {
   //run this as promise
-  const myPromise = new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve('foo');
-    }, 300);
-  });
 
-  var car_list = await myPromise.then(node_db_comm.select_column("webOS_car", "car_num"));
-  var months = ['1','2','3','4','5','6','7','8','9','10','11','12'];
+  var car_list = await node_db_comm.select_column("webos_car", "car_num");
   var car_names = ["-"];
   //render user's registered car lists
   function push_element(element) {
@@ -63,7 +57,6 @@ async function renderJSONFile() {
   var renderForm = {
     car_names: car_names,
     result: result,
-    months: months,
     car_image: "Hey"
   };
   console.log(renderForm.car_names);
