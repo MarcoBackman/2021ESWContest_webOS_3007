@@ -120,7 +120,7 @@ app.get('/room_page', local_node_jwt.block_access, async function(req, res) {
   //retrive data from the database
 
   //EJS file must work on render instead of sendFile.
-  res.render('../web_source/ejs/room_page.ejs');
+  res.render(ROOM_PAGE_PATH);
 });
 
 //car page
@@ -130,7 +130,7 @@ app.get('/car_page', local_node_jwt.block_access, async function(req, res) {
   var car_page_data = await local_node_car.renderJSONFile();
   //EJS file must work on render instead of sendFile.
   try {
-    res.render(path.join(__dirname, './web_source/ejs/car_page'), car_page_data);
+    res.render(CAR_PAGE_PATH, car_page_data);
   } catch(err) {
     console.log(err);
   }
@@ -200,7 +200,7 @@ app.post('/logout', function(req, res) {
   local_auth.name = "-";
   local_auth.role = "-";
   local_auth.token = "-";
-  res.sendFile(path.join(__dirname,'./web_source/html/login_page.html'));
+  res.sendFile(LOGIN_PAGE_PATH);
 });
 
 //--------------------END OF AUTH-RELATED POST REQUEST--------------------
@@ -247,7 +247,7 @@ app.post('/schedule_car', async function(req, res) {
 });
 
 app.post('/my_room', async function(req, res) {
-  var time_from_list =  req.body.room
+  var time_from_list = req.body.room;
 });
 
 //all other paths for post request
