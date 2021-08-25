@@ -7,6 +7,9 @@ const fetch = require('node-fetch');
 const db_query = require('../db/db_single_request.js');
 const node_db_comm = require('./db_comm.js');
 
+//local model temp file
+const local_auth = require("../models/local_auth.js");
+
 /*
  ***********************************************
  *                  Car register               *
@@ -29,7 +32,11 @@ async function insert_car_info(input_values, img_file_name, current_user) {
     var insert_query
      = 'INSERT INTO webOS_car(car_info, car_owner, car_num,' +
         'car_image ,registered_user) VALUES($1,$2,$3,$4,$5) RETURNING *;';
-    var result = await db_query.db_insert(insert_query, query_lists);
+    try {
+      var result = await db_query.db_insert(insert_query, query_lists);
+    } catch(err) {
+      console.log(err);
+    }
     return result;
 }
 
@@ -43,15 +50,22 @@ async function insert_car_info(input_values, img_file_name, current_user) {
 async function renderJSONFile() {
   //run this as promise
 
-  var car_list = await node_db_comm.select_column("webos_car", "car_num");
-  var car_names = ["-"];
+  //empty car list means there is no matching car that user ownes
+  var car_list = await car_data_by_user("webOS_car", "car_owner",
+    local_auth.name, "car_num");
+
+  var car_names = [];
+  var car_image_files = [];
   //render user's registered car lists
   function push_element(element) {
+
     car_names.push(element);
   }
-  if (typeof car_list === 'function') {
+  if (car_list[0] != null) {
+    console.log("Found");
     car_list.forEach(push_element);
   }
+  console.log(car_names);
   var result = "Valid car";
   //read car image links from db
   var renderForm = {
@@ -59,7 +73,6 @@ async function renderJSONFile() {
     result: result,
     car_image: "Hey"
   };
-  console.log(renderForm.car_names);
   return renderForm;
 }
 
@@ -185,10 +198,27 @@ async function register_car_info(input_values, full_request_url, res) {
     //post data to db from the link(including images)
     await insert_car_info(input_values, file_name, local_auth.name);
 
-    var car_list = node_db_comm.select_column("webOS_car", "car_num");
     //then refresh page
     res.render('../web_source/ejs/car_page', renderJSONFile());
   }
+}
+
+/*
+ ***********************************************
+ *               DB communication              *
+ ***********************************************
+ */
+//SELECT * FROM webos_car WHERE car_owner='백승준' ORDER BY car_num ASC;
+//need modification
+async function car_data_by_user(table, targetColumn, targetVal, orderBy) {
+  var select_query = "SELECT * FROM " + table + " WHERE " + targetColumn +
+                     "='" + targetVal + "' ORDER BY " + orderBy + " ASC;";
+  try {
+    var list = await db_query.db_request_data(select_query);
+  } catch(err) {
+    console.log(err);
+  }
+  return list;
 }
 
 //local_node_car

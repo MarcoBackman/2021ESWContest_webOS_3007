@@ -9,7 +9,8 @@ const local_auth = require("../models/local_auth.js");
 
 /*
  ***********************************************
- *              DB communication               *
+ *        General-use DB communication         *
+ *    This only contains common query traits   *
  ***********************************************
  */
 

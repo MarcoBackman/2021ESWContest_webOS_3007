@@ -21,6 +21,17 @@ const local_node_db_comm = require("./server_nodejs/db_comm.js");
 const local_node_car = require("./server_nodejs/car_page.js");
 const local_node_jwt = require("./middleware/jwtAuth.js");
 
+//static file paths
+const ROOT_PATH = path.join(__dirname,'./');
+const MAIN_PAGE_PATH = path.join(__dirname,'./web_source/html/main_page.html');
+const LOGIN_PAGE_PATH = path.join(__dirname,'./web_source/html/login_page.html');
+const REG_PAGE_PATH = path.join(__dirname,'./web_source/html/register_page.html');
+const ROOM_PAGE_PATH = path.join(__dirname,'./web_source/ejs/room_page.ejs');
+const CAR_PAGE_PATH = path.join(__dirname,'./web_source/ejs/car_page.ejs');
+const POWER_PAGE_PATH = path.join(__dirname,'./web_source/html/power_page.html');
+const FINACE_PAGE_PATH = path.join(__dirname,'./web_source/html/finance_page.html');
+const MY_PAGE_PATH = path.join(__dirname,'./web_source/html/finance_page.html');
+
 //limits the
 const limiter = rateLimit({
  windowsMS: 15 * 60 * 1000,
@@ -42,14 +53,14 @@ app.use(express.static(path.join(__dirname, 'middleware')));
 /*
 //this will raise problem when url typed like:
     http://localhost:8081/car_page/car_page/car_page/
-    -> this will load the page but accomodates css content error
+    -> this will load the page but accomodates css loading error
 app.use(express.static('web_source'));
 app.use(express.static('server_nodejs'));
 app.use(express.static('middleware'));
 */
 
 app.use("/scripts", express.static('./scripts/'));
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(helmet());
 app.use(cors(cors_setting));
@@ -75,35 +86,33 @@ app.get('/', function(req, res) {
   var logged_in = local_node_jwt.authenticate_token(res);
   //if not send default page
   if (logged_in === true) {
-    console.log(logged_in);
-    res.sendFile(path.join(__dirname,'./web_source/html/main_page.html'));
+    res.sendFile(MAIN_PAGE_PATH);
   } else {
     console.log("Expired AWT Token");
-    res.sendFile(path.join(__dirname,'./web_source/html/login_page.html'));
+    res.sendFile(LOGIN_PAGE_PATH);
   }
 });
 
 //main page
 app.get('/main_page.html', local_node_jwt.block_access, function(req, res) {
   var logged_in = local_node_jwt.authenticate_token(res);
-  console.log(logged_in);
   //if not send default page
   if (logged_in === true) {
-    res.sendFile(path.join(__dirname,'./web_source/html/main_page.html'));
+    res.sendFile(MAIN_PAGE_PATH);
   } else {
     console.log("Expired AWT Token");
-    res.sendFile(path.join(__dirname,'./web_source/html/login_page.html'));
+    res.sendFile(LOGIN_PAGE_PATH);
   }
 });
 
 //login page
 app.get('/login_page.html', function(req, res) {
-  res.sendFile(path.join(__dirname,'./web_source/html/login_page.html'));
+  res.sendFile(LOGIN_PAGE_PATH);
 });
 
 //register page
 app.get('/register_page.html', function(req, res) {
-  res.sendFile(path.join(__dirname,'./web_source/html/register_page.html'));
+  res.sendFile(REG_PAGE_PATH);
 });
 
 //room page
@@ -129,17 +138,17 @@ app.get('/car_page', local_node_jwt.block_access, async function(req, res) {
 
 //finance page
 app.get('/finance_page', local_node_jwt.block_access, function(req, res) {
-  res.sendFile(path.join(__dirname,'./web_source/html/finance_page.html'));
+  res.sendFile(FINACE_PAGE_PATH);
 });
 
 //power page
 app.get('/power_page', local_node_jwt.block_access, function(req, res) {
-  res.sendFile(path.join(__dirname,'./web_source/html/power_page.html'));
+  res.sendFile(POWER_PAGE_PATH);
 });
 
 //my page
 app.get('/my_page', local_node_jwt.block_access, function(req, res) {
-  res.sendFile(path.join(__dirname,'./'));
+  res.sendFile(ROOT_PATH);
 });
 
 //all other paths for get request
@@ -147,9 +156,9 @@ app.get('/my_page', local_node_jwt.block_access, function(req, res) {
    var logged_in = local_node_jwt.authenticate_token(res);
    //if not send default page
    if (logged_in === true) {
-     res.sendFile(path.join(__dirname,'./web_source/html/main_page.html'));
+     res.sendFile(MAIN_PAGE_PATH);
    } else {
-     res.sendFile(path.join(__dirname,'./web_source/html/login_page.html'));
+     res.sendFile(LOGIN_PAGE_PATH);
    }
  });
 
@@ -175,9 +184,7 @@ app.post('/add_account', function(req, res) {
 
 //request id/pw comparison with a database
 app.post('/user_login', function(req, res) {
- console.log("Post request called");
  var input_values = [req.body.user_id, req.body.user_pw];
- console.log(input_values);
  var result;
  if (input_values[0] === undefined
     || input_values[1] === undefined ) {
@@ -241,7 +248,6 @@ app.post('/schedule_car', async function(req, res) {
 
 app.post('/my_room', async function(req, res) {
   var time_from_list =  req.body.room
-  console.log("POSTing test" + time_from_list);
 });
 
 //all other paths for post request
