@@ -34,15 +34,19 @@ var cors_setting = {
 var app = express();
 
 //Apply express on different source paths
-/*
+
 app.use(express.static(path.join(__dirname, 'web_source')));
 app.use(express.static(path.join(__dirname, 'server_nodejs')));
 app.use(express.static(path.join(__dirname, 'middleware')));
-*/
+
+/*
+//this will raise problem when url typed like:
+    http://localhost:8081/car_page/car_page/car_page/
+    -> this will load the page but accomodates css content error
 app.use(express.static('web_source'));
 app.use(express.static('server_nodejs'));
 app.use(express.static('middleware'));
-
+*/
 
 app.use("/scripts", express.static('./scripts/'));
 app.use(bodyParser.urlencoded({extended: false}));
@@ -54,7 +58,8 @@ app.use(limiter);
 app.set('view engine', 'ejs');
 
 var port = 8081; //port for local host connection
-app.listen(port, () => {
+app.listen(port, (err) => {
+  if (err) console.log(err);
   console.log(`Server is running on port ${port}.`);
 });
 
@@ -104,18 +109,22 @@ app.get('/register_page.html', function(req, res) {
 //room page
 app.get('/room_page', local_node_jwt.block_access, async function(req, res) {
   //retrive data from the database
-  var renderedData = await local_node_car.renderJSONFile();
+
   //EJS file must work on render instead of sendFile.
-  res.render(path.join(__dirname,'./web_source/ejs/room_page.ejs'), renderedData);
+  res.render('../web_source/ejs/room_page.ejs');
 });
 
 //car page
 app.get('/car_page', local_node_jwt.block_access, async function(req, res) {
 
   //retrive data from the database
-  var renderedData = await local_node_car.renderJSONFile();
+  var car_page_data = await local_node_car.renderJSONFile();
   //EJS file must work on render instead of sendFile.
-  res.render(path.join(__dirname, './web_source/ejs/car_page'), renderedData);
+  try {
+    res.render(path.join(__dirname, './web_source/ejs/car_page'), car_page_data);
+  } catch(err) {
+    console.log(err);
+  }
 });
 
 //finance page
