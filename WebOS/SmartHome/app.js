@@ -221,27 +221,7 @@ app.post('/get_car_info', async function(req, res) {
 
 //post reservation for car schedule - check the criteria before submission.
 app.post('/schedule_car', async function(req, res) {
-  var selected_car = req.body.reserve_car;
-
-  var time_from_list = [req.body.year_from,
-                        req.body.month_from,
-                        req.body.date_from,
-                        req.body.hour_from,
-                        req.body.min_from];
-
-  var time_to_list = [req.body.year_to,
-                      req.body.month_to,
-                      req.body.date_to,
-                      req.body.hour_to,
-                      req.body.min_to];
-
-  var time_from = local_node_car.make_time_format(time_from_list);
-  var time_to = local_node_car.make_time_format(time_to_list);
-
-  console.log("Selected Car: " + selected_car);
-  console.log("Time from: " + time_from);
-  console.log("Time to:" + time_to);
-  console.log("User: " + local_auth.name);
+  local_node_car.sendDataFormat(req, res);
 });
 
 app.post('/my_room', async function(req, res) {

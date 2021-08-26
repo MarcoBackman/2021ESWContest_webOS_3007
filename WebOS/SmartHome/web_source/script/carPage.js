@@ -104,9 +104,11 @@ function createBlankOption() {
 }
 
 function clearImage() {
-  var img_section = document.getElementsByClassName("car_class");
+  var img_section = document.getElementsByClassName("car_names");
+  var car_numbers = document.getElementsByClassName("car_number");
   for (var i = 0; i < img_section.length; i++) {
     img_section[i].style.display="none";
+    car_numbers[i].style.display="none";
   }
 }
 
@@ -140,19 +142,23 @@ window.onload = function() {
 
   //---------------car calendar section--------------
   //change and load calendar on car selection
-  
+
 
   //---------------car selection section--------------
 
+  //consider putting car number on the next.
   var selected_car = document.getElementById("reserve_car");
   var car_img;
   selected_car.addEventListener("change", function() {
     clearImage();
     if (selected_car.value != "-") {
       car_img = document.getElementById(selected_car.value);
+      car_nums = document.getElementById(selected_car.value + "_num");
       //show selected car image
+      car_nums.style.display="block";
       car_img.style.display="block";
     } else {
+      car_nums.style.display="none";
       car_img.style.display="none";
     }
   });
@@ -237,6 +243,7 @@ window.onload = function() {
     var m_f_val = min_f_select.value;
     var h_t_val = hour_t_select.value;
     var m_t_val = min_t_select.value;
+
     if (isValidDate(y_f_val, m_f_val, d_f_val)
      && isValidDate(y_t_val, m_t_val, d_t_val)
      && isValidTime(h_f_val, m_f_val)

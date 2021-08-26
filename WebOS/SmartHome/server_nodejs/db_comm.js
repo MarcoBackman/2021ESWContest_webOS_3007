@@ -38,6 +38,19 @@ async function insert_account(input_values) {
     return result;
 }
 
+async function insert_car_schedule(input_values) {
+  //if data does not exist, insert
+    var insert_query = 'INSERT INTO car_schedule(car_number, scheduled_user,'
+       + 'car_schedule_start, car_schedule_end, car_info)'
+       + 'VALUES($1,$2,$3,$4, $5) RETURNING *;';
+    try {
+      var result = await db_query.db_insert(insert_query, input_values);
+    } catch (err) {
+      console.log(err);
+    }
+    return result;
+}
+
 //send with single data
 async function select_by_data(table, column, data) {
   var select_query = "SELECT * FROM " + table +

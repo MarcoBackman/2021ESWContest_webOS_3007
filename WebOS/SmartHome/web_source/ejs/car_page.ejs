@@ -61,17 +61,10 @@
     </div>
     <div>
       <!--
-            **************************************************
-            *              Car Schedule section              *
-            **************************************************
-        -->
-      <h2>Car schedule</h2>
-      <p> Weekly calendar </p>
-      <!--
-            **************************************************
-            *             Car Reservation section            *
-            **************************************************
-        -->
+        **************************************************
+        *             Car Reservation section            *
+        **************************************************
+      -->
       <h2>Reserve car</h2>
       <form name="car_schedule" id="car_schedule" action="/schedule_car" method="POST">
         <div>
@@ -91,12 +84,19 @@
           <% if (car_opt_val != "-" || car_opt_val != "N/A") { %>
             <% for(var i = 0; i < car_images.length; i++) { %>
             <!-- this will raise issues when the same car name appears -->
-            <img class="car_class" id="<%=car_names[i]%>"
+            <img class="car_names" id="<%=car_names[i]%>"
               alt="Image" src="../src/car_img/<%=car_images[i]%>"
               border="0" style="display: none;"/>
+            <label class="car_number" id="<%=car_names[i]%>_num" style="display: none;">
+              <%=car_numbers[i]%>
+            </label>
             <% } %>
           <% } %>
-          </a>
+
+        <h2>Car schedule</h2>
+        <!--************* Load calendar *************-->
+        <p> Weekly calendar </p>
+
           <div>
             <!--************* From *************-->
             <h3>From</h3>

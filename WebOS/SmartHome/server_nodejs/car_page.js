@@ -18,13 +18,13 @@ const local_auth = require("../models/local_auth.js");
 
 async function insert_car_info(input_values, img_file_name, current_user) {
     /*
-    car_year
-    car_model
-    car_company
-    car_owner
-    car_name
-    car_num
-    */
+     * car_year
+     * car_model
+     * car_company
+     * car_owner
+     * car_name
+     * car_num
+     */
     var car_info = [input_values[0], input_values[1], input_values[2], input_values[4]];
     var query_lists = [car_info, input_values[3], input_values[5], img_file_name, current_user];
     //must provide all 5 critical elements to DB:
@@ -66,9 +66,17 @@ async function renderJSONFile() {
   //render user's registered car info into array
   var car_names = [];
   var car_images = [];
+  var car_numbers = [];
   var car_fuels = [];
   var car_schedule = [];
 
+  /*
+   * 0 : car number
+   * 1 : car owner
+   * 2 : car image
+   * 3 : registered user
+   * 4 : detailed car info.
+   */
   if (car_list[0] != null) {
     console.log("Found");
     for(var i = 0; i < car_list.length; i++) {
@@ -79,12 +87,15 @@ async function renderJSONFile() {
       //store fuel usage to the array by each car
 
       //load schedule data
-      
+
+      //store car numbers into the array
+      pushData(car_list[i], car_numbers, 0, -1);
     }
   }
   //read car image links from db
   var renderForm = {
     car_names: car_names,
+    car_numbers: car_numbers,
     car_images: car_images,
     car_fuels: car_fuels,
     car_schedule: car_schedule
@@ -105,6 +116,30 @@ function make_time_format(list) {
                          list[3].trim(" ") +
                          list[4].trim(" ");
   return full_format;
+}
+
+async function sendDataFormat(req, res) {
+   var user_name = local_auth.name;         //shows user name
+   var selected_car = req.body.reserve_car; //shows car name
+
+   var time_from_list = [req.body.year_from,
+                         req.body.month_from,
+                         req.body.date_from,
+                         req.body.hour_from,
+                         req.body.min_from];
+
+   var time_to_list = [req.body.year_to,
+                       req.body.month_to,
+                       req.body.date_to,
+                       req.body.hour_to,
+                       req.body.min_to];
+   var time_from = local_node_car.make_time_format(time_from_list);
+   var time_to = local_node_car.make_time_format(time_to_list);
+
+   var input_array = [];
+
+   //send data set to the server
+   node_db_comm.insert_car_schedule();
 }
 
 /*
@@ -185,6 +220,12 @@ function validate_image_file(file_name) {
   return false;
 }
 
+/*
+ ********************************************
+ *             Car registration             *
+ ********************************************
+ */
+
 async function register_car_info(input_values, full_request_url, res) {
   var image_link = ""
 
@@ -235,6 +276,11 @@ async function car_data_by_user(table, targetColumn, targetVal, orderBy) {
     console.log(err);
   }
   return list;
+}
+
+//this will raise duplication issues
+async function get_car_number_by_name() {
+
 }
 
 //local_node_car
