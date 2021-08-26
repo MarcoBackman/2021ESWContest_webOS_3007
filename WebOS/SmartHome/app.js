@@ -209,14 +209,12 @@ app.post('/logout', function(req, res) {
 
 //post car_information to db with the image file name
 app.post('/get_car_info', async function(req, res) {
-
   var input_values = [req.body.car_year,
                       req.body.car_model,
                       req.body.car_company,
                       req.body.car_owner,
                       req.body.car_name,
                       req.body.car_num];
-
   var full_request_url = await local_node_car.make_api_request_form(input_values);
   local_node_car.register_car_info(input_values, full_request_url, res);
 });
@@ -225,13 +223,13 @@ app.post('/get_car_info', async function(req, res) {
 app.post('/schedule_car', async function(req, res) {
   var selected_car = req.body.reserve_car;
 
-  var time_from_list =  [req.body.year_from,
+  var time_from_list = [req.body.year_from,
                         req.body.month_from,
                         req.body.date_from,
                         req.body.hour_from,
                         req.body.min_from];
 
-  var time_to_list =  [req.body.year_to,
+  var time_to_list = [req.body.year_to,
                       req.body.month_to,
                       req.body.date_to,
                       req.body.hour_to,

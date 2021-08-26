@@ -146,6 +146,7 @@ window.onload = function() {
           var year_int = parseInt(year_f_select.value, 10);
           var dates = datesInMonth(month_int, year_int);
           var select = document.getElementById("date_from");
+          select.empty();
           for (var date = 1; date < dates + 1; date++) {
             opt = document.createElement("option");
             opt.value = date;
@@ -171,6 +172,7 @@ window.onload = function() {
       var year_int = parseInt(year_t_select.value, 10);
       var dates = datesInMonth(month_int, year_int);
         var select = document.getElementById("date_to");
+        select.empty();
         for (var date = 1; date < dates + 1; date++) {
           opt = document.createElement("option");
           opt.value = date;

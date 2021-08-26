@@ -72,7 +72,9 @@
           </select>
           <!-- image link -->
           <% if (car_opt_val != "-" || car_opt_val != "N/A") { %>
-            <img alt=" " src="<%= car_image %>" border="0" />
+            <% for(var i = 0; i < car_images.length; i++) { %>
+            <img alt=" " src="../src/car_img/<%=car_images[i]%>" border="0" />
+            <% } %>
           <% } %>
           </a>
           <div>

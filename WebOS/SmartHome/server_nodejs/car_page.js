@@ -46,6 +46,17 @@ async function insert_car_info(input_values, img_file_name, current_user) {
  ***********************************************
  */
 
+function pushData(element, list_to_push, outer_index, inner_index) {
+  if (inner_index == -1) {
+    console.log(element[outer_index]);
+    list_to_push.push(element[outer_index]);
+  } else {
+    console.log(element[outer_index][inner_index]);
+    list_to_push.push(element[outer_index][inner_index]);
+  }
+  return list_to_push;
+}
+
 //this function cannot be async function - used for rendering ejs
 async function renderJSONFile() {
   //run this as promise
@@ -54,24 +65,27 @@ async function renderJSONFile() {
   var car_list = await car_data_by_user("webOS_car", "car_owner",
     local_auth.name, "car_num");
 
+  //render user's registered car info into array
   var car_names = [];
-  var car_image_files = [];
-  //render user's registered car lists
-  function push_element(element) {
+  var car_images = [];
+  var car_fuels = [];
 
-    car_names.push(element);
-  }
   if (car_list[0] != null) {
     console.log("Found");
-    car_list.forEach(push_element);
+    for(var i = 0; i < car_list.length; i++) {
+      //store car_name into the array
+      pushData(car_list[i], car_names, 4, 2);
+      //store image file name to the array
+      pushData(car_list[i], car_images, 2, -1);
+      //store fuel usage to the array by each car
+
+    }
   }
-  console.log(car_names);
-  var result = "Valid car";
   //read car image links from db
   var renderForm = {
     car_names: car_names,
-    result: result,
-    car_image: "Hey"
+    car_images: car_imagesl,
+    car_fuels: car_fuels
   };
   return renderForm;
 }
