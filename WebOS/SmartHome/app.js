@@ -249,7 +249,7 @@ app.post('/my_room', async function(req, res) {
 });
 
 //all other paths for post request
-app.post('*', async function(req, res) {
+app.post('*', function(req, res) {
   console.log("Unexpected post request");
 });
 

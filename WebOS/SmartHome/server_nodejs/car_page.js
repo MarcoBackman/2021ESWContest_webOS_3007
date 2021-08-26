@@ -48,10 +48,8 @@ async function insert_car_info(input_values, img_file_name, current_user) {
 
 function pushData(element, list_to_push, outer_index, inner_index) {
   if (inner_index == -1) {
-    console.log(element[outer_index]);
     list_to_push.push(element[outer_index]);
   } else {
-    console.log(element[outer_index][inner_index]);
     list_to_push.push(element[outer_index][inner_index]);
   }
   return list_to_push;
@@ -69,6 +67,7 @@ async function renderJSONFile() {
   var car_names = [];
   var car_images = [];
   var car_fuels = [];
+  var car_schedule = [];
 
   if (car_list[0] != null) {
     console.log("Found");
@@ -79,13 +78,15 @@ async function renderJSONFile() {
       pushData(car_list[i], car_images, 2, -1);
       //store fuel usage to the array by each car
 
+      //load schedule data
     }
   }
   //read car image links from db
   var renderForm = {
     car_names: car_names,
-    car_images: car_imagesl,
-    car_fuels: car_fuels
+    car_images: car_images,
+    car_fuels: car_fuels,
+    car_schedule: car_schedule
   };
   return renderForm;
 }
