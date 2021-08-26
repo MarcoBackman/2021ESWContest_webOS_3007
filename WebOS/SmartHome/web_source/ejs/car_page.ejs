@@ -24,6 +24,11 @@
     </div>
   </header>
   <nav>
+    <!--
+          **************************************************
+          *            Car Registeration section           *
+          **************************************************
+      -->
     <div id="register_car">
       <h2>Register Car</h2>
       <form name="car_info_form" id="car_info_form" action="/get_car_info" method="POST">
@@ -55,12 +60,24 @@
       <% }); %>
     </div>
     <div>
+      <!--
+            **************************************************
+            *              Car Schedule section              *
+            **************************************************
+        -->
       <h2>Car schedule</h2>
       <p> Weekly calendar </p>
+      <!--
+            **************************************************
+            *             Car Reservation section            *
+            **************************************************
+        -->
       <h2>Reserve car</h2>
       <form name="car_schedule" id="car_schedule" action="/schedule_car" method="POST">
         <div>
+          <!-- ******** car selection ******** -->
           <select name="reserve_car" id="reserve_car">
+            <option value="-">-</option>
             <% var car_opt_val = "-";%>
             <% var iteration = 0;%>
             <% car_names.forEach(function(car) { %>
@@ -70,10 +87,13 @@
           </selcet>
           <select>
           </select>
-          <!-- image link -->
+          <!-- ******** image display ******** -->
           <% if (car_opt_val != "-" || car_opt_val != "N/A") { %>
             <% for(var i = 0; i < car_images.length; i++) { %>
-            <img alt=" " src="../src/car_img/<%=car_images[i]%>" border="0" />
+            <!-- this will raise issues when the same car name appears -->
+            <img class="car_class" id="<%=car_names[i]%>"
+              alt="Image" src="../src/car_img/<%=car_images[i]%>"
+              border="0" style="display: none;"/>
             <% } %>
           <% } %>
           </a>
@@ -152,7 +172,6 @@
           </selcet>
           <select>
           </select>
-          <!--************* Time *************-->
           <!--************* Time *************-->
           Hour
           <select name="hour_to" id="hour_to">

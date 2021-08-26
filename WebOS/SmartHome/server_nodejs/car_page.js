@@ -79,6 +79,7 @@ async function renderJSONFile() {
       //store fuel usage to the array by each car
 
       //load schedule data
+      
     }
   }
   //read car image links from db

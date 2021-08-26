@@ -34,10 +34,10 @@ function toTimeFormInt(hour, min) {
 
 //larger value on the left hand will return true
 //larger value on the right hand will return false
-function isLarger(compareA, compareB) {
-  if (compareA > compareB)
+function isLarger(compare_a, compare_b) {
+  if (compare_a > compare_b)
     return 1;
-  else if (compareA == compareB)
+  else if (compare_a == compare_b)
     return 0;
   else
     return -1;
@@ -89,7 +89,35 @@ function executeInfoForm() {
   }
 }
 
+function removeOptions(element) {
+   var i, length = element.options.length - 1;
+   for(i = length; i >= 0; i--) {
+      element.remove(i);
+   }
+}
+
+function createBlankOption() {
+  blankOption = document.createElement("option");
+  blankOption.value = "-";
+  blankOption.textContent = "-";
+  return blankOption;
+}
+
+function clearImage() {
+  var img_section = document.getElementsByClassName("car_class");
+  for (var i = 0; i < img_section.length; i++) {
+    img_section[i].style.display="none";
+  }
+}
+
+/*
+ ***************************************
+ *           On load function          *
+ ***************************************
+ */
 window.onload = function() {
+
+  //---------------car info submission section--------------
 
   var car_info_form = document.getElementById("car_info_form");
   if (car_info_form.addEventListener) {
@@ -108,17 +136,30 @@ window.onload = function() {
       }
     });
   }
-  /*
-  var uploadField = document.getElementById("car_img");
 
-  uploadField.onchange = function() {
-      if(this.files[0].size > 500000 ){ //50MB
-         alert("File is too big!");
-         this.value = "";
-      };
-  };
-  */
-  //String values
+
+  //---------------car calendar section--------------
+  //change and load calendar on car selection
+  
+
+  //---------------car selection section--------------
+
+  var selected_car = document.getElementById("reserve_car");
+  var car_img;
+  selected_car.addEventListener("change", function() {
+    clearImage();
+    if (selected_car.value != "-") {
+      car_img = document.getElementById(selected_car.value);
+      //show selected car image
+      car_img.style.display="block";
+    } else {
+      car_img.style.display="none";
+    }
+  });
+
+
+  //---------------schedule section--------------
+
   var year_f_select = document.getElementById("year_from");
   var month_f_select = document.getElementById("month_from");
   var year_t_select = document.getElementById("year_to");
@@ -146,7 +187,8 @@ window.onload = function() {
           var year_int = parseInt(year_f_select.value, 10);
           var dates = datesInMonth(month_int, year_int);
           var select = document.getElementById("date_from");
-          select.empty();
+          removeOptions(select);
+          select.appendChild(createBlankOption());
           for (var date = 1; date < dates + 1; date++) {
             opt = document.createElement("option");
             opt.value = date;
@@ -172,7 +214,8 @@ window.onload = function() {
       var year_int = parseInt(year_t_select.value, 10);
       var dates = datesInMonth(month_int, year_int);
         var select = document.getElementById("date_to");
-        select.empty();
+        removeOptions(select);
+        select.appendChild(createBlankOption());
         for (var date = 1; date < dates + 1; date++) {
           opt = document.createElement("option");
           opt.value = date;
