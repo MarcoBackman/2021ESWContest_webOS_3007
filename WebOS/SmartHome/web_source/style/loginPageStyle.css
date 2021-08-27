@@ -191,6 +191,11 @@ input {
   font: 400 13.3333px Arial;
   padding: none;
   border: none;
+  outline:0;
+}
+
+input:focus {
+  outline:none!important;
 }
 
 .row_space {

@@ -1,6 +1,7 @@
 body {
   display: block;
   background-color: #FC9093;
+  border:none;
 }
 
 .header_title {
@@ -23,4 +24,24 @@ body {
   margin: 25px 100px 0 0;
   font-family: 'Monda', sans-serif;
   color: #9999FF;
+}
+
+button {
+  border:0;
+  outline:0;
+}
+
+select {
+  border:0;
+  outline:0;
+}
+
+
+input {
+  border:0;
+  outline:0;
+}
+
+input:focus {
+  outline:none!important;
 }

@@ -221,7 +221,16 @@ app.post('/get_car_info', async function(req, res) {
 
 //post reservation for car schedule - check the criteria before submission.
 app.post('/schedule_car', async function(req, res) {
-  local_node_car.sendDataFormat(req, res);
+  //send data
+  await local_node_car.sendDataFormat(req, res);
+  //refresh page data
+  var car_page_data = await local_node_car.renderJSONFile();
+  //refresh page
+  try {
+    res.render(CAR_PAGE_PATH, car_page_data);
+  } catch(err) {
+    console.log("Car page render failed: " + err);
+  }
 });
 
 app.post('/my_room', async function(req, res) {

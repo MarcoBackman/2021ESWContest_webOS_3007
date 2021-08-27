@@ -18,16 +18,39 @@ function isValidTime(hour, min) {
 
 //ex) 20211129
 function toDateFormInt(year, month, date) {
-  var full_date = "" + year + month + date;
-  console.log(full_date);
+  console.log("Year: " + year + ", Month: " + month + ", Date: " + date);
+  var full_date = "";
+  if (month.length == 1) {
+    full_date += + year + "0" + month;
+  } else {
+    full_date += + year + month;
+  }
+  if (date.length == 1) {
+    full_date += "0" + date;
+  } else {
+    full_date += date;
+  }
+  console.log("Date format: " + full_date);
   var full_date_int = parseInt(full_date, 10);
   return full_date_int;
 }
 
 //ex) 2244
 function toTimeFormInt(hour, min) {
-    var full_time = "" + hour + min;
-    console.log(full_time);
+    console.log("Hour: " + hour + ", Min: " + min);
+    var full_time = "";
+    if (hour.length == 1) {
+      full_time += "0" + hour;
+    } else {
+      full_time += "" + hour;
+    }
+
+    if (min.length == 1) {
+      full_time += "0" + min;
+    } else {
+      full_time += "" + min;
+    }
+    console.log("Time format: " + full_time);
     var full_time_int = parseInt(full_time, 10);
     return full_time_int;
 }
@@ -112,13 +135,37 @@ function clearImage() {
   }
 }
 
+function currentDateTime() {
+  var currentdate = new Date();
+  var year    = currentdate.getFullYear();
+  var month   = currentdate.getMonth()+1;
+  var day     = currentdate.getDate();
+  var hour    = currentdate.getHours();
+  var minute  = currentdate.getMinutes();
+  if(month.toString().length == 1) {
+       month = '0'+month;
+  }
+  if(day.toString().length == 1) {
+       day = '0'+day;
+  }
+  if(hour.toString().length == 1) {
+       hour = '0'+hour;
+  }
+  if(minute.toString().length == 1) {
+       minute = '0'+minute;
+  }
+  var dateTime = "" + year + month + day + hour + minute;
+  console.log("Current date is: " + dateTime);
+  return dateTime;
+}
+
 /*
  ***************************************
  *           On load function          *
  ***************************************
  */
 window.onload = function() {
-
+  currentDateTime();
   //---------------car info submission section--------------
 
   var car_info_form = document.getElementById("car_info_form");
@@ -233,34 +280,35 @@ window.onload = function() {
 
   //Prompt error if selected end time is larger than the starting time.
   document.getElementById("reserve_btn").onclick = function() { //when submittion button is pressed
-    var y_f_val = year_f_select.value;
-    var m_f_val =  month_f_select.value;
-    var d_f_val = date_f_select.value;
-    var y_t_val = year_t_select.value;
-    var m_t_val =  month_t_select.value;
-    var d_t_val = date_t_select.value;
-    var h_f_val = hour_f_select.value;
-    var m_f_val = min_f_select.value;
-    var h_t_val = hour_t_select.value;
-    var m_t_val = min_t_select.value;
-
-    if (isValidDate(y_f_val, m_f_val, d_f_val)
-     && isValidDate(y_t_val, m_t_val, d_t_val)
-     && isValidTime(h_f_val, m_f_val)
-     && isValidTime(h_t_val, m_t_val)) {
+    var year_f_val = year_f_select.value;
+    var month_f_val =  month_f_select.value;
+    var date_f_val = date_f_select.value;
+    var year_t_val = year_t_select.value;
+    var month_t_val =  month_t_select.value;
+    var date_t_val = date_t_select.value;
+    var hour_f_val = hour_f_select.value;
+    var minute_f_val = min_f_select.value;
+    var hour_t_val = hour_t_select.value;
+    var minute_t_val = min_t_select.value;
+    if (isValidDate(year_f_val, month_f_val, date_f_val)
+     && isValidDate(year_t_val, month_t_val, date_t_val)
+     && isValidTime(hour_f_val, minute_f_val)
+     && isValidTime(hour_t_val, minute_t_val)) {
      //returns integer values
-     var from_full_date = toDateFormInt(y_f_val, m_f_val, d_f_val);
-     var to_full_date = toDateFormInt(y_t_val, m_t_val, d_t_val);
+     var from_full_date = toDateFormInt(year_f_val, month_f_val, date_f_val);
+     var to_full_date = toDateFormInt(year_t_val, month_t_val, date_t_val);
      var comapre_res = isLarger(to_full_date, from_full_date);
       if (comapre_res == 1) { //normal date: pass
         console.log("pass");
       } else if (comapre_res == 0) { //same date: compare time
-        var from_full_time = toTimeFormInt(h_f_val, m_f_val);
-        var to_full_time = toTimeFormInt(h_t_val, m_t_val);
+        var from_full_time = toTimeFormInt(hour_f_val, minute_f_val);
+        var to_full_time = toTimeFormInt(hour_t_val, minute_t_val);
         if (isLarger(to_full_time, from_full_time) != 1) {
           alert("Date format error!");
           event.preventDefault();
         } else {
+          //set datetime format to label or send to the server
+
           return;
         }
       } else {

@@ -74,24 +74,29 @@
             <% var car_opt_val = "-";%>
             <% var iteration = 0;%>
             <% car_names.forEach(function(car) { %>
-              <option value="<%= car %>"><%= car %></option>
+              <option value="<%=car%>"><%=car%></option>
               <% car_opt_val = car; %>
             <% }); %>
           </selcet>
           <select>
           </select>
           <!-- ******** image display ******** -->
-          <% if (car_opt_val != "-" || car_opt_val != "N/A") { %>
-            <% for(var i = 0; i < car_images.length; i++) { %>
-            <!-- this will raise issues when the same car name appears -->
-            <img class="car_names" id="<%=car_names[i]%>"
-              alt="Image" src="../src/car_img/<%=car_images[i]%>"
-              border="0" style="display: none;"/>
-            <label class="car_number" id="<%=car_names[i]%>_num" style="display: none;">
-              <%=car_numbers[i]%>
-            </label>
+          <div name="car_img_number" id="car_img_number">
+            <% if (car_opt_val != "-" || car_opt_val != "N/A") { %>
+              <% for(var i = 0; i < car_images.length; i++) { %>
+              <!-- this will raise issues when the same car name appears -->
+              <img class="car_names" id="<%=car_names[i]%>"
+                alt="Image" src="../src/car_img/<%=car_images[i]%>"
+                border="0" style="display: none;"/>
+              <label name="car_number_<%=car_names[i]%>" class="car_number"
+                 id="<%=car_names[i]%>_num" style="display: none;">
+                <%=car_numbers[i]%>
+              </label>
+              <input name="car_number_<%=car_names[i]%>" value="<%=car_numbers[i]%>"
+               style="display: none;"></input>
+              <% } %>
             <% } %>
-          <% } %>
+          </div>
 
         <h2>Car schedule</h2>
         <!--************* Load calendar *************-->

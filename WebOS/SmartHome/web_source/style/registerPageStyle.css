@@ -82,11 +82,22 @@ fieldset button {
   padding: none;
   border: none;
   transition-duration: 0.1s;
-  background-color: #FFEBE0;
+  background-color: #FCD9C5;
 }
 
 button #login_button :hover {
   background-color: #FF9966;
   transition-duration: 0.1s;
 }
+
+input {
+  background-color: #FCD9C5;
+  border:0;
+  outline:0;
+}
+
+input:focus {
+  outline:none!important;
+}
+
 </style>
