@@ -155,7 +155,6 @@ function currentDateTime() {
        minute = '0'+minute;
   }
   var dateTime = "" + year + month + day + hour + minute;
-  console.log("Current date is: " + dateTime);
   return dateTime;
 }
 
@@ -173,7 +172,6 @@ window.onload = function() {
       car_info_form.addEventListener("submit", (event) => {
       var result = executeInfoForm(); //function duplication! need refactor
       if (result == false) {
-        console.log("false");
         event.preventDefault();
       }
     });

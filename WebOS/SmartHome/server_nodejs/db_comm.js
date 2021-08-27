@@ -46,14 +46,25 @@ async function insert_car_schedule(input_values) {
     try {
       var result = await db_query.db_insert(insert_query, input_values);
     } catch (err) {
-      console.log(err);
+      console.log("Error on car schedule insertion" + err);
     }
     return result;
 }
 
-//send with single data
+//send with single data - returns rows of matched data
 async function select_by_data(table, column, data) {
   var select_query = "SELECT * FROM " + table +
+                     " WHERE " + column + "='" + data + "';";
+  try {
+    var list = await db_query.db_request_data(select_query);
+  } catch(err) {
+    console.log(err);
+  }
+  return list;
+}
+
+async function get_column_data(table, column, data, column_to_get) {
+  var select_query = "SELECT " + column_to_get + " FROM " + table +
                      " WHERE " + column + "='" + data + "';";
   try {
     var list = await db_query.db_request_data(select_query);
@@ -80,5 +91,7 @@ module.exports = {
   check_data,
   insert_account,
   select_by_data,
-  select_column
+  select_column,
+  get_column_data,
+  insert_car_schedule
 };

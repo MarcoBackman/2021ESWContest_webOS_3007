@@ -35,7 +35,7 @@ async function insert_car_info(input_values, img_file_name, current_user) {
     try {
       var result = await db_query.db_insert(insert_query, query_lists);
     } catch(err) {
-      console.log(err);
+      console.log("Error on car info insertion" + err);
     }
     return result;
 }
@@ -53,6 +53,11 @@ function pushData(element, list_to_push, outer_index, inner_index) {
     list_to_push.push(element[outer_index][inner_index]);
   }
   return list_to_push;
+}
+
+async function get_car_schedule(car_numbers) {
+  await car_data_by_user("webOS_car", "car_owner",
+    local_auth.name, "car_num");
 }
 
 //this function cannot be async function - used for rendering ejs
@@ -84,10 +89,10 @@ async function renderJSONFile() {
       pushData(car_list[i], car_names, 4, 2);
       //store image file name to the array
       pushData(car_list[i], car_images, 2, -1);
-      //store fuel usage to the array by each car
+      //store fuel usage to the array of each car
 
       //load schedule data
-
+      get_car_schedule(car_list[0]);
       //store car numbers into the array
       pushData(car_list[i], car_numbers, 0, -1);
     }
@@ -110,36 +115,84 @@ async function renderJSONFile() {
  */
 
 function make_time_format(list) {
-  var full_format = "" + list[0].trim(" ") +
-                         list[1].trim(" ") +
-                         list[2].trim(" ") +
-                         list[3].trim(" ") +
-                         list[4].trim(" ");
+  var year = list[0].trim(" ");
+  var month = list[1].trim(" ");
+  var date = list[2].trim(" ");
+  var hour = list[3].trim(" ");
+  var min = list[4].trim(" ");
+
+  if (month.length == 1) {
+    month = "0" + month;
+  }
+
+  if (hour.length == 1) {
+    hour = "0" + hour;
+  }
+
+  if (min.length == 1) {
+    min = "0" + min;
+  }
+
+  var full_format = year + month + date + hour + min;
   return full_format;
 }
 
+//critical issue! -> must select car_name by index of ejs iteration order.
+//Modify this issue soon as possible.
 async function sendDataFormat(req, res) {
-   var user_name = local_auth.name;         //shows user name
-   var selected_car = req.body.reserve_car; //shows car name
-
-   var time_from_list = [req.body.year_from,
+   var selected_car = req.body.reserve_car;  //car name
+   var car_name_label = "car_number_" + selected_car;
+   var car_number = req.body[car_name_label];     //car number
+   var user_name = local_auth.name;          //user name
+   var time_from_list = [req.body.year_from, //start time
                          req.body.month_from,
                          req.body.date_from,
                          req.body.hour_from,
                          req.body.min_from];
 
-   var time_to_list = [req.body.year_to,
+   var time_to_list = [req.body.year_to,     //end time
                        req.body.month_to,
                        req.body.date_to,
                        req.body.hour_to,
                        req.body.min_to];
-   var time_from = local_node_car.make_time_format(time_from_list);
-   var time_to = local_node_car.make_time_format(time_to_list);
 
-   var input_array = [];
+   var time_from = make_time_format(time_from_list);
+   var time_to = make_time_format(time_to_list);
+
+   //get car info from DB - select row by owner_name
+   //This will raise data accuracy problem
+   //  - what if there are more than two cars with the same name?
+   //    How will you set the order? Order might be irregular with the other data
+   //  - Change db column type(registered_user) to array to store multiple users
+   var result;
+   if (car_number == null || selected_car == null) {
+      console.log("Invalid car number");
+      return;
+   } else {
+     console.log("Car number to insert: " + car_number);
+   }
+   try {
+     result = await node_db_comm.get_column_data("webOS_car", "car_num",
+      car_number, "car_info");
+   } catch(err) {
+     console.log("Car info get from db error: " + err);
+     return;
+   }
+   if (result == null) {
+     console.log("No returned result");
+     return;
+   } else {
+     console.log(result);
+     console.log(result[0]);
+   }
+   var input_array = [car_number, user_name, time_from, time_to, result[0]];
 
    //send data set to the server
-   node_db_comm.insert_car_schedule();
+   try {
+     node_db_comm.insert_car_schedule(input_array);
+   } catch(err) {
+     console.log("Car schedule insert error: " + err);
+   }
 }
 
 /*
@@ -289,5 +342,6 @@ module.exports = {
   make_time_format,
   make_api_request_form,
   validate_image_file,
-  register_car_info
+  register_car_info,
+  sendDataFormat
 };
