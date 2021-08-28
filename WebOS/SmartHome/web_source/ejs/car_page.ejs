@@ -92,6 +92,7 @@
                  id="<%=car_names[i]%>_num" style="display: none;">
                 <%=car_numbers[i]%>
               </label>
+              <!-- Used for post params storage -->
               <input name="car_number_<%=car_names[i]%>" value="<%=car_numbers[i]%>"
                style="display: none;"></input>
               <% } %>
@@ -101,7 +102,20 @@
         <h2>Car schedule</h2>
         <!--************* Load calendar *************-->
         <p> Weekly calendar </p>
-
+        <!-- iterate on each car -->
+          <div>
+            <% for (var car in car_schedule) { %>
+              <p name="schedule_weekly_plan">
+               <%=car%> :
+               <br>
+               <br>
+               <% for (var i = 0; i < car_schedule[car][1].length; i++) { %>
+                 <%=car_schedule[car][0][i]%> ~ <%=car_schedule[car][1][i]%><br>
+               <% } %>
+             </p>
+            <br>
+            <% } %>
+          </div>
           <div>
             <!--************* From *************-->
             <h3>From</h3>
@@ -109,7 +123,7 @@
             Year
             <select name="year_from" id="year_from">
               <option value="-">-</option>
-              <% for (let year = 2020; year < 2050; year++) { %>
+              <% for (let year = 2021; year < 2040; year++) { %>
                 <option value="<%= year %>"><%= year %></option>
               <% } %>
             </selcet>
@@ -156,7 +170,7 @@
           Year
           <select name="year_to" id="year_to">
             <option value="-">-</option>
-            <% for (let year = 2020; year < 2050; year++) { %>
+            <% for (let year = 2021; year < 2040; year++) { %>
               <option value="<%= year %>"><%= year %></option>
             <% } %>
           </selcet>

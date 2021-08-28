@@ -55,17 +55,12 @@ function pushData(element, list_to_push, outer_index, inner_index) {
   return list_to_push;
 }
 
-async function get_car_schedule(car_numbers) {
-  await car_data_by_user("webOS_car", "car_owner",
-    local_auth.name, "car_num");
-}
-
 //this function cannot be async function - used for rendering ejs
 async function renderJSONFile() {
   //run this as promise
 
   //empty car list means there is no matching car that user ownes
-  var car_list = await car_data_by_user("webOS_car", "car_owner",
+  var car_list = await node_db_comm.car_data_by_user("webOS_car", "car_owner",
     local_auth.name, "car_num");
 
   //render user's registered car info into array
@@ -73,7 +68,7 @@ async function renderJSONFile() {
   var car_images = [];
   var car_numbers = [];
   var car_fuels = [];
-  var car_schedule = [];
+  var schedule_by_car = {};
 
   /*
    * 0 : car number
@@ -83,7 +78,6 @@ async function renderJSONFile() {
    * 4 : detailed car info.
    */
   if (car_list[0] != null) {
-    console.log("Found");
     for(var i = 0; i < car_list.length; i++) {
       //store car_name into the array
       pushData(car_list[i], car_names, 4, 2);
@@ -91,19 +85,25 @@ async function renderJSONFile() {
       pushData(car_list[i], car_images, 2, -1);
       //store fuel usage to the array of each car
 
-      //load schedule data
-      get_car_schedule(car_list[0]);
       //store car numbers into the array
       pushData(car_list[i], car_numbers, 0, -1);
+      //returns a list of time sets {start, end} pair of a given car
+      //[from,to]
+      var time_sets = await get_car_schedule(car_list[i][0]);
+      if (time_sets.length == 0)
+        continue;
+      schedule_by_car[car_numbers] = time_sets;
     }
   }
+
   //read car image links from db
   var renderForm = {
     car_names: car_names,
     car_numbers: car_numbers,
     car_images: car_images,
     car_fuels: car_fuels,
-    car_schedule: car_schedule
+    //{"car_num1": time_sets[start[], end[]], "car_num2":time_sets[start[], ...}
+    car_schedule: schedule_by_car
   };
   return renderForm;
 }
@@ -113,6 +113,27 @@ async function renderJSONFile() {
  *                  Car Schedule               *
  ***********************************************
  */
+
+ async function get_car_schedule(car_number) {
+   var car_schedule_from = [];
+   var car_schedule_to = [];
+   var result =
+    await node_db_comm.select_by_data("car_schedule", "car_number", car_number);
+   if (result == null || result.length == 0) {
+     console.log("No matching data or empty data.");
+     return [];
+   }
+
+   for (var i = 0; i < result.length; i++ ) {
+       console.log(result[i][1] + " : " + result[i][2]);
+       car_schedule_from.push(result[i][1]);
+       car_schedule_to.push(result[i][2]);
+   }
+
+   //[from[], to[]]
+   return [car_schedule_from, car_schedule_to];
+
+ }
 
 function make_time_format(list) {
   var year = list[0].trim(" ");
@@ -125,6 +146,10 @@ function make_time_format(list) {
     month = "0" + month;
   }
 
+  if (date.length == 1) {
+    date = "0" + date;
+  }
+
   if (hour.length == 1) {
     hour = "0" + hour;
   }
@@ -133,7 +158,7 @@ function make_time_format(list) {
     min = "0" + min;
   }
 
-  var full_format = year + month + date + hour + min;
+  var full_format = "" + year + month + date + hour + min;
   return full_format;
 }
 
@@ -181,10 +206,8 @@ async function sendDataFormat(req, res) {
    if (result == null) {
      console.log("No returned result");
      return;
-   } else {
-     console.log(result);
-     console.log(result[0]);
    }
+   
    var input_array = [car_number, user_name, time_from, time_to, result[0]];
 
    //send data set to the server
@@ -280,7 +303,7 @@ function validate_image_file(file_name) {
  */
 
 async function register_car_info(input_values, full_request_url, res) {
-  var image_link = ""
+  var image_link = "";
 
   //validate duplication car (by car number)
   var exists = await node_db_comm.check_data("webos_car", "car_num", input_values[5]);
@@ -318,18 +341,6 @@ async function register_car_info(input_values, full_request_url, res) {
  *               DB communication              *
  ***********************************************
  */
-//SELECT * FROM webos_car WHERE car_owner='백승준' ORDER BY car_num ASC;
-//need modification
-async function car_data_by_user(table, targetColumn, targetVal, orderBy) {
-  var select_query = "SELECT * FROM " + table + " WHERE " + targetColumn +
-                     "='" + targetVal + "' ORDER BY " + orderBy + " ASC;";
-  try {
-    var list = await db_query.db_request_data(select_query);
-  } catch(err) {
-    console.log(err);
-  }
-  return list;
-}
 
 //this will raise duplication issues
 async function get_car_number_by_name() {

@@ -58,7 +58,7 @@ async function select_by_data(table, column, data) {
   try {
     var list = await db_query.db_request_data(select_query);
   } catch(err) {
-    console.log(err);
+    console.log("DB select request error: " + err);
   }
   return list;
 }
@@ -86,6 +86,18 @@ async function select_column(table, column) {
   return list;
 }
 
+//SELECT * FROM webos_car WHERE car_owner='백승준' ORDER BY car_num ASC;
+async function car_data_by_user(table, targetColumn, targetVal, orderBy) {
+  var select_query = "SELECT * FROM " + table + " WHERE " + targetColumn +
+                     "='" + targetVal + "' ORDER BY " + orderBy + " ASC;";
+  try {
+    var list = await db_query.db_request_data(select_query);
+  } catch(err) {
+    console.log(err);
+  }
+  return list;
+}
+
 //local_node_db_comm
 module.exports = {
   check_data,
@@ -93,5 +105,6 @@ module.exports = {
   select_by_data,
   select_column,
   get_column_data,
-  insert_car_schedule
+  insert_car_schedule,
+  car_data_by_user
 };
