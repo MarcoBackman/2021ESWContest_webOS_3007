@@ -1,14 +1,9 @@
 const fs = require('fs');
 const express = require('express');
-const http = require('http');
-const https = require('https');
 const path = require('path');
 const bodyParser = require('body-parser');
-const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
 const ejs = require('ejs');
 const cors = require("cors");
-//const react = require('react');
 
 //local model temp file
 const local_auth = require("./models/local_auth.js");
@@ -31,12 +26,6 @@ const CAR_PAGE_PATH = path.join(__dirname,'./web_source/ejs/car_page.ejs');
 const POWER_PAGE_PATH = path.join(__dirname,'./web_source/html/power_page.html');
 const FINACE_PAGE_PATH = path.join(__dirname,'./web_source/html/finance_page.html');
 const MY_PAGE_PATH = path.join(__dirname,'./web_source/html/finance_page.html');
-
-//limits the
-const limiter = rateLimit({
- windowsMS: 15 * 60 * 1000,
- max: 100
-});
 
 var cors_setting = {
  origin: "http://localhost:8081"
@@ -62,9 +51,7 @@ app.use(express.static('middleware'));
 app.use("/scripts", express.static('./scripts/'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.use(helmet());
 app.use(cors(cors_setting));
-app.use(limiter);
 
 app.set('view engine', 'ejs');
 
