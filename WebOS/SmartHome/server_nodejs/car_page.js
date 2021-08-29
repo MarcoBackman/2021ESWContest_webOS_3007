@@ -16,6 +16,52 @@ const local_auth = require("../models/local_auth.js");
  ***********************************************
  */
 
+async function register_car_info(input_values, full_request_url, res) {
+  var image_link = "";
+
+  //validate duplication car (by car number)
+  var exists = false;
+  try {
+    exists = await node_db_comm.check_data("webos_car",
+                                           "car_num",
+                                           input_values[5]);
+  } catch(err) {
+    console.log("Car data check on db error: " + err);
+    return;
+  }
+  //make file car_name
+  var file_name = output_file_name(input_values);
+
+  //Alert user if the car info is already registered.
+  if (exists) {
+     //check local image data - compare with DB file name
+     
+     //this will refresh a page
+     res.render('../web_source/ejs/car_page', renderJSONFile());
+  } else { //Write input data to DB
+    //check car image on local file - compare with DB file name
+    var valid = validate_image_file(file_name);
+
+    //no image found
+    if (valid == false) {
+      //send query to DB
+      var image_link = await get_car_imagelink(full_request_url, res);
+      //download image from url
+      car_image_download(image_link, file_name);
+    }
+
+    //post data to db from the link(including images)
+    try {
+      await insert_car_info(input_values, file_name, local_auth.name);
+    } catch(err) {
+      console.log("Car info insertion err on db request:" + err);
+    }
+
+    //then refresh page
+    res.render('../web_source/ejs/car_page', renderJSONFile());
+  }
+}
+
 async function insert_car_info(input_values, img_file_name, current_user) {
     /*
      * car_year
@@ -67,8 +113,15 @@ async function renderJSONFile() {
   var car_names = [];
   var car_images = [];
   var car_numbers = [];
-  var car_fuels = [];
   var schedule_by_car = {};
+  var fuel_remaining = {};
+  var total_fuel_used = {};
+  var total_fuel_refilled = {};
+  var total_hours_used = {};
+
+  let time_object = Date.now();
+  var current_time_list = getTime(time_object);
+  var current_time_formatted = make_time_format(current_time_list);
 
   /*
    * 0 : car number
@@ -101,9 +154,13 @@ async function renderJSONFile() {
     car_names: car_names,
     car_numbers: car_numbers,
     car_images: car_images,
-    car_fuels: car_fuels,
-    //{"car_num1": time_sets[start[], end[]], "car_num2":time_sets[start[], ...}
-    car_schedule: schedule_by_car
+    car_schedule: schedule_by_car,        //{"car_num1": time_sets[start[],end[]],
+                                          //    "car_num2":time_sets[start[], ...}
+    fuel_remaining: fuel_remaining,       //{"car_num1": remaining_ruel, ...}
+    fuel_used: total_fuel_used,           //{"car_num1": total_used_fuel, ...}
+    refilled: total_fuel_refilled,        //{"car_num1": total_fuel_refilled, ...}
+    hours_used: total_hours_used,         //{"car_num1": total_hours_used, ...}
+    current_time: current_time_formatted
   };
   return renderForm;
 }
@@ -125,7 +182,6 @@ async function renderJSONFile() {
    }
 
    for (var i = 0; i < result.length; i++ ) {
-       console.log(result[i][1] + " : " + result[i][2]);
        car_schedule_from.push(result[i][1]);
        car_schedule_to.push(result[i][2]);
    }
@@ -134,6 +190,21 @@ async function renderJSONFile() {
    return [car_schedule_from, car_schedule_to];
 
  }
+
+function getTime(time_milisec) {
+  let date_ob = new Date(time_milisec);
+  var date = date_ob.getDate();
+  var month = date_ob.getMonth() + 1;
+  var year = date_ob.getFullYear();
+  var hour = date_ob.getHours();
+  var min = date_ob.getMinutes();
+  list = [JSON.stringify(year),
+          JSON.stringify(month),
+          JSON.stringify(date),
+          JSON.stringify(hour),
+          JSON.stringify(min)];
+  return list;
+}
 
 function make_time_format(list) {
   var year = list[0].trim(" ");
@@ -207,7 +278,7 @@ async function sendDataFormat(req, res) {
      console.log("No returned result");
      return;
    }
-   
+
    var input_array = [car_number, user_name, time_from, time_to, result[0]];
 
    //send data set to the server
@@ -296,54 +367,7 @@ function validate_image_file(file_name) {
   return false;
 }
 
-/*
- ********************************************
- *             Car registration             *
- ********************************************
- */
-
-async function register_car_info(input_values, full_request_url, res) {
-  var image_link = "";
-
-  //validate duplication car (by car number)
-  var exists = await node_db_comm.check_data("webos_car", "car_num", input_values[5]);
-  //make file car_name
-  var file_name = output_file_name(input_values);
-
-  //Alert user if the car info is already registered.
-  if (exists) {
-    //check local image data - compare with DB file name
-
-    //this will refresh a page
-    res.render('../web_source/ejs/car_page', renderJSONFile());
-  } else { //Write input data to DB
-    //check car image on local file - compare with DB file name
-    var valid = validate_image_file(file_name);
-
-    //no image found
-    if (valid == false) {
-        //send query to DB
-        var image_link = await get_car_imagelink(full_request_url, res);
-        //download image from url
-        car_image_download(image_link, file_name);
-    }
-
-    //post data to db from the link(including images)
-    await insert_car_info(input_values, file_name, local_auth.name);
-
-    //then refresh page
-    res.render('../web_source/ejs/car_page', renderJSONFile());
-  }
-}
-
-/*
- ***********************************************
- *               DB communication              *
- ***********************************************
- */
-
-//this will raise duplication issues
-async function get_car_number_by_name() {
+function db_car_summary_date_validation(last_updated_time, user) {
 
 }
 
