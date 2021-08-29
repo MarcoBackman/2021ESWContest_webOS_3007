@@ -31,7 +31,7 @@
       -->
     <div id="register_car">
       <h2>Register Car</h2>
-      <form name="car_info_form" id="car_info_form" action="/get_car_info" method="POST">
+      <form name="car_info_form" id="car_info_form" action="/post_car_info" method="POST">
         <div>
           <p>Car year</p>
           <input id="car_year" name="car_year" type="number">
@@ -60,11 +60,37 @@
       <% }); %>
     </div>
     <div>
+      <h2>Car schedule</h2>
+      <!--************* Load calendar *************-->
+      <p class="sub_title"> Weekly calendar </p>
+      <p class="description"> Up coming scedule. </p>
+      <!-- iterate on each car -->
+      <div>
+        <% for (var car in car_schedule) { %>
+           <%=car%> :
+           <br>
+           <br>
+           <%
+           var current_time_int = parseInt(current_time, 10);
+           for (var i = 0; i < car_schedule[car][1].length; i++) {
+             var from = parseInt(car_schedule[car][0][i], 10);
+             var to = parseInt(car_schedule[car][1][i], 10);
+             if (from > current_time_int) { %>
+               <%=from%> ~ <%=to%><br>
+             <% } %>
+           <% } %>
+         </p>
+        <br>
+        <% } %>
+      </div>
+    </div>
+
       <!--
         **************************************************
         *             Car Reservation section            *
         **************************************************
       -->
+    <div>
       <h2>Reserve car</h2>
       <form name="car_schedule" id="car_schedule" action="/schedule_car" method="POST">
         <div>
@@ -80,91 +106,75 @@
           </selcet>
           <select>
           </select>
-          <!-- ******** image display ******** -->
-          <div name="car_img_number" id="car_img_number">
-            <% if (car_opt_val != "-" || car_opt_val != "N/A") { %>
-              <% for(var i = 0; i < car_images.length; i++) { %>
-              <!-- this will raise issues when the same car name appears -->
-              <img class="car_names" id="<%=car_names[i]%>"
-                alt="Image" src="../src/car_img/<%=car_images[i]%>"
-                border="0" style="display: none;"/>
-              <label name="car_number_<%=car_names[i]%>" class="car_number"
-                 id="<%=car_names[i]%>_num" style="display: none;">
-                <%=car_numbers[i]%>
-              </label>
-              <!-- Used for post params storage -->
-              <input name="car_number_<%=car_names[i]%>" value="<%=car_numbers[i]%>"
-               style="display: none;"></input>
-              <% } %>
+        </div>
+        <!-- ******** image display ******** -->
+        <div name="car_img_number" id="car_img_number">
+          <% if (car_opt_val != "-" || car_opt_val != "N/A") { %>
+            <% for(var i = 0; i < car_images.length; i++) { %>
+            <!-- this will raise issues when the same car name appears -->
+            <img class="car_names" id="<%=car_names[i]%>"
+              alt="Image" src="../src/car_img/<%=car_images[i]%>"
+              border="0" style="display: none;"/>
+            <label name="car_number_<%=car_names[i]%>" class="car_number"
+               id="<%=car_names[i]%>_num" style="display: none;">
+              <%=car_numbers[i]%>
+            </label>
+            <!-- Used for post params storage -->
+            <input name="car_number_<%=car_names[i]%>" value="<%=car_numbers[i]%>"
+             style="display: none;"></input>
             <% } %>
-          </div>
-
-        <h2>Car schedule</h2>
-        <!--************* Load calendar *************-->
-        <p> Weekly calendar </p>
-        <!-- iterate on each car -->
-          <div>
-            <% for (var car in car_schedule) { %>
-              <p name="schedule_weekly_plan">
-               <%=car%> :
-               <br>
-               <br>
-               <% for (var i = 0; i < car_schedule[car][1].length; i++) { %>
-                 <%=car_schedule[car][0][i]%> ~ <%=car_schedule[car][1][i]%><br>
-               <% } %>
-             </p>
-            <br>
+          <% } %>
+        </div>
+        <div>
+          <!--************* From *************-->
+          <h3>From</h3>
+          <!--************* Date *************-->
+          Year
+          <select name="year_from" id="year_from">
+            <option value="-">-</option>
+            <% for (let year = 2021; year < 2040; year++) { %>
+              <option value="<%= year %>"><%= year %></option>
             <% } %>
-          </div>
-          <div>
-            <!--************* From *************-->
-            <h3>From</h3>
-            <!--************* Date *************-->
-            Year
-            <select name="year_from" id="year_from">
-              <option value="-">-</option>
-              <% for (let year = 2021; year < 2040; year++) { %>
-                <option value="<%= year %>"><%= year %></option>
-              <% } %>
-            </selcet>
-            <select>
-            </select>
-            Month
-            <select name="month_from" id="month_from">
-              <option value="-">-</option>
-              <% for (let month = 1; month < 13; month++) { %>
-                <option value="<%= month %>"><%= month %></option>
-              <% } %>
-            </selcet>
-            <select>
-            </select>
-            Date
-            <select name="date_from" id="date_from">
-              <option value="-">-</option>
-            </selcet>
-            <select>
-            </select>
-            <!--************* Time *************-->
-            Hour
-            <select name="hour_from" id="hour_from">
-              <option value="-">-</option>
-              <% for (let hour = 0; hour < 24; hour++) { %>
-                <option value="<%= hour %>"><%= hour %></option>
-              <% } %>
-            </selcet>
-            <select>
-            </select>
-            Min
-            <select name="min_from" id="min_from">
-              <option value="-">-</option>
-              <% for (let min = 0; min < 60; min+=5) { %>
-                <option value="<%= min %>"><%= min %></option>
-              <% } %>
-            </selcet>
-            <select>
-            </select>
-          </div>
-          <!--************* To *************-->
+          </selcet>
+          <select>
+          </select>
+          Month
+          <select name="month_from" id="month_from">
+            <option value="-">-</option>
+            <% for (let month = 1; month < 13; month++) { %>
+              <option value="<%= month %>"><%= month %></option>
+            <% } %>
+          </selcet>
+          <select>
+          </select>
+          Date
+          <select name="date_from" id="date_from">
+            <option value="-">-</option>
+          </selcet>
+          <select>
+          </select>
+          <!--************* Time *************-->
+          Hour
+          <select name="hour_from" id="hour_from">
+            <option value="-">-</option>
+            <% for (let hour = 0; hour < 24; hour++) { %>
+              <option value="<%= hour %>"><%= hour %></option>
+            <% } %>
+          </selcet>
+          <select>
+          </select>
+          Min
+          <select name="min_from" id="min_from">
+            <option value="-">-</option>
+            <% for (let min = 0; min < 60; min+=5) { %>
+              <option value="<%= min %>"><%= min %></option>
+            <% } %>
+          </selcet>
+          <select>
+          </select>
+        </div>
+        <!--************* To *************-->
+        <div>
           <h3>To</h3>
           <!--************* Date *************-->
           Year
@@ -196,7 +206,7 @@
           <select name="hour_to" id="hour_to">
             <option value="-">-</option>
             <% for (let hour = 0; hour < 24; hour++) { %>
-              <option value="<%= hour %>"><%= hour %></option>
+            <option value="<%= hour %>"><%= hour %></option>
             <% } %>
           </selcet>
           <select>
@@ -205,7 +215,7 @@
           <select name="min_to" id="min_to">
             <option value="-">-</option>
             <% for (let min = 0; min < 60; min+=5) { %>
-              <option value="<%= min %>"><%= min %></option>
+            <option value="<%= min %>"><%= min %></option>
             <% } %>
           </selcet>
           <select>
@@ -215,12 +225,16 @@
           <button id="reserve_btn">Reserve</button>
         </div>
       </form>
-</select>
     </div>
+    <!--
+      **************************************************
+      *             Car usage view section             *
+      **************************************************
+    -->
     <div>
       <h2>Fuel Info</h2>
       <p>
-        Gauge
+        Current Gauge
       </p>
       <p>
         Refilled.
