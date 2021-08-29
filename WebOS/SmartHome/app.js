@@ -4,6 +4,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const cors = require("cors");
+const rateLimit = require("express-rate-limit");
 
 //local model temp file
 const local_auth = require("./models/local_auth.js");
@@ -39,21 +40,22 @@ app.use(express.static(path.join(__dirname, 'web_source')));
 app.use(express.static(path.join(__dirname, 'server_nodejs')));
 app.use(express.static(path.join(__dirname, 'middleware')));
 
-/*
-//this will raise problem when url typed like:
-    http://localhost:8081/car_page/car_page/car_page/
-    -> this will load the page but accomodates css loading error
-app.use(express.static('web_source'));
-app.use(express.static('server_nodejs'));
-app.use(express.static('middleware'));
-*/
-
 app.use("/scripts", express.static('./scripts/'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cors(cors_setting));
 
 app.set('view engine', 'ejs');
+
+//rate limiter will prevent user from over requesting.
+app.use(
+  rateLimit({
+    windowMs: 12 * 60 * 60 * 1000, // 1 hour duration in milliseconds
+    max: 5,
+    message: "You exceeded 100 requests in 12 hour limit!",
+    headers: true,
+  })
+);
 
 var port = 8081; //port for local host connection
 app.listen(port, (err) => {
@@ -195,13 +197,14 @@ app.post('/logout', function(req, res) {
 //------------------------CAR-RELATED POST REQUEST------------------------
 
 //post car_information to db with the image file name
-app.post('/get_car_info', async function(req, res) {
+app.post('/post_car_info', async function(req, res) {
   var input_values = [req.body.car_year,
                       req.body.car_model,
                       req.body.car_company,
                       req.body.car_owner,
                       req.body.car_name,
                       req.body.car_num];
+
   var full_request_url = await local_node_car.make_api_request_form(input_values);
   local_node_car.register_car_info(input_values, full_request_url, res);
 });
