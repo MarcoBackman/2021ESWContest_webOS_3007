@@ -57,14 +57,14 @@
 ## Logic flow of webOS application.
 
 <p align="center">
-  <img width="960" src="img/websiteLogicFlow.PNG">
+  <img width="960" src="img/WebOS_WebPage.png">
   <p align="center">[Logic flow for home webOS app.]</p>
 </p>
 
 ## Database overall design.
 
 <p align="center">
-  <img width="960" src="img/DB.PNG">
+  <img width="960" src="img/webOS_DB_structure#1.png">
   <p align="center">[Database architecture]</p>
 </p>
 
