@@ -41,23 +41,34 @@
 &nbsp;&nbsp; For dev logs on SW and DB, see: [codeprojectnow](https://codeprojectnow.blogspot.com/).<br>
 <br>
 
-## Milestone
+## Milestone.
 
 <p align="center">
   <img width="1000" src="img/MilestoneNew.PNG">
   <p align="center">[Milestone Image]</p>
 </p>
 
-## Overall technical diagram
+## Overall technical diagram.
 <p align="center">
-  <img width="960" src="img/OverallTechnicalDiagram.PNG">
-  <p align="center">[Technical diagram for the entire project.]</p>
+  <img width="960" src="img/overallDiagram.PNG">
+  <p align="center">[Entire project diagram.]</p>
 </p>
 
-## Logic flow of webOS application
+## Logic flow of webOS application.
 
 <p align="center">
-  <img width="960" src="img/logicflowDraft.PNG">
+  <img width="960" src="img/websiteLogicFlow.PNG">
   <p align="center">[Logic flow for home webOS app.]</p>
 </p>
 
+## Database overall design.
+
+<p align="center">
+  <img width="960" src="img/DB.PNG">
+  <p align="center">[Database architecture]</p>
+</p>
+
+##Notices
+
+> &nbsp;&nbsp;Some of the settings in database and codes are bug-prone and has a lot of security issues such as injection attack.<br>
+> However, this project mainly focuses on IoT presentation instead of considering security and code details due to lack of development time.
