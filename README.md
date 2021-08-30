@@ -64,7 +64,7 @@
 ## Database overall design.
 
 <p align="center">
-  <img width="960" src="img/webOS_DB_structure#1.png">
+  <img width="960" src="img/webOS_DB_structure.png">
   <p align="center">[Database architecture]</p>
 </p>
 
