@@ -44,13 +44,13 @@
 ## Milestone.
 
 <p align="center">
-  <img width="1000" src="img/MilestoneNew.PNG">
+  <img width="600" src="img/MilestoneNew.PNG">
   <p align="center">[Milestone Image]</p>
 </p>
 
 ## Overall technical diagram.
 <p align="center">
-  <img width="960" src="img/overallDiagram.PNG">
+  <img width="660" src="img/overallDiagram.PNG">
   <p align="center">[Entire project diagram.]</p>
 </p>
 
