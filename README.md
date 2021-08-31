@@ -75,5 +75,5 @@
 
 ## Notices
 
-> &nbsp;&nbsp;Some of the settings in database and codes are bug-prone and has a lot of security issues such as injection attack.<br><br>
+> Some of the settings in database and codes are bug-prone and has a lot of security issues such as injection attack.<br><br>
 > However, this project mainly focuses on IoT presentation instead of considering security and code details due to lack of development time.
