@@ -59,6 +59,9 @@
 <p align="center">
   <img width="960" src="img/WebOS_WebPage.png">
   <p align="center">[Logic flow for home webOS app.]</p>
+  <p align="left">Red   - Indicates unimplemented work</p>
+  <p align="left">Orange- Indicates to do work in soon</p>
+  <p align="left">Green - Indicates implemented work</p>
 </p>
 
 ## Database overall design.
@@ -66,9 +69,11 @@
 <p align="center">
   <img width="960" src="img/webOS_DB_structure.png">
   <p align="center">[Database architecture]</p>
+  <p align="left">Red   - Indicates unimplemented work</p>
+  <p align="left">Green - Indicates implemented work</p>
 </p>
 
-##Notices
+## Notices
 
-> &nbsp;&nbsp;Some of the settings in database and codes are bug-prone and has a lot of security issues such as injection attack.<br>
+> &nbsp;&nbsp;Some of the settings in database and codes are bug-prone and has a lot of security issues such as injection attack.<br><br>
 > However, this project mainly focuses on IoT presentation instead of considering security and code details due to lack of development time.
