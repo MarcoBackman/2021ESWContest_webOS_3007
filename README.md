@@ -59,9 +59,9 @@
 <p align="center">
   <img width="960" src="img/WebOS_WebPage.png">
   <p align="center">[Logic flow for home webOS app.]</p>
-  <p color="RED" align="left">Red   - Indicates unimplemented work</p>
-  <p color="ORANGE" align="left">Orange- Indicates to do work in soon</p>
-  <p color="GREEN" align="left">Green - Indicates implemented work</p>
+  <p style="color:red;" align="left">Red   - Indicates unimplemented work</p>
+  <p style="color:orange;" align="left">Orange- Indicates to do work in soon</p>
+  <p style="color:green;" align="left">Green - Indicates implemented work</p>
 </p>
 
 ## Database overall design.
@@ -69,8 +69,8 @@
 <p align="center">
   <img width="960" src="img/webOS_DB_structure.png">
   <p align="center">[atabase architecture]</p>
-  <p color="RED" align="left">Red   - Indicates unimplemented work</p>
-  <p color="GREEN" align="left">Green - Indicates implemented work</p>
+  <p style="color:red;" align="left">Red   - Indicates unimplemented work</p>
+  <p style="color:green;" align="left">Green - Indicates implemented work</p>
 </p>
 
 ## Notices
