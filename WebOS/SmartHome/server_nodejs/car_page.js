@@ -16,8 +16,25 @@ const local_auth = require("../models/local_auth.js");
  ***********************************************
  */
 
-async function register_car_info(input_values, full_request_url, res) {
+
+ /*
+ * input_values
+ * 0: car_year
+ * 1: car_model
+ * 2: car_company
+ * 3: car_owner
+ * 4: car_name
+ * 5: car_num
+ */
+async function register_car_info(input_values, res) {
   var image_link = "";
+  //if the user enters other user's name it must be granted.
+  // Otherwise, skip the requst
+  //for now it will not accept the registeration from different users
+  if (input_values[3] != local_auth.user_number) { //use compare with user_number not names
+    res.render('../web_source/ejs/car_page', await renderJSONFile());
+    return;
+  }
 
   //validate duplication car (by car number)
   var exists = false;
@@ -34,54 +51,62 @@ async function register_car_info(input_values, full_request_url, res) {
 
   //Alert user if the car info is already registered.
   if (exists) {
-     //check local image data - compare with DB file name
-     
-     //this will refresh a page
-     res.render('../web_source/ejs/car_page', renderJSONFile());
+    console.log("File exist");
+    //check local image data - compare with DB file name
+
+    //this will refresh a page
+    res.render('../web_source/ejs/car_page', await renderJSONFile());
   } else { //Write input data to DB
     //check car image on local file - compare with DB file name
+    console.log("File does not exist");
     var valid = validate_image_file(file_name);
 
     //no image found
     if (valid == false) {
-      //send query to DB
+      var full_request_url
+        = await make_api_request_form(input_values);
+
       var image_link = await get_car_imagelink(full_request_url, res);
       //download image from url
-      car_image_download(image_link, file_name);
+      await car_image_download(image_link, file_name);
     }
 
     //post data to db from the link(including images)
     try {
-      await insert_car_info(input_values, file_name, local_auth.name);
+      await insert_car_info(input_values, file_name, local_auth.user_number);
     } catch(err) {
       console.log("Car info insertion err on db request:" + err);
     }
 
     //then refresh page
-    res.render('../web_source/ejs/car_page', renderJSONFile());
+    res.render('../web_source/ejs/car_page', await renderJSONFile());
   }
 }
 
+// input value info:
+// 0: car_year, 1: car_model, 2: car_company, 3: car_owner_number, 4: car_name, 5: car_num
 async function insert_car_info(input_values, img_file_name, current_user) {
-    /*
-     * car_year
-     * car_model
-     * car_company
-     * car_owner
-     * car_name
-     * car_num
-     */
-    var car_info = [input_values[0], input_values[1], input_values[2], input_values[4]];
-    var query_lists = [car_info, input_values[3], input_values[5], img_file_name, current_user];
-    //must provide all 5 critical elements to DB:
-    //  car_num, car_owner, img_file_name, registered_user, car_info.
+    var car_info = [input_values[0],
+                    input_values[1],
+                    input_values[2],
+                    input_values[4]];
+
+    var reg_user = [current_user];
+
+    var query_lists = [car_info,
+                       input_values[3],
+                       input_values[5],
+                       img_file_name,
+                       reg_user];
+
     var insert_query
-     = 'INSERT INTO webOS_car(car_info, car_owner, car_num,' +
-        'car_image ,registered_user) VALUES($1,$2,$3,$4,$5) RETURNING *;';
+     = 'INSERT INTO webOS_car(car_info, car_owner_number, car_num,' +
+        'car_image ,registered_user_list) VALUES($1,$2,$3,$4,$5) RETURNING *;';
     try {
       var result = await db_query.db_insert(insert_query, query_lists);
     } catch(err) {
       console.log("Error on car info insertion" + err);
+      return ;
     }
     return result;
 }
@@ -101,13 +126,22 @@ function pushData(element, list_to_push, outer_index, inner_index) {
   return list_to_push;
 }
 
-//this function cannot be async function - used for rendering ejs
-async function renderJSONFile() {
-  //run this as promise
 
-  //empty car list means there is no matching car that user ownes
-  var car_list = await node_db_comm.car_data_by_user("webOS_car", "car_owner",
-    local_auth.name, "car_num");
+/*
+ * car_list
+ * 0 : car number
+ * 1 : car image
+ * 2 : car info
+ * 3 : car owner number
+ * 4 : registered user
+ */
+async function renderJSONFile() {
+  //get car info by registered user
+  var car_list
+    = await node_db_comm.car_data_by_user("webOS_car",
+                                          "registered_user_list",
+                                          local_auth.user_number,
+                                          "car_num");
 
   //render user's registered car info into array
   var car_names = [];
@@ -123,19 +157,12 @@ async function renderJSONFile() {
   var current_time_list = getTime(time_object);
   var current_time_formatted = make_time_format(current_time_list);
 
-  /*
-   * 0 : car number
-   * 1 : car owner
-   * 2 : car image
-   * 3 : registered user
-   * 4 : detailed car info.
-   */
   if (car_list[0] != null) {
     for(var i = 0; i < car_list.length; i++) {
       //store car_name into the array
-      pushData(car_list[i], car_names, 4, 2);
+      pushData(car_list[i], car_names, 2, 3);
       //store image file name to the array
-      pushData(car_list[i], car_images, 2, -1);
+      pushData(car_list[i], car_images, 1, -1);
       //store fuel usage to the array of each car
 
       //store car numbers into the array
@@ -213,21 +240,17 @@ function make_time_format(list) {
   var hour = list[3].trim(" ");
   var min = list[4].trim(" ");
 
-  if (month.length == 1) {
+  if (month.length == 1)
     month = "0" + month;
-  }
 
-  if (date.length == 1) {
+  if (date.length == 1)
     date = "0" + date;
-  }
 
-  if (hour.length == 1) {
+  if (hour.length == 1)
     hour = "0" + hour;
-  }
 
-  if (min.length == 1) {
+  if (min.length == 1)
     min = "0" + min;
-  }
 
   var full_format = "" + year + month + date + hour + min;
   return full_format;
@@ -367,8 +390,217 @@ function validate_image_file(file_name) {
   return false;
 }
 
-function db_car_summary_date_validation(last_updated_time, user) {
 
+/*
+ ***********************************************
+ *             CAR fuel validation             *
+ ***********************************************
+ */
+
+async function get_last_time_summary_data(user, car_number) {
+  //get the highest(recent) time index
+  var query = "SELECT MAX(service_end_time FROM car_usage_summary)"
+   + "WHERE car_number='" + car_number
+  + "' AND user_name='" + user + "';";
+  //must have only single element in the array
+  var car_usage_log;
+  try {
+    car_usage_log = await db_query.db_request_data(car_log_query);
+  } catch (err) {
+    console.log("DB Table is empty: " + err);
+    return -1;
+  }
+
+  if (car_usage_log == null) {
+    return -1;
+  }
+
+  if (car_usage_log[0].length == 0) {
+    return -1;
+  }
+
+  return car_usage_log[0];
+}
+
+//gets index of car summary report based on the given inputs
+//decides whether table is empty or not
+async function lookup_car_summary_report(car_number) {
+  var result = -1;
+  //retrieve car use log(car_use_log by user)
+  // based on the lastly modified date(car_usage_summary by user)
+  var car_log_query = "SELECT MAX(last_updated_time) FROM car_usage_summary" +
+                     " WHERE (car_number ='" + car_number +
+                     "' AND user_number ='" + local_auth.user_number + "');";
+  try{
+    result = await db_query.db_request_data(car_log_query);
+  } catch (err) {
+    console.log("ACCESSING DATA REJECTED " + err);
+    return -2;
+  }
+
+  //if there is no returned data - no data
+  if (result == null) {
+    return -1;
+  }
+
+  //empty table
+  if (result[0].length == 0) {
+    return -1;
+  }
+
+  //return timeline
+  return result[0];
+}
+
+/*
+ *   -1 : error index
+ *    0 : no update index
+ *    1 : update index
+ */
+//check if the update is needed - consider summary time may be empty
+async function update_required(car_number, summary_time) {
+  var car_log_query
+   = "SELECT MAX(service_end_time) FROM car_usage_log WHERE (car_number='" +
+     car_number + "' AND WHERE user_number='" + local_auth.user_number + "');";
+  var result;
+
+  try {
+    result = await db_query.db_request_data(car_log_query);
+  } catch (err) {
+    console.log("REQUEST ERROR: " + err);
+    return -1;
+  }
+
+  console.log("Result: " + result);
+
+  //if log has no data at all
+  if (result.length == 0) {
+    return 0;
+  }
+  //if given time and last updated time is the same
+  if (result[0] == summary_time) {
+    return 0;
+  }
+  return 1;
+}
+
+async function get_log_data(car_number, last_end_time) {
+  //get every array by the time larger than the starting_time
+  var car_log_query = "SELECT * FROM car_usage_log WHERE service_end_time" +
+                      "> '"+ last_end_time +"' AND car_number='" + car_number +
+                      "' AND user_number='" + local_auth.user_number +
+                      "' ORDER BY service_end_time ASC;";
+
+  //Log index:
+  //  0: fuel_used, 1: service_start_time, 2: service_end_time,
+  //  3: fuel_actual_level, 4: fuel_refilled, 5: car_number,
+  //  6: user_number.
+  try {
+    var log_list = await db_query.db_request_data(car_log_query);
+    return log_list;
+  } catch (err) {
+    console.log("ERROR ON CAR_LOG REQEUST" + err);
+    return -1;
+  }
+}
+
+function sum_up_data(log_list) {
+  var data_set = [];
+  var used_fuel = 0;
+  var last_time = 0;
+  var fuel_level = 0;
+  var refilled_fuel = 0;
+  var total_time = 0;
+  for (var i = 0 ; i < log_list.length; i++) {
+    console.log("Log list: " + log_list[i]);
+    used_fuel += log_list[i][0];
+    last_time = log_list[i][2];
+    fuel_level = log_list[i][3];
+    refilled_fuel += log_list[i][4];
+  }
+
+  data_set.push(used_fuel);
+  data_set.push(total_time);
+  data_set.push(last_time);
+  data_set.push(refilled_fuel);
+  data_set.push(fuel_level);
+
+  return data_set;
+}
+
+async function insert_new_summary_data(car_number) {
+  const temp_start_time = 000000000000;
+  var log_list = await get_log_data(car_number, temp_start_time);
+
+  if (log_list == -1) {
+    return;
+  }
+
+  var data_set = sum_up_data(log_list);
+
+  //Summary index:
+  //  0: total_fuel_used, 1: total_hours_used, 2: car_number,
+  //  3: last_update_time, 4:user_number
+  var insert_query = "INSERT INTO car_usage_summary(" +
+                     "total_fuel_used, total_hours_used, last_update_time," +
+                     "refilled_fuel, fuel_level, user_number, car_number) " +
+                     "VALUES (" + data_set[0] + ", " + data_set[1] + ", " +
+                      data_set[2] + ", " + data_set[3] + ", " + data_set[4] +
+                      ", " + locl_auth.user_number + ", " + car_number + ");";
+
+  try {
+    await db_query.db_request(insert_query);
+  } catch (err) {
+    console.log("Error on summary insertion");
+  }
+}
+
+async function update_summary_data(car_number, last_end_time) {
+  var log_list = await get_log_data(car_number, last_end_time);
+
+  if (log_list == -1) {
+    return;
+  }
+
+  var data_set = sum_up_data(log_list);
+
+  //Summary index:
+  //  0: total_fuel_used, 1: total_hours_used, 2: car_number,
+  //  3: last_update_time, 4:user_number
+  var update_query = "UPDATE car_usage_summary " +
+                     "SET last_update_time='" + data_set[2]
+                     "' total_fuel_used='" + data_set[0] +
+                     "' total_hours_used='" + data_set[1] +
+                     "' refilled_fuel='" + data_set[3] +
+                     "' fuel_level='" + data_set[4] +
+                     "' WHERE user_number='" + locl_auth.user_number +
+                     " AND car_number='" + car_number + "';";
+   try {
+     await db_query.db_request(update_query);
+   } catch (err) {
+     console.log("Error on summary update");
+   }
+}
+
+async function summarize_fuel_data(car_number) {
+
+  var summary_last_modified_time
+   = await lookup_car_summary_report(car_number);
+  if (summary_last_modified_time == -2) { //error skip this work
+    return;
+  } else if (summary_last_modified_time == -1) { //empty summary table
+    //add up everything on the log
+    insert_new_summary_data(car_number);
+  } else {
+    var update_index =
+      await update_required(car_number, summary_last_modified_time);
+
+    if (update_index == 1) {
+      //update from the specified timeline
+      update_summary_data(car_number, summary_last_modified_time);
+    }
+
+  }
 }
 
 //local_node_car

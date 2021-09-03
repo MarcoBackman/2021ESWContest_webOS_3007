@@ -1,4 +1,3 @@
-const Router = require('express-promise-router');
 const util = require('util');
 
 //for localhost
@@ -24,31 +23,25 @@ async function connection_check() {
   console.log("Connection Checking...");
   const query = await client.query('SELECT NOW()', (err, res) => {
     if (err) {
-      console.log(err.stack);
+      console.log("Select request error: " + err.stack);
     } else {
-      console.log(res);
+      console.log("Select request result: " + res);
     }
   });
 }
 
-/*
- * This method should be used only for insertion query.
- * This does not use await/async.
- * Therefore, it will not wait for the respond from the server.
- */
 async function db_insert(query_command, values) {
   const client = new Client(auth_list);
   client.connect();
   // callback
   client.query(query_command, values) //query string
-    .then(result => console.log(result))
+    .then(result => console.log("Insertion result: " + result))
     .catch(e => console.error(e.stack)) //callback here
     .then(() => client.end());
-
 }
 
-
-//query text must be in select form
+//need refactor - confusion with db_request_data
+//mainly for insertion, update
 async function db_request(query_text) {
   //this must be a pool not a client -> need explaination
   const pool = new Pool(auth_list);
@@ -57,13 +50,15 @@ async function db_request(query_text) {
     rowMode: 'array',
     text: query_text,
   });
-  console.log(result.fields[0]);
-  console.log(result.rows); // [[boolean]]
+  console.log("DB Request - fields[0]: " + result.fields[0]);
+  console.log("DB Request data - rows: " + result.rows); // [[boolean]]
   await pool.end();
-  console.log("pool ended");
+
   return result.rows[0][0]; //returns boolean value
 }
 
+
+//returns rows with data
 async function db_request_data(query_text) {
   //this must be a pool not a client -> need explaination
   const pool = new Pool(auth_list);
@@ -72,8 +67,8 @@ async function db_request_data(query_text) {
     rowMode: 'array',
     text: query_text,
   });
-  console.log(result.fields[0]);
-  console.log(result.rows); // [[boolean]]
+  console.log("DB Request - fields[0]: " + result.fields[0]);
+  console.log("DB Request data - rows: " + result.rows); // [[element]]
   await pool.end();
 
   return result.rows; //returns rows

@@ -1,3 +1,3 @@
 module.exports = {
-  secret: ""
+  secret: "webOS_secret_key"
 };

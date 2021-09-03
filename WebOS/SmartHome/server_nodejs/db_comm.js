@@ -27,9 +27,12 @@ async function check_data(table, column, data) {
   return exist;
 }
 
-async function insert_account(input_values) {
+async function insert_account(input_values, user_number) {
+  input_values.push(user_number);
+  console.log(input_values);
   //if data does not exist, insert
-    var insert_query = 'INSERT INTO accounts(id,pw,user_name) VALUES($1,$2,$3) RETURNING *;';
+    var insert_query = 'INSERT INTO accounts(id,pw,user_name, user_number)'
+     + ' VALUES($1,$2,$3,$4) RETURNING *;';
     try {
       var result = await db_query.db_insert(insert_query, input_values);
     } catch (err) {
@@ -52,6 +55,7 @@ async function insert_car_schedule(input_values) {
 }
 
 //send with single data - returns rows of matched data
+//injection attack prone code
 async function select_by_data(table, column, data) {
   var select_query = "SELECT * FROM " + table +
                      " WHERE " + column + "='" + data + "';";
@@ -86,10 +90,11 @@ async function select_column(table, column) {
   return list;
 }
 
-//SELECT * FROM webos_car WHERE car_owner='백승준' ORDER BY car_num ASC;
+//SELECT * FROM webos_car WHERE '1'
+// = ANY(registered_user_list) ORDER BY car_num ASC;
 async function car_data_by_user(table, targetColumn, targetVal, orderBy) {
-  var select_query = "SELECT * FROM " + table + " WHERE " + targetColumn +
-                     "='" + targetVal + "' ORDER BY " + orderBy + " ASC;";
+  var select_query = "SELECT * FROM " + table + " WHERE '" + targetVal +
+                  "' = ANY(" + targetColumn + ") ORDER BY " + orderBy + " ASC;";
   try {
     var list = await db_query.db_request_data(select_query);
   } catch(err) {

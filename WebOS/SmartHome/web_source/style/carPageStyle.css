@@ -1,10 +1,17 @@
+<style>
+
 body {
   display: block;
-  background-color: #FC9093;
+  background-color: #FF9966 !important;
   border:none;
 }
 
+header {
+  margin-bottom: 40px;
+}
+
 .header_title {
+  display: block;
   width: 100%;
   height: 35px;
   text-align: center;
@@ -19,9 +26,10 @@ body {
 
 .header_title h1 {
   width: 90%;
-  height: 35px;
-  font-size: 40px;
+  height: 100px;
+  font-size: 3.2vw;
   margin: 25px 100px 0 0;
+  padding-right: 2.2em;
   font-family: 'Monda', sans-serif;
   color: #9999FF;
 }
@@ -29,19 +37,208 @@ body {
 button {
   border:0;
   outline:0;
+
 }
 
 select {
   border:0;
   outline:0;
+  height: 25px;
+  max-width: inherit;
+  min-width: 50px;
+  width: 100px;
+  transition-duration: 0.5s;
+}
+
+select:hover {
+  transition-duration: 0.5s;
+  transform-style: preserve-3d;
+  background-color: #c1ddd0;
 }
 
 
 input {
+  transition-duration: 0.5s;
+  height: 25px;
+  max-width: inherit;
+  min-width: 30px;
+  width: 150px;
   border:0;
   outline:0;
+}
+
+input:hover {
+  color: #FF9966;
+  transition-duration: 0.5s;
+  transform-style: preserve-3d;
+  background-color: #5b5b9e;
 }
 
 input:focus {
   outline:none!important;
 }
+
+
+.section_title {
+  font-size: 2.5vw;
+  text-align: center;
+  font-family: 'Monda', sans-serif;
+  color: #FC9093;
+  lighting-color: black;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.section {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  background-color: #9999FF;
+  border-style: groove;
+  border-color: lightcoral;
+}
+
+.register_input_field,
+.date_selection {
+  background-color: #9999FF;
+  align-items: center;
+  vertical-align: middle;
+  vertical-align: middle;
+  display: flex;
+  text-align: center;
+  flex-wrap: wrap;
+  align-content: center;
+}
+
+.date_selection {
+  margin-left: 23%;
+}
+
+.register_input_field p ,
+.date_selection p {
+  font-family: 'Monda', sans-serif;
+  color: #c1ddd0;
+  height: 30px;
+  min-width: 10px;
+  font-size: 1vw;
+  margin-right: 1em;
+  margin-bottom: 14pt;
+  padding-bottom: 15px;
+  margin-top: 35px;
+  margin-left: 25px;
+}
+
+input {
+  color: #5b5b9e;
+}
+
+.register_btn button,
+.submit button {
+  width: 130px;
+  height: 50px;
+  font-size: 15px;
+  font-family: 'Monda', sans-serif;
+  background-color: #c1ddd0;
+  margin: 5px;
+  float: inherit;
+  text-align: center;
+  position: relative;
+  left: 46%;
+  border-style: solid;
+}
+
+h3 {
+  color: #FC9093;
+  text-align: center;
+  font-size: 1.3vw;
+  font-family: 'Monda', sans-serif;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #FC9093;
+  margin-top: 20px;
+  margin-bottom: 0px;
+}
+
+button {
+  transition-duration: 0.5s;
+}
+
+button:hover {
+  transition-duration: 0.5s;
+  transform-style: preserve-3d;
+  background-color: #FF9966;
+}
+
+option {
+  font-family: 'Monda', sans-serif;
+  font-size: 13px;
+}
+
+.sub_title {
+  margin-top: 5px;
+  margin-bottom: 0px;
+  text-align: center;
+  color: #b36e4f;
+  font-family: 'Monda', sans-serif;
+  font-size: 30px;
+}
+
+.description {
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  color: #000000;
+  font-family: 'Monda', sans-serif;
+  font-size: 15px;
+}
+
+.car_lists {
+  color: #b36e4f;
+  font-family: 'Monda', sans-serif;
+  font-size: 15px;
+}
+
+.reserve_car {
+  width: 130px;
+  height: 50px;
+}
+
+.car_selection:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.column {
+  float: left;
+  width: 13.7%;
+}
+
+#car_img_number {
+  text-align: center;
+  align-content: center;
+  background-color: white;
+  width: 40em;
+  margin-top: 30px;
+  margin-left: 27.5%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+              0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#car_img_number img {
+  width: inherit;
+  margin-right: 0px;
+}
+
+#car_img_number .car_number {
+  background-color: #FC9093;
+  font-size: 15px;
+  margin-right: 0px;
+  text-align: center;
+  padding: 10px 10px;
+  color: #b36e4f;
+  font-family: 'Monda', sans-serif;
+}
+
+
+</style>

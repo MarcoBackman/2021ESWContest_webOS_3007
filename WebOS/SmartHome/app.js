@@ -50,9 +50,9 @@ app.set('view engine', 'ejs');
 //rate limiter will prevent user from over requesting.
 app.use(
   rateLimit({
-    windowMs: 12 * 60 * 60 * 1000, // 1 hour duration in milliseconds
-    max: 5,
-    message: "You exceeded 100 requests in 12 hour limit!",
+    windowMs: 5 * 60 * 1000, //in milliseconds
+    max: 100,
+    message: "You exceeded 100 requests in 5 minutes limit!",
     headers: true,
   })
 );
@@ -72,7 +72,7 @@ app.listen(port, (err) => {
 //root page
 app.get('/', function(req, res) {
   //check if user is logged in
-  var logged_in = local_node_jwt.authenticate_token(res);
+  var logged_in = local_node_jwt.authenticate_token();
   //if not send default page
   if (logged_in === true) {
     res.sendFile(MAIN_PAGE_PATH);
@@ -84,7 +84,7 @@ app.get('/', function(req, res) {
 
 //main page
 app.get('/main_page.html', local_node_jwt.block_access, function(req, res) {
-  var logged_in = local_node_jwt.authenticate_token(res);
+  var logged_in = local_node_jwt.authenticate_token();
   //if not send default page
   if (logged_in === true) {
     res.sendFile(MAIN_PAGE_PATH);
@@ -142,7 +142,7 @@ app.get('/my_page', local_node_jwt.block_access, function(req, res) {
 
 //all other paths for get request
  app.get('*', (req, res) =>{
-   var logged_in = local_node_jwt.authenticate_token(res);
+   var logged_in = local_node_jwt.authenticate_token();
    //if not send default page
    if (logged_in === true) {
      res.sendFile(MAIN_PAGE_PATH);
@@ -187,6 +187,7 @@ app.post('/user_login', function(req, res) {
 app.post('/logout', function(req, res) {
   local_auth.id = "-";
   local_auth.name = "-";
+  local_auth.user_number = "-";
   local_auth.role = "-";
   local_auth.token = "-";
   res.sendFile(LOGIN_PAGE_PATH);
@@ -205,8 +206,7 @@ app.post('/post_car_info', async function(req, res) {
                       req.body.car_name,
                       req.body.car_num];
 
-  var full_request_url = await local_node_car.make_api_request_form(input_values);
-  local_node_car.register_car_info(input_values, full_request_url, res);
+  local_node_car.register_car_info(input_values, res);
 });
 
 //post reservation for car schedule - check the criteria before submission.

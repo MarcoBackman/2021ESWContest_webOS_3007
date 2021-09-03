@@ -32,6 +32,7 @@ async function login_wait(input_values, req, res) {
     //retreive data from database
     var result_list = await db_comm.select_by_data("accounts", "id", input_values[0]);
     local_auth.name = result_list[0][2];
+    local_auth.user_number = result_list[0][3];
     local_auth.token = node_jwt.generate_token(input_values[0]);
     alert("안녕하세요! " + local_auth.name + "님.");
     //redirect to the main page

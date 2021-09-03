@@ -6,6 +6,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src *;
    img-src * data: https:; script-src * 'unsafe-inline' 'unsafe-eval' *;
    style-src  'self' 'unsafe-inline' *">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Car Setting</title>
   <link rel="icon" href="../src/icons/main_logo/main_logo.ico">
   <link rel="stylesheet" href="../style/carPageStyle.css">
@@ -14,7 +15,7 @@
   </style>
   <script type="text/javascript" src="../script/carPage.js"></script>
 </head>
-<body>
+<body style="background-color: #ebbeff; display: block;">
   <header>
     <div class="header_title">
       <a href="main_page.html">
@@ -29,23 +30,21 @@
           *            Car Registeration section           *
           **************************************************
       -->
-    <div id="register_car">
-      <h2>Register Car</h2>
+    <h2 class="section_title">Register Car</h2>
+    <div class="section" id="register_car">
       <form name="car_info_form" id="car_info_form" action="/post_car_info" method="POST">
-        <div>
-          <p>Car year</p>
+        <div class="register_input_field">
+          <p>Car year: </p>
           <input id="car_year" name="car_year" type="number">
-          <p>Car model</p>
+          <p>Car model: </p>
           <input id="car_model" name="car_model" type="text">
-          <p>Car company</p>
+          <p>Car company: </p>
           <input id="car_company" name="car_company" type="text">
-        </div>
-        <div class="fields">
-          <p>Car owner</p>
+          <p>Car owner: </p>
           <input id="car_owner" name="car_owner" type="text">
-          <p>Car name</p>
+          <p>Car name: </p>
           <input id="car_name" name="car_name" type="text">
-          <p>Car number</p>
+          <p>Car number:</p>
           <input id="car_num" name="car_num" type="text">
         </div>
         <div class="register_btn">
@@ -53,19 +52,21 @@
         </div>
       </form>
     </div>
-    <div>
-      <h2>Your registered car</h2>
+    <h2 class="section_title">Your registered car</h2>
+    <div class="section">
+      <% if (car_names != null) { %>
       <% car_names.forEach(function(car) { %>
-        <label><%= car %></label>
+        <label class="car_lists"><%= car %></label>
       <% }); %>
+      <% } %>
     </div>
-    <div>
-      <h2>Car schedule</h2>
+    <h2 class="section_title">Car schedule</h2>
+    <div class="section">
       <!--************* Load calendar *************-->
       <p class="sub_title"> Weekly calendar </p>
       <p class="description"> Up coming scedule. </p>
       <!-- iterate on each car -->
-      <div>
+      <div class="car_lists">
         <% for (var car in car_schedule) { %>
            <%=car%> :
            <br>
@@ -90,22 +91,29 @@
         *             Car Reservation section            *
         **************************************************
       -->
-    <div>
-      <h2>Reserve car</h2>
+    <h2 class="section_title">Reserve car</h2>
+    <div class="section">
       <form name="car_schedule" id="car_schedule" action="/schedule_car" method="POST">
-        <div>
-          <!-- ******** car selection ******** -->
-          <select name="reserve_car" id="reserve_car">
-            <option value="-">-</option>
-            <% var car_opt_val = "-";%>
-            <% var iteration = 0;%>
-            <% car_names.forEach(function(car) { %>
-              <option value="<%=car%>"><%=car%></option>
-              <% car_opt_val = car; %>
-            <% }); %>
-          </selcet>
-          <select>
-          </select>
+        <div class="car_selection">
+          <div class="column">&nbsp;</div>
+          <div class="column">&nbsp;</div>
+          <div class="column">
+            <!-- ******** car selection ******** -->
+            <select name="reserve_car" id="reserve_car">
+              <option value="-">-</option>
+              <% var car_opt_val = "-";%>
+              <% var iteration = 0;%>
+              <% car_names.forEach(function(car) { %>
+                <option value="<%=car%>"><%=car%></option>
+                <% car_opt_val = car; %>
+              <% }); %>
+            </selcet>
+            <select>
+            </select>
+          </div>
+          <div class="column">&nbsp;</div>
+          <div class="column">&nbsp;</div>
+          <div class="column">&nbsp;</div>
         </div>
         <!-- ******** image display ******** -->
         <div name="car_img_number" id="car_img_number">
@@ -115,7 +123,7 @@
             <img class="car_names" id="<%=car_names[i]%>"
               alt="Image" src="../src/car_img/<%=car_images[i]%>"
               border="0" style="display: none;"/>
-            <label name="car_number_<%=car_names[i]%>" class="car_number"
+            <label class="car_number" name="car_number_<%=car_names[i]%>" class="car_number"
                id="<%=car_names[i]%>_num" style="display: none;">
               <%=car_numbers[i]%>
             </label>
@@ -125,11 +133,11 @@
             <% } %>
           <% } %>
         </div>
-        <div>
-          <!--************* From *************-->
-          <h3>From</h3>
+        <!--************* From *************-->
+        <h3>From</h3>
+        <div class="date_selection">
           <!--************* Date *************-->
-          Year
+          <p> Year </p>
           <select name="year_from" id="year_from">
             <option value="-">-</option>
             <% for (let year = 2021; year < 2040; year++) { %>
@@ -138,7 +146,7 @@
           </selcet>
           <select>
           </select>
-          Month
+          <p>Month</p>
           <select name="month_from" id="month_from">
             <option value="-">-</option>
             <% for (let month = 1; month < 13; month++) { %>
@@ -147,14 +155,14 @@
           </selcet>
           <select>
           </select>
-          Date
+          <p>Date</p>
           <select name="date_from" id="date_from">
             <option value="-">-</option>
           </selcet>
           <select>
           </select>
           <!--************* Time *************-->
-          Hour
+          <p>Hour</p>
           <select name="hour_from" id="hour_from">
             <option value="-">-</option>
             <% for (let hour = 0; hour < 24; hour++) { %>
@@ -163,7 +171,7 @@
           </selcet>
           <select>
           </select>
-          Min
+          <p>Min</p>
           <select name="min_from" id="min_from">
             <option value="-">-</option>
             <% for (let min = 0; min < 60; min+=5) { %>
@@ -174,10 +182,10 @@
           </select>
         </div>
         <!--************* To *************-->
-        <div>
-          <h3>To</h3>
+        <h3>To</h3>
+        <div class="date_selection">
           <!--************* Date *************-->
-          Year
+          <p>Year</p>
           <select name="year_to" id="year_to">
             <option value="-">-</option>
             <% for (let year = 2021; year < 2040; year++) { %>
@@ -186,7 +194,7 @@
           </selcet>
           <select>
           </select>
-          Month
+          <p>Month</p>
           <select name="month_to" id="month_to">
             <option value="-">-</option>
             <% for (let month = 1; month < 13; month++) { %>
@@ -195,14 +203,14 @@
           </selcet>
           <select>
           </select>
-          Date
+          <p>Date</p>
           <select name="date_to" id="date_to">
             <option value="-">-</option>
           </selcet>
           <select>
           </select>
           <!--************* Time *************-->
-          Hour
+          <p>Hour</p>
           <select name="hour_to" id="hour_to">
             <option value="-">-</option>
             <% for (let hour = 0; hour < 24; hour++) { %>
@@ -211,7 +219,7 @@
           </selcet>
           <select>
           </select>
-          Min
+          <p>Min</p>
           <select name="min_to" id="min_to">
             <option value="-">-</option>
             <% for (let min = 0; min < 60; min+=5) { %>
@@ -221,7 +229,7 @@
           <select>
           </select>
         </div>
-        <div clss="submit">
+        <div class="submit">
           <button id="reserve_btn">Reserve</button>
         </div>
       </form>
@@ -231,12 +239,12 @@
       *             Car usage view section             *
       **************************************************
     -->
-    <div>
-      <h2>Fuel Info</h2>
-      <p>
+    <h2 class="section_title">Fuel Info</h2>
+    <div class="section">
+      <p class="sub_title">
         Current Gauge
       </p>
-      <p>
+      <p class="sub_title">
         Refilled.
       </p>
     </div>
