@@ -38,9 +38,9 @@ async function register_wait(input_values, res) {
 async function generate_user_number() {
   //setup user number to db
   var result_index = await get_user_number();
-
-  if (result_index != -1) {
-    return result_index += 1;
+  var result_index_int = parseInt(result_index);
+  if (result_index_int != -1) {
+    return result_index_int += 1;
   } else {
     return -1;
   }

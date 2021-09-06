@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const request = require('request');
 const fetch = require('node-fetch');
+const alert = require('alert');
 
 //database comm file
 const db_query = require('../db/db_single_request.js');
@@ -27,6 +28,7 @@ async function register_car_info(input_values, res) {
   // Otherwise, skip the requst
   //for now it will not accept the registeration from different users
   if (input_values[3] != local_auth.user_number) { //use compare with user_number not names
+    alert("허가되지 않은 차량 등록입니다!");
     res.render('../web_source/ejs/car_page', await renderJSONFile());
     return;
   }
@@ -170,7 +172,12 @@ async function renderJSONFile() {
       //store fuel usage to the array of each car
       var summary
        = await get_summary_by_car_user(local_auth.user_number, car_list[i][0]);
-      if (summary != null) {
+      console.log(summary);
+      if (summary[0] == null) {
+        console.log("Summary of " + car_list[i][0] + " car is empty");
+      } else if (summary[0].length == 0) {
+        console.log("Summary of " + car_list[i][0] + " car is empty");
+      } else {
         //save by car number
         total_fuel_used[car_list[i][0]] = summary[0][0];
         total_fuel_refilled[car_list[i][0]] = summary[0][5];
