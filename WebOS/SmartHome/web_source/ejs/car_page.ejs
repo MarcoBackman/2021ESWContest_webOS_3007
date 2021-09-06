@@ -239,14 +239,44 @@
       *             Car usage view section             *
       **************************************************
     -->
-    <h2 class="section_title">Fuel Info</h2>
+    <h2 class="section_title">Your Car Usage Info</h2>
     <div class="section">
       <p class="sub_title">
         Current Gauge
       </p>
+      <% if (car_opt_val != "-" || car_opt_val != "N/A") { %>
+        <% for(var i = 0; i < car_numbers.length; i++) { %>
+          <!-- this will raise issues when the same car name appears -->
+          <label class="car_number" name="car_number_<%=car_names[i]%>"
+             id="<%=car_numbers[i]%>_num" style="display: auto;">
+            <%=fuel_remaining[car_numbers[i]]%>
+          </label>
+        <% } %>
+      <% } %>
+      <p class="sub_title">
+        Total Used Fuel.
+      </p>
+      <% if (car_opt_val != "-" || car_opt_val != "N/A") { %>
+        <% for(var i = 0; i < car_numbers.length; i++) { %>
+          <!-- this will raise issues when the same car name appears -->
+          <label class="car_number" name="car_number_<%=car_names[i]%>"
+             id="<%=car_numbers[i]%>_num" style="display: auto;">
+            <%=fuel_used[car_numbers[i]]%>
+          </label>
+        <% } %>
+      <% } %>
       <p class="sub_title">
         Refilled.
       </p>
+      <% if (car_opt_val != "-" || car_opt_val != "N/A") { %>
+        <% for(var i = 0; i < car_numbers.length; i++) { %>
+          <!-- this will raise issues when the same car name appears -->
+          <label class="car_number" name="car_number_<%=car_names[i]%>"
+             id="<%=car_numbers[i]%>_num" style="display: auto;">
+            <%=refilled[car_numbers[i]]%>
+          </label>
+        <% } %>
+      <% } %>
     </div>
   </nav>
   <section>

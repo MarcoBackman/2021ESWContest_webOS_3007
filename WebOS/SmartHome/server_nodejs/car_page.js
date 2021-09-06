@@ -16,15 +16,10 @@ const local_auth = require("../models/local_auth.js");
  ***********************************************
  */
 
-
  /*
  * input_values
- * 0: car_year
- * 1: car_model
- * 2: car_company
- * 3: car_owner
- * 4: car_name
- * 5: car_num
+ * 0: car_year, 1: car_model, 2: car_company, 3: car_owner
+ * 4: car_name, 5: car_num
  */
 async function register_car_info(input_values, res) {
   var image_link = "";
@@ -84,7 +79,8 @@ async function register_car_info(input_values, res) {
 }
 
 // input value info:
-// 0: car_year, 1: car_model, 2: car_company, 3: car_owner_number, 4: car_name, 5: car_num
+// 0: car_year, 1: car_model, 2: car_company, 3: car_owner_number,
+// 4: car_name, 5: car_num
 async function insert_car_info(input_values, img_file_name, current_user) {
     var car_info = [input_values[0],
                     input_values[1],
@@ -126,6 +122,9 @@ function pushData(element, list_to_push, outer_index, inner_index) {
   return list_to_push;
 }
 
+async function get_summary_data() {
+
+}
 
 /*
  * car_list
@@ -136,6 +135,7 @@ function pushData(element, list_to_push, outer_index, inner_index) {
  * 4 : registered user
  */
 async function renderJSONFile() {
+
   //get car info by registered user
   var car_list
     = await node_db_comm.car_data_by_user("webOS_car",
@@ -163,16 +163,25 @@ async function renderJSONFile() {
       pushData(car_list[i], car_names, 2, 3);
       //store image file name to the array
       pushData(car_list[i], car_images, 1, -1);
-      //store fuel usage to the array of each car
-
+      //render fuel data
+      summarize_fuel_data(car_list[i][0]);
       //store car numbers into the array
       pushData(car_list[i], car_numbers, 0, -1);
+      //store fuel usage to the array of each car
+      var summary
+       = await get_summary_by_car_user(local_auth.user_number, car_list[i][0]);
+      if (summary != null) {
+        //save by car number
+        total_fuel_used[car_list[i][0]] = summary[0][0];
+        total_fuel_refilled[car_list[i][0]] = summary[0][5];
+        fuel_remaining[car_list[i][0]] = summary[0][6];
+      }
       //returns a list of time sets {start, end} pair of a given car
       //[from,to]
       var time_sets = await get_car_schedule(car_list[i][0]);
       if (time_sets.length == 0)
         continue;
-      schedule_by_car[car_numbers] = time_sets;
+      schedule_by_car[car_list[i][0]] = time_sets;
     }
   }
 
@@ -397,6 +406,20 @@ function validate_image_file(file_name) {
  ***********************************************
  */
 
+async function get_summary_by_car_user(user, car_number) {
+  var query = "SELECT * FROM car_usage_summary WHERE car_number='"
+   + car_number + "' AND user_number='" + user + "';";
+   var summary;
+   try {
+     summary = await db_query.db_request_data(query);
+   } catch (err) {
+     console.log("DB Table is empty: " + err);
+     return;
+   }
+   return summary;
+
+}
+
 async function get_last_time_summary_data(user, car_number) {
   //get the highest(recent) time index
   var query = "SELECT MAX(service_end_time FROM car_usage_summary)"
@@ -428,24 +451,29 @@ async function lookup_car_summary_report(car_number) {
   var result = -1;
   //retrieve car use log(car_use_log by user)
   // based on the lastly modified date(car_usage_summary by user)
-  var car_log_query = "SELECT MAX(last_updated_time) FROM car_usage_summary" +
-                     " WHERE (car_number ='" + car_number +
-                     "' AND user_number ='" + local_auth.user_number + "');";
+  var car_log_query_check_null = "SELECT MAX(last_update_time) IS null FROM car_usage_summary" +
+                                 " WHERE (car_number ='" + car_number +
+                                 "' AND user_number ='" + local_auth.user_number + "');";
+  var car_log_query = "SELECT MAX(last_update_time) FROM car_usage_summary" +
+                      " WHERE (car_number ='" + car_number +
+                      "' AND user_number ='" + local_auth.user_number + "');";
   try{
-    result = await db_query.db_request_data(car_log_query);
+    result = await db_query.db_request_data(car_log_query_check_null);
   } catch (err) {
     console.log("ACCESSING DATA REJECTED " + err);
     return -2;
   }
 
   //if there is no returned data - no data
-  if (result == null) {
+  if (result == 'true') {
     return -1;
-  }
-
-  //empty table
-  if (result[0].length == 0) {
-    return -1;
+  } else {
+    try{
+      result = await db_query.db_request_data(car_log_query);
+    } catch (err) {
+      console.log("ACCESSING DATA REJECTED " + err);
+      return -2;
+    }
   }
 
   //return timeline
@@ -461,7 +489,7 @@ async function lookup_car_summary_report(car_number) {
 async function update_required(car_number, summary_time) {
   var car_log_query
    = "SELECT MAX(service_end_time) FROM car_usage_log WHERE (car_number='" +
-     car_number + "' AND WHERE user_number='" + local_auth.user_number + "');";
+     car_number + "' AND user_number='" + local_auth.user_number + "');";
   var result;
 
   try {
@@ -471,48 +499,53 @@ async function update_required(car_number, summary_time) {
     return -1;
   }
 
-  console.log("Result: " + result);
-
   //if log has no data at all
   if (result.length == 0) {
     return 0;
   }
+
   //if given time and last updated time is the same
-  if (result[0] == summary_time) {
+  if (result[0] == summary_time[0]) {
+    console.log("NO UPDATE NEEDED");
     return 0;
   }
+
+  console.log("REQUIRES UPDATE");
+  //requires update
   return 1;
 }
 
 async function get_log_data(car_number, last_end_time) {
   //get every array by the time larger than the starting_time
   var car_log_query = "SELECT * FROM car_usage_log WHERE service_end_time" +
-                      "> '"+ last_end_time +"' AND car_number='" + car_number +
+                      " > '" + last_end_time +"' AND car_number='" + car_number +
                       "' AND user_number='" + local_auth.user_number +
                       "' ORDER BY service_end_time ASC;";
-
   //Log index:
   //  0: fuel_used, 1: service_start_time, 2: service_end_time,
   //  3: fuel_actual_level, 4: fuel_refilled, 5: car_number,
   //  6: user_number.
   try {
     var log_list = await db_query.db_request_data(car_log_query);
+    if (log_list.length == 0) {
+      console.log("Nothing to update");
+      return -1;
+    }
     return log_list;
   } catch (err) {
-    console.log("ERROR ON CAR_LOG REQEUST" + err);
+    console.log("ERROR ON CAR_LOG REQEUST " + err);
     return -1;
   }
 }
 
 function sum_up_data(log_list) {
   var data_set = [];
-  var used_fuel = 0;
+  var used_fuel = 0.0;
   var last_time = 0;
   var fuel_level = 0;
   var refilled_fuel = 0;
   var total_time = 0;
   for (var i = 0 ; i < log_list.length; i++) {
-    console.log("Log list: " + log_list[i]);
     used_fuel += log_list[i][0];
     last_time = log_list[i][2];
     fuel_level = log_list[i][3];
@@ -529,15 +562,17 @@ function sum_up_data(log_list) {
 }
 
 async function insert_new_summary_data(car_number) {
-  const temp_start_time = 000000000000;
-  var log_list = await get_log_data(car_number, temp_start_time);
-
+  var log_list = await get_log_data(car_number, 0);
   if (log_list == -1) {
     return;
   }
 
-  var data_set = sum_up_data(log_list);
+  if (log_list.length == 0) {
+    return;
+  }
 
+  var data_set = sum_up_data(log_list);
+  console.log("INSERTED DATA SET: " + data_set);
   //Summary index:
   //  0: total_fuel_used, 1: total_hours_used, 2: car_number,
   //  3: last_update_time, 4:user_number
@@ -546,34 +581,36 @@ async function insert_new_summary_data(car_number) {
                      "refilled_fuel, fuel_level, user_number, car_number) " +
                      "VALUES (" + data_set[0] + ", " + data_set[1] + ", " +
                       data_set[2] + ", " + data_set[3] + ", " + data_set[4] +
-                      ", " + locl_auth.user_number + ", " + car_number + ");";
-
+                      ", " + local_auth.user_number + ", " + car_number + ");";
   try {
     await db_query.db_request(insert_query);
   } catch (err) {
-    console.log("Error on summary insertion");
+    console.log("Error on summary insertion: " + err);
   }
 }
 
 async function update_summary_data(car_number, last_end_time) {
-  var log_list = await get_log_data(car_number, last_end_time);
-
+  try {
+    var log_list = await get_log_data(car_number, last_end_time);
+  } catch (err) {
+    console.log("LOG LIST ERROR: " + log_list);
+    return;
+  }
   if (log_list == -1) {
     return;
   }
 
   var data_set = sum_up_data(log_list);
-
   //Summary index:
   //  0: total_fuel_used, 1: total_hours_used, 2: car_number,
   //  3: last_update_time, 4:user_number
   var update_query = "UPDATE car_usage_summary " +
-                     "SET last_update_time='" + data_set[2]
+                     "SET last_update_time='" + data_set[2] +
                      "' total_fuel_used='" + data_set[0] +
                      "' total_hours_used='" + data_set[1] +
                      "' refilled_fuel='" + data_set[3] +
                      "' fuel_level='" + data_set[4] +
-                     "' WHERE user_number='" + locl_auth.user_number +
+                     "' WHERE user_number='" + local_auth.user_number +
                      " AND car_number='" + car_number + "';";
    try {
      await db_query.db_request(update_query);
@@ -586,18 +623,21 @@ async function summarize_fuel_data(car_number) {
 
   var summary_last_modified_time
    = await lookup_car_summary_report(car_number);
+  console.log(summary_last_modified_time);
   if (summary_last_modified_time == -2) { //error skip this work
     return;
   } else if (summary_last_modified_time == -1) { //empty summary table
     //add up everything on the log
-    insert_new_summary_data(car_number);
+    await insert_new_summary_data(car_number);
   } else {
     var update_index =
       await update_required(car_number, summary_last_modified_time);
 
     if (update_index == 1) {
       //update from the specified timeline
-      update_summary_data(car_number, summary_last_modified_time);
+      await update_summary_data(car_number, summary_last_modified_time);
+    } else {
+      console.log("Update not required");
     }
 
   }
