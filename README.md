@@ -68,7 +68,7 @@
 
 <p align="center">
   <img width="960" src="img/webOS_DB_structure.png">
-  <p align="center">[database architecture]</p>
+  <p align="center">[database architecture - ER(Entity Relation) diagram]</p>
   <p style="color:red;" align="left">Red   - Indicates unimplemented work &#x1F44E;</p>
   <p style="color:green;" align="left">Green - Indicates implemented work &#x1F44D;</p>
 </p>
