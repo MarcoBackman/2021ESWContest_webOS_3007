@@ -124,8 +124,19 @@ function pushData(element, list_to_push, outer_index, inner_index) {
   return list_to_push;
 }
 
-async function get_summary_data() {
-
+function getTime(time_milisec) {
+  let date_ob = new Date(time_milisec);
+  var date = date_ob.getDate();
+  var month = date_ob.getMonth() + 1;
+  var year = date_ob.getFullYear();
+  var hour = date_ob.getHours();
+  var min = date_ob.getMinutes();
+  list = [JSON.stringify(year),
+          JSON.stringify(month),
+          JSON.stringify(date),
+          JSON.stringify(hour),
+          JSON.stringify(min)];
+  return list;
 }
 
 /*
@@ -136,7 +147,7 @@ async function get_summary_data() {
  * 3 : car owner number
  * 4 : registered user
  */
-async function renderJSONFile() {
+async function renderCarJSONFile() {
 
   //get car info by registered user
   var car_list
@@ -233,21 +244,6 @@ async function renderJSONFile() {
    return [car_schedule_from, car_schedule_to];
 
  }
-
-function getTime(time_milisec) {
-  let date_ob = new Date(time_milisec);
-  var date = date_ob.getDate();
-  var month = date_ob.getMonth() + 1;
-  var year = date_ob.getFullYear();
-  var hour = date_ob.getHours();
-  var min = date_ob.getMinutes();
-  list = [JSON.stringify(year),
-          JSON.stringify(month),
-          JSON.stringify(date),
-          JSON.stringify(hour),
-          JSON.stringify(min)];
-  return list;
-}
 
 function make_time_format(list) {
   var year = list[0].trim(" ");
@@ -652,7 +648,7 @@ async function summarize_fuel_data(car_number) {
 
 //local_node_car
 module.exports = {
-  renderJSONFile,
+  renderCarJSONFile,
   make_time_format,
   make_api_request_form,
   validate_image_file,

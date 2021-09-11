@@ -20,36 +20,67 @@
         <img title="To home" src="../src/icons/main_logo/main_logo_72x72.png">
       </a>
       <h1> Room selection </h1>
+      <h2> Current Time: <%= current_time %></h2>
     </div>
   </header>
   <nav>
     <div>
-      <form name="my_room" id="my_room" action="/my_room" method="POST">
-        <div>
-          <p>My room</p>
-          <div class="register_btn">
-            <button>Register electronics</button>
-          </div>
-          <select name="my_personal_electronics" id="my_personal_electronics">
-            <option value="-">-
-          </selcet>
-          <select>
-          </select>
-          <img alt="image example">
+      <div>
+        <h2>My room</h2>
+        <div class="room_section">
+          <img alt="image example" src="../src/room_img/my_room.jpg" width="800">
         </div>
-        <div>
-          <p>Shared roomr</p>
-          <div class="register_btn">
-            <button>Register electronics</button>
+        <div class="electronic_section">
+          <h3>Electronics in my room</h3>
+          <div>
+            <section class="electronic_spec">
+              <% if (device_info != null
+               && device_info.length > 0) { %>
+                <% for (var i = 0; i < device_info.length; i++) { %>
+                  <div>
+                  <p>Device name: <%=device_info[i][1]%></p>
+                  <p>Device status:</p>
+                  <% if(device_status[i][1] == false) { %>
+                    <button class="on_off_btn"> OFF </button>
+                  <% } else { %>
+                    <button class="on_off_btn"> ON </button>
+                  <% } %>
+                  </div>
+                <% } %>
+              <% } else { %>
+                <p>No registered device.</p>
+              <% } %>
+            </section>
           </div>
-          <select name="my_shared_electronics" id="my_shared_electronics">
-            <option value="-">-
-          </selcet>
-          <select>
-          </select>
-          <img alt="image example">
         </div>
-      </form>
+      </div>
+      <div>
+        <h2>Shared room</h2>
+        <div class="room_section">
+          <img alt="image example" src="../src/room_img/shared_room.jpeg" width="800">
+        </div>
+        <div class="electronic_section">
+          <h3>Electronics in shared room</h3>
+          <nav>
+            <section class="electronic_spec">
+              <% if (device_info != null
+               && device_info.length > 0) { %>
+                <% for (var i = 0; i < device_info.length; i++) { %>
+                  <p>Device name: <%=device_info[i][1]%></p>
+                  <p>Device status:</p>
+                  <% if(device_status[i][1] == false) { %>
+                    <button class="on_off_btn"> OFF </button>
+                  <% } else { %>
+                    <button class="on_off_btn"> ON </button>
+                  <% } %>
+                <% } %>
+              <% } else { %>
+                <p>No registered device.</p>
+              <% } %>
+            </section>
+          </nav>
+        </div>
+      </div>
   </nav>
   <section>
     <div class="application">

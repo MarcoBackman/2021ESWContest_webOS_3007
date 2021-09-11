@@ -14,6 +14,7 @@ const local_node_main = require("./server_nodejs/main_page.js");
 const local_node_login = require("./server_nodejs/login.js");
 const local_node_reg = require("./server_nodejs/register.js");
 const local_node_db_comm = require("./server_nodejs/db_comm.js");
+const local_node_room = require("./server_nodejs/room_page.js");
 const local_node_car = require("./server_nodejs/car_page.js");
 const local_node_jwt = require("./middleware/jwtAuth.js");
 
@@ -25,8 +26,8 @@ const REG_PAGE_PATH = path.join(__dirname,'./web_source/html/register_page.html'
 const ROOM_PAGE_PATH = path.join(__dirname,'./web_source/ejs/room_page.ejs');
 const CAR_PAGE_PATH = path.join(__dirname,'./web_source/ejs/car_page.ejs');
 const POWER_PAGE_PATH = path.join(__dirname,'./web_source/html/power_page.html');
-const FINACE_PAGE_PATH = path.join(__dirname,'./web_source/html/finance_page.html');
-const MY_PAGE_PATH = path.join(__dirname,'./web_source/html/finance_page.html');
+const FINACE_PAGE_PATH = path.join(__dirname,'./web_source/ejs/finance_page.ejs');
+const MY_PAGE_PATH = path.join(__dirname,'');
 
 var cors_setting = {
  origin: "http://localhost:8081"
@@ -107,16 +108,28 @@ app.get('/register_page.html', function(req, res) {
 //room page
 app.get('/room_page', local_node_jwt.block_access, async function(req, res) {
   //retrive data from the database
-
+  try {
+    var room_page_data = await local_node_room.renderRoomJSONFile();
+  } catch (err) {
+    console.log("Rendering room page error: " + err)
+  }
   //EJS file must work on render instead of sendFile.
-  res.render(ROOM_PAGE_PATH);
+  try {
+    res.render(ROOM_PAGE_PATH, room_page_data);
+  } catch(err) {
+    console.log(err);
+  }
 });
 
 //car page
 app.get('/car_page', local_node_jwt.block_access, async function(req, res) {
 
   //retrive data from the database
-  var car_page_data = await local_node_car.renderJSONFile();
+  try {
+    var car_page_data = await local_node_car.renderCarJSONFile();
+  } catch (err) {
+    console.log("Rendering car page error: " + err);
+  }
   //EJS file must work on render instead of sendFile.
   try {
     res.render(CAR_PAGE_PATH, car_page_data);
@@ -127,7 +140,14 @@ app.get('/car_page', local_node_jwt.block_access, async function(req, res) {
 
 //finance page
 app.get('/finance_page', local_node_jwt.block_access, function(req, res) {
-  res.sendFile(FINACE_PAGE_PATH);
+  //retrive data from the database
+  //var car_page_data = await local_node_car.renderFinanceJSONFile();
+  //EJS file must work on render instead of sendFile.
+  try {
+    res.render(FINACE_PAGE_PATH);
+  } catch(err) {
+    console.log(err);
+  }
 });
 
 //power page
@@ -214,7 +234,7 @@ app.post('/schedule_car', async function(req, res) {
   //send data
   await local_node_car.sendDataFormat(req, res);
   //refresh page data
-  var car_page_data = await local_node_car.renderJSONFile();
+  var car_page_data = await local_node_car.renderCarJSONFile();
   //refresh page
   try {
     res.render(CAR_PAGE_PATH, car_page_data);
