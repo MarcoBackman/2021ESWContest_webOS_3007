@@ -29,7 +29,7 @@ async function register_car_info(input_values, res) {
   //for now it will not accept the registeration from different users
   if (input_values[3] != local_auth.user_number) { //use compare with user_number not names
     alert("허가되지 않은 차량 등록입니다!");
-    res.render('../web_source/ejs/car_page', await renderJSONFile());
+    res.render('../web_source/ejs/car_page', await renderCarJSONFile());
     return;
   }
 
@@ -52,7 +52,7 @@ async function register_car_info(input_values, res) {
     //check local image data - compare with DB file name
 
     //this will refresh a page
-    res.render('../web_source/ejs/car_page', await renderJSONFile());
+    res.render('../web_source/ejs/car_page', await renderCarJSONFile());
   } else { //Write input data to DB
     //check car image on local file - compare with DB file name
     console.log("File does not exist");
@@ -76,7 +76,7 @@ async function register_car_info(input_values, res) {
     }
 
     //then refresh page
-    res.render('../web_source/ejs/car_page', await renderJSONFile());
+    res.render('../web_source/ejs/car_page', await renderCarJSONFile());
   }
 }
 
