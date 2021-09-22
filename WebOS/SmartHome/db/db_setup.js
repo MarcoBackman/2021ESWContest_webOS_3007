@@ -77,3 +77,17 @@ function create_tables() {
       }
   });
 }
+
+function create_car_usage_log_table() {
+  var create_table_query =
+  "CREATE TABLE IF NOT EXISTS public.car_usage_log" +
+  "(fuel_used double precision NOT NULL," +
+  "service_start_time bigint NOT NULL," +
+  "service_end_time bigint NOT NULL," +
+  "fuel_actual_level double precision," +
+  "fuel_refilled double precision," +
+  "car_number character varying COLLATE pg_catalog.'default'," +
+  "user_number integer)" +
+  "TABLESPACE pg_default;" +
+  "ALTER TABLE public.car_usage_log OWNER to postgres;";
+}

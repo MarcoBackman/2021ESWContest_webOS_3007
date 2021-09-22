@@ -16,6 +16,7 @@ const local_node_reg = require("./server_nodejs/register.js");
 const local_node_db_comm = require("./server_nodejs/db_comm.js");
 const local_node_room = require("./server_nodejs/room_page.js");
 const local_node_car = require("./server_nodejs/car_page.js");
+const local_node_finance = require("./server_nodejs/finance_page.js");
 const local_node_jwt = require("./middleware/jwtAuth.js");
 
 //static file paths
@@ -139,12 +140,21 @@ app.get('/car_page', local_node_jwt.block_access, async function(req, res) {
 });
 
 //finance page
-app.get('/finance_page', local_node_jwt.block_access, function(req, res) {
+app.get('/finance_page', local_node_jwt.block_access, async function(req, res) {
   //retrive data from the database
-  //var car_page_data = await local_node_car.renderFinanceJSONFile();
+  try {
+    var finance_page_data = await local_node_finance.renderFinanceJSONFile();
+  } catch(err) {
+    console.log("Finance json file retreival erro: " + err);
+  }
+
   //EJS file must work on render instead of sendFile.
   try {
-    res.render(FINACE_PAGE_PATH);
+    if (finance_page_data == null) {
+      res.sendFile(MAIN_PAGE_PATH);
+    } else {
+      res.render(FINACE_PAGE_PATH, finance_page_data);
+    }
   } catch(err) {
     console.log(err);
   }

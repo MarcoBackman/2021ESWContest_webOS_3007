@@ -1,4 +1,6 @@
 const alert = require('alert');
+const fs = require('fs');
+const path = require('path');
 
 //database comm file
 const db_query = require('../db/db_single_request.js');
@@ -45,46 +47,69 @@ function make_time_format(list) {
   return full_format;
 }
 
+async function readQueryFile (file_directory) {
+  var file = "";
+  try {
+    file = fs.readFileSync(path.join(__dirname, file_directory)).toString()
+  } catch (err) {
+    console.log(err);
+  }
+  return file;
+}
+
 /*
  * 0: device_id, 1:device_name, 2:owner_number, 3:private_use
  * 4:shared_user_number, 5:power_usage
  */
-async function renderRoomJSONFile() {
-  //render user's registered electronics
-  device_lists_with_info = [];
-  device_status = []; //save device status by device id
-
+async function renderFinanceJSONFile() {
+  var summary_data = [];
+  var query_value = [local_auth.user_number];
   try {
-    device_lists_with_info = await get_device_lists(local_auth.user_number);
+    var string_query = await readQueryFile('../db/summarize_finance_data.sql');
   } catch(err) {
-    console.log("Getting device lists from db failed: " + err);
+    console.log("File data error: " + err);
+  }
+  //Update query file to get user summary
+  try {
+    await db_query.db_request_data(string_query);
+  } catch (err) {
+    console.log("Update error: " + err);
   }
 
+  if (string_query == null) {
+    return;
+  }
+
+  //retrive file
+  //SELECT * FROM "webOS_user" WHERE user_id = '1' ;
+  var string_query2 = "SELECT *"
+         + ' FROM "webOS_user"'
+         + " WHERE user_id='1';";
   try {
-    device_status = await get_device_status(local_auth.user_number);
+    //0: user_name, 2: total_used_fuel, 4: total_used_elect
+    //assumes only returns one row
+    summary_data = await db_query.db_request_data(string_query2);
   } catch(err) {
-    console.log("Getting device lists from db failed: " + err);
+    console.log("Request error: " + err);
   }
 
   let time_object = Date.now();
   var current_time_list = getTime(time_object);
   var current_time_formatted = make_time_format(current_time_list);
 
-  console.log("Device Info: " + device_lists_with_info);
-  console.log("Device Info: " + device_status);
-
   //read car image links from db
   var renderForm = {
     current_time: current_time_formatted,
-    device_info: device_lists_with_info,
-    device_status: device_status
+    total_fuel_used: summary_data[0][2],
+    total_electricity_used: summary_data[0][4]
   };
+
   return renderForm;
 }
 
 //must be ordered by device id
-async function get_device_lists(user) {
-  var query = "SELECT * FROM webos_electronics WHERE owner_number='"
+async function get_devices_by_user(user) {
+  var query = "SELECT * FROM webos_electronics_status WHERE device_id='"
               + user + "' ORDER BY device_id ASC;";
    var summary;
    try {
@@ -96,7 +121,11 @@ async function get_device_lists(user) {
    return summary;
 }
 
-async function get_device_status() {
+async function get_device_useage() {
+  //get summary report data from webOS_user
+
+
+  //if there are multiple users - divide by usages
   var query = "SELECT * FROM webos_electronics_status ORDER BY device_id ASC;";
    var summary;
    try {
@@ -108,9 +137,7 @@ async function get_device_status() {
    return summary;
 }
 
-
-
 //local_node_devices
 module.exports = {
-  renderRoomJSONFile
+  renderFinanceJSONFile
 };

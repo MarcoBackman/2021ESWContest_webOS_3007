@@ -29,15 +29,12 @@
         <div>
           <p>My room</p>
           <div class="">
-
+            <!-- electronics allotment payments -->
+            <% if (total_fuel_used != null) { %>
+              <label class="car_lists"><p><%= total_fuel_used %></p></label>
+              <label class="car_lists"><p><%= total_electricity_used %></p></label>
+            <% } %>
           </div>
-        </div>
-        <div>
-          <p>Shared roomr</p>
-          <div class="register_btn">
-
-          </div>
-          </select>
         </div>
       </form>
     </div>
@@ -46,20 +43,19 @@
       <form name="my_room" id="my_room" action="/my_room" method="POST">
         <div>
           <p>My room</p>
-          <div class="register_btn">
 
-          </div>
         </div>
         <div>
           <p>Shared roomr</p>
           <div class="register_btn">
+            <!-- electronics payments -->
 
           </div>
         </div>
       </form>
     </div>
     <div>
-      <h2>Set allotment</h2>
+      <h2>Car usage</h2>
       <form name="my_room" id="my_room" action="/my_room" method="POST">
         <div>
           <p>My room</p>
