@@ -1,0 +1,13 @@
+{
+  "id": "com.initial.initialApp",
+  "version": "0.1.1",
+  "vendor": "My Company",
+  "type": "web",
+  "main": "main.html",
+  "title": "CarHomesWizard",
+  "icon": "icon.png",
+  "requiredPermissions": [
+    "time.query",
+    "activity.operation"
+  ]
+}
