@@ -5,9 +5,9 @@ import json
 
 url = "https://korea.api.thinqai.net:443"
 tokenIssueUrl = "https://oauth.api.thinqai.net:443"
-apiKey = "MTthM2U4NTRkNTBiMDg0NDkzOGQyYWM4NjgyZjQ0M2ZlZTsxNjI3MDQ3MTU1NzEy"
-clientId = "53lq199hldfefpc4g40nkr3444"
-clientPw = "1gil8cn1sdhlqjok10d3ke4pp2bre4c3t95ncmu2b2fsnpnrnkub"
+apiKey = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
+clientId = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+clientPw = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
 idPw = clientId+':'+clientPw
 idPw = base64.b64encode(idPw.encode('utf-8'))
 print(idPw)
