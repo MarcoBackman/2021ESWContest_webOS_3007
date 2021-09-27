@@ -64,6 +64,14 @@
   <p style="color:green;" align="left">Green - Indicates implemented work &#x1F44D;</p>
 </p>
 
+## web application overall design.
+
+<p align="center">
+  <img width="960" src="img/finalDirectory.png">
+  <p align="center">[web application directory with functionalities diagram]</p>
+</p>
+
+
 ## Database overall design.
 
 <p align="center">
