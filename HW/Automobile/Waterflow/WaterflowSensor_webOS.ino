@@ -41,7 +41,7 @@ void setup()
     totalMilliLiters = 0;
     previousMillis = 0;
 
-    PINMODE(Switch, INPUT);
+    pinMode(Switch, INPUT);
 
     onoroff=1; //기본 state는 1로
 
