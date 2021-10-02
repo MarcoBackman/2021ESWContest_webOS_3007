@@ -57,8 +57,16 @@
 ## Logic flow of webOS application.
 
 <p align="center">
-  <img width="960" src="img/WebOS_WebPage.png">
-  <p align="center">[Logic flow for home webOS app.]</p>
+  <img width="960" src="img/webappProcessFlow.png">
+  <p align="center">[Backend logic flow for web application.]</p>
+  <p style="color:red;" align="left">Red   - Indicates unimplemented work &#x1F44E;</p>
+  <p style="color:orange;" align="left">Orange- Indicates to do work in soon &#x1F44C;</p>
+  <p style="color:green;" align="left">Green - Indicates implemented work &#x1F44D;</p>
+</p>
+
+<p align="center">
+  <img width="560" src="img/WebOS_WebPage.png">
+  <p align="center">[Frontend logic flow for home webOS app.]</p>
   <p style="color:red;" align="left">Red   - Indicates unimplemented work &#x1F44E;</p>
   <p style="color:orange;" align="left">Orange- Indicates to do work in soon &#x1F44C;</p>
   <p style="color:green;" align="left">Green - Indicates implemented work &#x1F44D;</p>
