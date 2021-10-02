@@ -83,7 +83,7 @@
 ## Database overall design.
 
 <p align="center">
-  <img width="960" src="img/webOS_DB_structure_1.png">
+  <img width="960" src="img/webOS_DB_structur_1.png">
   <p align="center">[database architecture - ER(Entity Relation) diagram]</p>
   <p style="color:red;" align="left">Red   - Indicates unimplemented work &#x1F44E;</p>
   <p style="color:green;" align="left">Green - Indicates implemented work &#x1F44D;</p>
